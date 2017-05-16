@@ -1,0 +1,13 @@
+{{ form_start(blogPostForm) }}
+
+    {{ form_row(blogPostForm.title) }}
+    {{ form_row(blogPostForm.category) }}
+    {{ form_row(blogPostForm.summary) }}
+    {{ form_row(blogPostForm.content) }}
+    {{ form_row(blogPostForm.isPublished) }}
+    {{ form_row(blogPostForm.publishedAt, {
+        'label': 'First Published At'
+    }) }}
+
+    <button type="submit" class="btn btn-primary" formnovalidate>Save</button>
+{{ form_end(blogPostForm) }}

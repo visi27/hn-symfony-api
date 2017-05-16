@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Blog Articles List</h1>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Blog Article</th>
+                        <th>Category</th>
+                        <th>Published On</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for blogPost in blogPosts %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('blog_post_show', {'postId': blogPost.id}) }}">
+                                    {{ blogPost.title }}
+                                </a>
+                            </td>
+                            <td>{{ blogPost.category }}</td>
+                            <td>{{ blogPost.publishedAt | date('Y-m-d H:i:s') }}</td>
+                            <td>
+                                <a href="{{ path('admin_blog_post_edit', {'id': blogPost.id}) }}" class="btn btn-xs btn-success"><span class="fa fa-pencil"></span></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

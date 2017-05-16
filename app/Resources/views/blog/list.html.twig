@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <!-- Page Post Content Column -->
+    <div class="col-lg-8">
+        {% for blogPost in blogPosts %}
+            <!-- Blog Post -->
+
+            <!-- Title -->
+            <h1>
+                <a href="{{ path('blog_post_show', {'postId': blogPost.id}) }}">
+                    {{ blogPost.title }}
+                </a>
+            </h1>
+
+            <!-- Author -->
+            <p class="lead">
+                by <a href="#">Anonymous</a>
+            </p>
+
+            <hr>
+
+            <!-- Date/Time -->
+            <p><span class="glyphicon glyphicon-time"></span> Published on {{ blogPost.publishedAt|date('D M j H:i:s Y')}}</p>
+
+            <hr>
+
+            <!-- Preview Image -->
+            <img class="img-responsive" src="http://placehold.it/900x300" alt="">
+
+            <hr>
+
+            <p class="lead">{{ blogPost.summary }}</p>
+            <hr>
+
+        {% endfor %}
+    </div>
+
+    {% include 'sidebar/sidebar.html.twig' %}
+{% endblock %}

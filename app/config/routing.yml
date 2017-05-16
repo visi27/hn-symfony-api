@@ -1,0 +1,13 @@
+app:
+    resource: "@AppBundle/Controller/Web"
+    type:     annotation
+api:
+    resource: "@AppBundle/Controller/Api"
+    type:     annotation
+    defaults:
+      _format: json
+
+homepage:
+  path: /
+  defaults:
+    _controller: AppBundle:Web/Main:homepage
