@@ -30,13 +30,17 @@ Initial configuration
 2. Make sure `parameters.yml` is filled with valid values
 3. Configure test database name in `config_test.yml`
 3. Run `bin/console doctrine:database:create` to create default database
-4. Run `bin/console doctrine:database:create --env=prod` to create test database
+4. Run `bin/console doctrine:database:create --env=test` to create test database
 5. To create database tables you can use one of the following commands:
     1. `bin/console doctrine:schema:update --force` updates the database from entities. Delete migration files if you 
     use this option. If you don't you will get errors if you decide to use doctrine migrations in the future.
     2. `bin/console doctrine:migrations:migrate` executes migration files to create tables.
 6. To load the sample data through doctrine data fixtures run `bin/console doctrine:fixtures:load`. You can find 
 fixtures definitions in `src/AppBundle/DataFixtures/ORM`
+7. Steps to generate SSH keys for JWT authenticator:
+    1. Create directory `jwt` inside `var` by running `mkdir var/jwt`
+    2. To generate private key execute `openssl genrsa -out var/jwt/private.pem -aes256 4096` and fill pass phrase when required
+    3. To generate public key execute `openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem` and provide the pass phrase when required
 
 Third Party
 ===========
