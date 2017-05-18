@@ -17,7 +17,7 @@ Features
 * Custom classes to handle Api problems and Exceptions
 * Custom ApiTestcase to handle API testing and debugging
 * Custom ResponseAsserter helper class to ease Guzzle response testing
-* Symfony test enviroinment (app_test.php)
+* Symfony test environment (app_test.php)
 * Doctrine Data Fixtures
 
 Sample Pages
@@ -39,6 +39,7 @@ Initial configuration
     1. `bin/console doctrine:schema:update --force` updates the database from entities. Delete migration files if you 
     use this option. If you don't you will get errors if you decide to use doctrine migrations in the future.
     2. `bin/console doctrine:migrations:migrate` executes migration files to create tables.
+    3. Don't forget to run either command for test environment also (append --env=test to each command)
 6. To load the sample data through doctrine data fixtures run `bin/console doctrine:fixtures:load`. You can find 
 fixtures definitions in `src/AppBundle/DataFixtures/ORM`
 7. Steps to generate SSH keys for JWT authenticator:
