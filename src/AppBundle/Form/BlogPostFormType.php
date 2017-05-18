@@ -32,8 +32,7 @@ class BlogPostFormType extends AbstractType
             )
             ->add('summary')
             ->add(
-                'content',
-                CKEditorType::class
+                'content'
             )
             ->add(
                 'isPublished',
