@@ -10,6 +10,10 @@ Features
 * JWT Token Authenticator For API Interfaces
 * HATEOAS Serialiser To build standardised API
 * Pagerfanta integration for beautiful pagination
+* Integrated Behaviour testing using Behat
+* Multiple suites (web and cmd) configured
+* Goutte and Selenium Driver activated
+* Integrated unit testing using PHPUnit
 * Custom classes to handle Api problems and Exceptions
 * Custom ApiTestcase to handle API testing and debugging
 * Custom ResponseAsserter helper class to ease Guzzle response testing
@@ -42,6 +46,14 @@ fixtures definitions in `src/AppBundle/DataFixtures/ORM`
     2. To generate private key execute `openssl genrsa -out var/jwt/private.pem -aes256 4096` and fill pass phrase when required
     3. To generate public key execute `openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem` and provide the pass phrase when required
 
+Tests
+=====
+* Install phpunit and execute it inside the project directory
+* Run `vendor/bin/behat` to execute behat features
+* To use Selenium as your web driver for behat tests:
+    * Go to `http://www.seleniumhq.org/download/` and follow the instructions to download and execute Selenium
+    * Put `@javascript` annotation before a scenario that you want to execute through Selenium
+    
 Third Party
 ===========
 
