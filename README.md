@@ -1,7 +1,7 @@
-symfony-test
+symfony-skeleton
 ============
 
-A Symfony project created on March 21, 2017, 4:07 pm.
+A Symfony Skeleton to jump start new projects.
 
 Features
 ========
