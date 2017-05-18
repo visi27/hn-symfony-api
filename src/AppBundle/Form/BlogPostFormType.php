@@ -70,6 +70,6 @@ class BlogPostFormType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'app_bundle_blog_post_form_type';
+        return '';
     }
 }
