@@ -51,6 +51,10 @@ class FeatureContext extends RawMinkContext implements Context
     private function createBlogPosts($count, User $author = null){
         $category = $this->createCategory("Behat Is Awsome");
 
+        if(!$author){
+            $author = $this->currentUser;
+        }
+
         for ($i = 0; $i < $count; $i++) {
             $blogPost = new BlogPost();
             $blogPost->setTitle('Article  '.$i);
@@ -59,6 +63,7 @@ class FeatureContext extends RawMinkContext implements Context
             $blogPost->setIsPublished(true);
             $blogPost->setCategory($category);
             $blogPost->setPublishedAt(new \DateTime('-1 month'));
+            $blogPost->setUser($author);
 
             $this->getEntityManager()->persist($blogPost);
         }
@@ -173,6 +178,8 @@ class FeatureContext extends RawMinkContext implements Context
             $blogPost->setContent('<b>Lorem Ipsum Dolor Sit Amet</b>');
             $blogPost->setCategory($category);
             $blogPost->setPublishedAt(new \DateTime('-1 month'));
+
+            $blogPost->setUser($this->currentUser);
 
             $this->getEntityManager()->persist($blogPost);
         }

@@ -46,6 +46,7 @@ class BlogPostControllerTest extends ApiTestCase
         $finishedData = json_decode($response->getBody(), true);
         $this->assertArrayHasKey("title", $finishedData);
         $this->assertEquals("Super Awsome Blog Post", $finishedData["title"]);
+        $this->asserter()->assertResponsePropertyContains($response, "user", "filanfisteku");
     }
 
     public function testGETBlogPost()

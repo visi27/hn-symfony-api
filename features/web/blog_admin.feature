@@ -45,4 +45,5 @@ Feature: Product admin panel
     And I press "Save"
     Then I should see "Blog Post Created!"
     And I should see "Awsome Behat"
+    And I should see "admin@foo.com"
 

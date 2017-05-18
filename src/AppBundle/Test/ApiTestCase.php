@@ -7,7 +7,6 @@ use AppBundle\Entity\Category;
 use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
-use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -44,6 +43,11 @@ class ApiTestCase extends KernelTestCase
     private $formatterHelper;
 
     private $responseAsserter;
+
+    /**
+     * @var User
+     */
+    private $createdUser;
 
     public static function setUpBeforeClass()
     {
@@ -185,10 +189,10 @@ class ApiTestCase extends KernelTestCase
                     }
                 }
 
-                $profilerUrl = $response->getHeader('X-Debug-Token-Link');
+                $profilerUrl = $response->getHeader('X-Debug-Token-Link')[0];
                 if ($profilerUrl) {
-                    $fullProfilerUrl = $response->getHeader('Host').$profilerUrl[0];
-                    $this->printDebug('');
+                    $fullProfilerUrl = $response->getHeader('Host')[0].$profilerUrl[0];
+                    $this->printDebug('PROFILEURL');
                     $this->printDebug(sprintf(
                         'Profiler URL: <comment>%s</comment>',
                         $fullProfilerUrl
@@ -288,6 +292,8 @@ class ApiTestCase extends KernelTestCase
         $em->persist($user);
         $em->flush();
 
+        $this->createdUser = $user;
+
         return $user;
 
     }
@@ -305,6 +311,7 @@ class ApiTestCase extends KernelTestCase
         }
 
         $blogPost->setCategory($category);
+        $blogPost->setUser($this->createdUser);
 
         $this->getEntityManager()->persist($blogPost);
         $this->getEntityManager()->persist($category);
@@ -323,14 +330,15 @@ class ApiTestCase extends KernelTestCase
     {
         $accessor = PropertyAccess::createPropertyAccessor();
 
-        $genus = new BlogPost();
+        $blogPost = new BlogPost();
         foreach ($data as $key => $value) {
-            $accessor->setValue($genus, $key, $value);
+            $accessor->setValue($blogPost, $key, $value);
         }
 
-        $genus->setCategory($category);
+        $blogPost->setCategory($category);
+        $blogPost->setUser($this->createdUser);
 
-        $this->getEntityManager()->persist($genus);
+        $this->getEntityManager()->persist($blogPost);
         $this->getEntityManager()->persist($category);
         $this->getEntityManager()->flush();
     }

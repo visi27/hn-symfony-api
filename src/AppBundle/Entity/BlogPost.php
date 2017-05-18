@@ -87,6 +87,14 @@ class BlogPost
     private $publishedAt;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @Serializer\Exclude()
+     */
+    private $user;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -119,7 +127,7 @@ class BlogPost
     }
 
     /**
-     * @param mixed $category
+     * @param Category $category
      */
     public function setCategory($category)
     {
@@ -199,6 +207,33 @@ class BlogPost
     public function setPublishedAt($publishedAt)
     {
         $this->publishedAt = $publishedAt;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * Used only in serialisaztion
+     *
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("user")
+     */
+    public function getUserName()
+    {
+        return $this->getUser()->getUsername();
     }
 
     public function __toString()

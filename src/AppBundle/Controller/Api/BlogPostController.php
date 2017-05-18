@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
+use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -46,6 +47,7 @@ class BlogPostController extends BaseController
             $em->persist($category);
         }
         $blogPost->setCategory($category);
+        $blogPost->setUser($this->getUser());
 
         $em->persist($blogPost);
 

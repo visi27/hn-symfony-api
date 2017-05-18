@@ -55,7 +55,12 @@ class BlogAdminController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var BlogPost $blogPost
+             */
             $blogPost = $form->getData();
+
+            $blogPost->setUser($this->getUser());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($blogPost);

@@ -15,6 +15,7 @@
                         <th>Category</th>
                         <th>Published On</th>
                         <th>Published</th>
+                        <th>User</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -30,6 +31,7 @@
                             <td>{{ blogPost.category }}</td>
                             <td>{{ blogPost.publishedAt | date('Y-m-d H:i:s') }}</td>
                             <td><i class="fa fa-{{ blogPost.isPublished ? 'check' : 'times' }}"></i></td>
+                            <td>{{ blogPost.user.email }}</td>
                             <td>
                                 <a href="{{ path('admin_blog_post_edit', {'id': blogPost.id}) }}" class="btn btn-xs btn-success"><span class="fa fa-pencil"></span></a>
                             </td>
