@@ -39,11 +39,11 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals('application/json', $response->getHeader('Content-Type'));
+        $this->assertEquals('application/json', $response->getHeader('Content-Type')[0]);
 
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertTrue($response->hasHeader('Location'));
-        $finishedData = json_decode($response->getBody(true), true);
+        $finishedData = json_decode($response->getBody(), true);
         $this->assertArrayHasKey("title", $finishedData);
         $this->assertEquals("Super Awsome Blog Post", $finishedData["title"]);
     }
@@ -257,7 +257,6 @@ class BlogPostControllerTest extends ApiTestCase
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
             ]
         );
-        $this->debugResponse($response);
         $this->assertEquals(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Ultra Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
@@ -337,7 +336,7 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals('application/problem+json', $response->getHeader('Content-Type'));
+        $this->assertEquals('application/problem+json', $response->getHeader('Content-Type')[0]);
         $this->assertEquals(400, $response->getStatusCode());
         $this->asserter()->assertResponsePropertiesExist(
             $response,
@@ -385,7 +384,7 @@ EOF;
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('application/problem+json', $response->getHeader('Content-Type'));
+        $this->assertEquals('application/problem+json', $response->getHeader('Content-Type')[0]);
         $this->asserter()->assertResponsePropertyEquals($response, 'type', 'about:blank');
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Not Found');
         $this->asserter()->assertResponsePropertyEquals($response, 'detail', 'No blog post found with id "97108"!!');

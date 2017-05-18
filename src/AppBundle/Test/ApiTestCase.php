@@ -2,17 +2,17 @@
 
 namespace AppBundle\Test;
 
-
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Event\BeforeEvent;
-use GuzzleHttp\Message\AbstractMessage;
-use GuzzleHttp\Message\ResponseInterface;
-use GuzzleHttp\Subscriber\History;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -24,9 +24,9 @@ class ApiTestCase extends KernelTestCase
     private static $staticClient;
 
     /**
-     * @var History
+     * @var array
      */
-    private static $history;
+    private static $history = array();
 
     /**
      * @var Client
@@ -34,47 +34,41 @@ class ApiTestCase extends KernelTestCase
     protected $client;
 
     /**
-     * @var FormatterHelper
-     */
-    private $formatterHelper;
-
-    /**
      * @var ConsoleOutput
      */
     private $output;
 
     /**
-     * @var ResponseAsserter
+     * @var FormatterHelper
      */
+    private $formatterHelper;
+
     private $responseAsserter;
 
     public static function setUpBeforeClass()
     {
+        $handler = HandlerStack::create();
+
+        $handler->push(Middleware::history(self::$history));
+        $handler->push(Middleware::mapRequest(function(RequestInterface $request) {
+            $path = $request->getUri()->getPath();
+            if (strpos($path, '/app_test.php') !== 0) {
+                $path = '/app_test.php' . $path;
+            }
+            $uri = $request->getUri()->withPath($path);
+
+            return $request->withUri($uri);
+        }));
+
         $baseUrl = getenv('TEST_BASE_URL');
-
-        self::$staticClient = new Client(
-            [
-                'base_url' => $baseUrl,
-                'defaults' => [
-                    'exceptions' => false,
-                ],
-            ]
-        );
-
-        self::$staticClient->getEmitter()
-            ->on(
-                'before',
-                function (BeforeEvent $event) {
-                    $path = $event->getRequest()->getPath();
-                    if (strpos($path, '/api') === 0) {
-                        $event->getRequest()->setPath('/app_test.php'.$path);
-                    }
-                }
-            );
-
-        self::$history = new History();
-        self::$staticClient->getEmitter()
-            ->attach(self::$history);
+        if (!$baseUrl) {
+            static::fail('No TEST_BASE_URL environmental variable set in phpunit.xml.');
+        }
+        self::$staticClient = new Client([
+            'base_uri' => $baseUrl,
+            'http_errors' => false,
+            'handler' => $handler
+        ]);
 
         self::bootKernel();
     }
@@ -82,6 +76,8 @@ class ApiTestCase extends KernelTestCase
     protected function setUp()
     {
         $this->client = self::$staticClient;
+        // reset the history
+        self::$history = array();
 
         $this->purgeDatabase();
     }
@@ -96,12 +92,12 @@ class ApiTestCase extends KernelTestCase
 
     protected function onNotSuccessfulTest($e)
     {
-        if (self::$history && $lastResponse = self::$history->getLastResponse()) {
+        if ($lastResponse = $this->getLastResponse()) {
             $this->printDebug('');
             $this->printDebug('<error>Failure!</error> when making the following request:');
             $this->printLastRequestUrl();
             $this->printDebug('');
-
+            $this->printDebug($e->getMessage());
             $this->debugResponse($lastResponse);
         }
 
@@ -110,7 +106,7 @@ class ApiTestCase extends KernelTestCase
 
     private function purgeDatabase()
     {
-        $purger = new ORMPurger($this->getService('doctrine.orm.default_entity_manager'));
+        $purger = new ORMPurger($this->getService('doctrine')->getManager());
         $purger->purge();
     }
 
@@ -120,22 +116,12 @@ class ApiTestCase extends KernelTestCase
             ->get($id);
     }
 
-    /**
-     * @return EntityManager
-     */
-    protected function getEntityManager()
-    {
-        return $this->getService('doctrine.orm.entity_manager');
-    }
-
     protected function printLastRequestUrl()
     {
-        $lastRequest = self::$history->getLastRequest();
+        $lastRequest = $this->getLastRequest();
 
         if ($lastRequest) {
-            $this->printDebug(
-                sprintf('<comment>%s</comment>: <info>%s</info>', $lastRequest->getMethod(), $lastRequest->getUrl())
-            );
+            $this->printDebug(sprintf('<comment>%s</comment>: <info>%s</info>', $lastRequest->getMethod(), $lastRequest->getUri()));
         } else {
             $this->printDebug('No request was made.');
         }
@@ -143,10 +129,13 @@ class ApiTestCase extends KernelTestCase
 
     protected function debugResponse(ResponseInterface $response)
     {
-        $this->printDebug(AbstractMessage::getStartLineAndHeaders($response));
-        $body = (string)$response->getBody();
+        foreach ($response->getHeaders() as $name => $values) {
+            $this->printDebug(sprintf('%s: %s', $name, implode(', ', $values)));
+        }
+        $body = (string) $response->getBody();
 
         $contentType = $response->getHeader('Content-Type');
+        $contentType = $contentType[0];
         if ($contentType == 'application/json' || strpos($contentType, '+json') !== false) {
             $data = json_decode($body);
             if ($data === null) {
@@ -196,23 +185,14 @@ class ApiTestCase extends KernelTestCase
                     }
                 }
 
-                /*
-                 * When using the test environment, the profiler is not active
-                 * for performance. To help debug, turn it on temporarily in
-                 * the config_test.yml file:
-                 *   A) Update framework.profiler.collect to true
-                 *   B) Update web_profiler.toolbar to true
-                 */
                 $profilerUrl = $response->getHeader('X-Debug-Token-Link');
                 if ($profilerUrl) {
-                    $fullProfilerUrl = $response->getHeader('Host').$profilerUrl;
+                    $fullProfilerUrl = $response->getHeader('Host').$profilerUrl[0];
                     $this->printDebug('');
-                    $this->printDebug(
-                        sprintf(
-                            'Profiler URL: <comment>%s</comment>',
-                            $fullProfilerUrl
-                        )
-                    );
+                    $this->printDebug(sprintf(
+                        'Profiler URL: <comment>%s</comment>',
+                        $fullProfilerUrl
+                    ));
                 }
 
                 // an extra line for spacing
@@ -233,6 +213,7 @@ class ApiTestCase extends KernelTestCase
         if ($this->output === null) {
             $this->output = new ConsoleOutput();
         }
+
         $this->output->writeln($string);
     }
 
@@ -249,6 +230,49 @@ class ApiTestCase extends KernelTestCase
         $output = $this->formatterHelper->formatBlock($string, 'bg=red;fg=white', true);
 
         $this->printDebug($output);
+    }
+
+    /**
+     * @return RequestInterface
+     */
+    private function getLastRequest()
+    {
+        if (!self::$history || empty(self::$history)) {
+            return null;
+        }
+
+        $history = self::$history;
+
+        $last = array_pop($history);
+
+        return $last['request'];
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    private function getLastResponse()
+    {
+        if (!self::$history || empty(self::$history)) {
+            return null;
+        }
+
+        $history = self::$history;
+
+        $last = array_pop($history);
+
+        return $last['response'];
+    }
+
+
+    protected function getAuthorizedHeaders($username, $headers = array())
+    {
+        $token = $this->getService('lexik_jwt_authentication.encoder')
+            ->encode(['username' => $username."@foo.com"]);
+
+        $headers['Authorization'] = 'Bearer '.$token;
+
+        return $headers;
     }
 
     protected function createUser($username, $plainPassword = 'foo')
@@ -322,6 +346,9 @@ class ApiTestCase extends KernelTestCase
         return $category;
     }
 
+    /**
+     * @return ResponseAsserter
+     */
     protected function asserter()
     {
         if ($this->responseAsserter === null) {
@@ -329,6 +356,14 @@ class ApiTestCase extends KernelTestCase
         }
 
         return $this->responseAsserter;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    protected function getEntityManager()
+    {
+        return $this->getService('doctrine.orm.entity_manager');
     }
 
     /**
@@ -344,14 +379,4 @@ class ApiTestCase extends KernelTestCase
         return '/app_test.php'.$uri;
     }
 
-    protected function getAuthorizedHeaders($username, $headers = array())
-    {
-        $token = $this->getService('lexik_jwt_authentication.encoder')
-            ->encode(['username' => $username."@foo.com"]);
-
-        $headers['Authorization'] = 'Bearer '.$token;
-
-        return $headers;
-
-    }
 }
