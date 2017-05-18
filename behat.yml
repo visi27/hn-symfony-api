@@ -1,0 +1,20 @@
+default:
+  extensions:
+    Behat\Symfony2Extension: ~
+    Behat\MinkExtension:
+      base_url: http://localhost:8000/app_test.php
+      goutte: ~
+      selenium2: ~
+      browser_name: chrome
+      show_cmd: 'google-chrome %s'
+  suites:
+    default:
+      paths: [ '%paths.base%/features/web' ]
+      contexts:
+        - DebugContext
+        - FeatureContext
+        - Behat\MinkExtension\Context\MinkContext
+    command:
+      paths: [ '%paths.base%/features/command' ]
+      contexts:
+        - CommandLineProcessContext
