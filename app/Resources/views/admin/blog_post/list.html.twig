@@ -3,6 +3,9 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
+                <a href="{{ path('admin_blog_new') }}" class="btn btn-primary pull-right js-add-new-product">
+                    <span class="fa fa-plus"></span> New Article
+                </a>
                 <h1>Blog Articles List</h1>
 
                 <table class="table table-striped">
@@ -11,6 +14,9 @@
                         <th>Blog Article</th>
                         <th>Category</th>
                         <th>Published On</th>
+                        <th>Published</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -23,8 +29,14 @@
                             </td>
                             <td>{{ blogPost.category }}</td>
                             <td>{{ blogPost.publishedAt | date('Y-m-d H:i:s') }}</td>
+                            <td><i class="fa fa-{{ blogPost.isPublished ? 'check' : 'times' }}"></i></td>
                             <td>
                                 <a href="{{ path('admin_blog_post_edit', {'id': blogPost.id}) }}" class="btn btn-xs btn-success"><span class="fa fa-pencil"></span></a>
+                            </td>
+                            <td>
+                                <form action="{{ path('admin_blog_post_delete', {'id': blogPost.id} ) }}" method="POST">
+                                    <button type="submit" class="btn btn-xs btn-link">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     {% endfor %}

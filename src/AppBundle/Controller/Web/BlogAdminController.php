@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Web;
 
 use AppBundle\Entity\BlogPost;
 use AppBundle\Form\BlogPostFormType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -104,6 +105,21 @@ class BlogAdminController extends Controller
                 'blogPostForm' => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/admin/blog/{id}/delete", name="admin_blog_post_delete")
+     * @Method("POST")
+     * @param BlogPost $blogPost
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(BlogPost $blogPost)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($blogPost);
+        $em->flush();
+        $this->addFlash('success', 'The blog post was deleted');
+        return $this->redirectToRoute('admin_blog_list');
     }
 
 }
