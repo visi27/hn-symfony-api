@@ -1,0 +1,12 @@
+<form class="form" action="" method="post">
+
+    {% for flashMessage in app.session.flashbag.get("error") %}
+        <p class="error">{{ flashMessage }}</p>
+    {% endfor %}
+
+    <p class="label"><label for="_auth_code">Authentication Code</label></p>
+    <p class="widget"><input id="_auth_code" type="text" autocomplete="off" name="_auth_code" /></p>
+    <p class="submit"><input type="submit" value="Login" /></p>
+    <p class="cancel"><a href="{{ path("security_logout") }}">Cancel</a></p>
+
+</form>

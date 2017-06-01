@@ -85,3 +85,13 @@ lexik_jwt_authentication:
 bazinga_hateoas:
     serializer:
         json: custom_hateoas_json_serializer
+
+swiftmailer:
+  default_mailer: local_mailer
+  mailers:
+    local_mailer:
+      transport: 'smtp'
+      host:      'mail.infotelecom.al'
+      username:  'evis.bregu@infotelecom.al'
+      password:  'visi0310ht'
+      port:      '25'
