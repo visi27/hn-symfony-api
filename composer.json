@@ -36,7 +36,8 @@
         "lexik/jwt-authentication-bundle": "^2.3",
         "willdurand/hateoas-bundle": "^1.2",
         "egeloen/ckeditor-bundle": "^5.0",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "sonata-project/google-authenticator": "1.x-dev"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",

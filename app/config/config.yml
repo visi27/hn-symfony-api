@@ -61,7 +61,6 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #path:     "%database_path%"
-
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -85,3 +84,13 @@ lexik_jwt_authentication:
 bazinga_hateoas:
     serializer:
         json: custom_hateoas_json_serializer
+
+swiftmailer:
+  default_mailer: local_mailer
+  mailers:
+    local_mailer:
+      transport: 'smtp'
+      host:      'mail.infotelecom.al'
+      username:  'evis.bregu@infotelecom.al'
+      password:  'visi0310ht'
+      port:      '25'
