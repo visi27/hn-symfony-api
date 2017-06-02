@@ -1,11 +1,16 @@
 <?php
 namespace AppBundle\Security\TwoFactor\Google;
 
+use AppBundle\Security\TwoFactor\HelperInterface;
 use Google\Authenticator\GoogleAuthenticator as BaseGoogleAuthenticator;
 use AppBundle\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
+use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 
-class Helper
+class Helper implements HelperInterface
 {
     /**
      * @var string $server
@@ -30,11 +35,11 @@ class Helper
 
     /**
      * Validates the code, which was entered by the user
-     * @param \AppBundle\Entity\User $user
+     * @param User|UserInterface $user
      * @param $code
      * @return bool
      */
-    public function checkCode(User $user, $code)
+    public function checkCode(UserInterface $user, $code)
     {
         return $this->authenticator->checkCode($user->getGoogleAuthenticatorCode(), $code);
     }
@@ -60,7 +65,7 @@ class Helper
 
     /**
      * Generates the attribute key for the session
-     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
+     * @param TokenInterface|PostAuthenticationGuardToken $token
      * @return string
      */
     public function getSessionKey(TokenInterface $token)
@@ -68,4 +73,16 @@ class Helper
         return sprintf('acme_google_authenticator_%s_%s', $token->getProviderKey(), $token->getUsername());
     }
 
+    /**
+     * @param User|UserInterface $user
+     * @return boolean
+     */
+    public function is2faActive(UserInterface $user)
+    {
+        if (!$user->getGoogleAuthenticatorCode() || ($user->getGoogleAuthenticatorCode()=='')) {
+            return false;
+        }
+
+        return true;
+    }
 }

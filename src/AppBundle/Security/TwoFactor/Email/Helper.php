@@ -3,10 +3,12 @@
 namespace AppBundle\Security\TwoFactor\Email;
 
 use AppBundle\Entity\User;
+use AppBundle\Security\TwoFactor\HelperInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class Helper
+class Helper implements HelperInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager $em
@@ -60,11 +62,11 @@ class Helper
 
     /**
      * Validates the code, which was entered by the user
-     * @param \AppBundle\Entity\User $user
+     * @param User|UserInterface $user
      * @param $code
      * @return bool
      */
-    public function checkCode(User $user, $code)
+    public function checkCode(UserInterface $user, $code)
     {
         return $user->getTwoFactorCode() == $code;
     }
@@ -77,5 +79,14 @@ class Helper
     public function getSessionKey(TokenInterface $token)
     {
         return sprintf('two_factor_%s_%s', $token->getProviderKey(), $token->getUsername());
+    }
+
+    /**
+     * @param User|UserInterface $user
+     * @return boolean
+     */
+    public function is2faActive(UserInterface $user)
+    {
+        return $user->getTwoFactorAuthentication();
     }
 }
