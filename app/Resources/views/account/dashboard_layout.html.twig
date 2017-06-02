@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li id="profile-link" class="active"><a href="{{ path('user_dashboard') }}"><i class="fa fa-home fa-fw"></i>Profile</a></li>
+                    <li id="change-password-link"><a href="{{ path('user_change_password') }}"><i class="fa fa-list-alt fa-fw"></i>Change Password</a></li>
+                    <li id="activate-google-auth"><a href="{{ path('auth_activate_otp') }}"><i class="fa fa-list-alt fa-fw"></i>Google Authenticator</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-9 well">
+                {% for flashMessage in app.session.flashbag.get("error") %}
+                    <div class="alert alert-danger">
+                        {{ flashMessage }}
+                    </div>
+                {% endfor %}
+                {% block dashboardcontent %}
+                    Profile Content
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

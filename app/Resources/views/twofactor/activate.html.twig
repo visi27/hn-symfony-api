@@ -1,24 +1,39 @@
-{% extends 'base.html.twig' %}
-{% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <h1>Activate Google Authenticator!</h1>
+{% extends 'account/dashboard_layout.html.twig' %}
+{% block dashboardcontent %}
 
-                <form class="form" action="" method="post">
-                    {% for flashMessage in app.session.flashbag.get("error") %}
-                        <div class="alert alert-danger">
-                            {{ flashMessage }}
-                        </div>
-                    {% endfor %}
-                    <img src="{{ qrCodeURL }}">
-                    <br>
-                    <p class="label"><label for="_auth_code">Authentication Code</label></p>
-                    <p class="widget"><input id="_auth_code" type="text" autocomplete="off" name="_auth_code"/></p>
-                    <p class="submit"><input type="submit" value="Login"/></p>
-                    <p class="cancel"><a href="{{ path("security_logout") }}">Cancel</a></p>
-                </form>
+    <h1>Activate Google Authenticator!</h1>
+
+    <form class="form" action="" method="post">
+        {% for flashMessage in app.session.flashbag.get("error") %}
+            <div class="alert alert-danger">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        <img src="{{ qrCodeURL }}">
+        <br>
+        <div class="alert alert-info">
+            Skanoni imazhin me siper nga applikacioni Google Authenticator ne smartphone tuaj dhe jepni me poshte kodin e gjeneruar nga ky aplikacion
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon">Kodi i verifikimit</span>
+            <input id="_auth_code" name="_auth_code" type="text" class="form-control input-md" required="" title="Kodi i verifikimit" aria-describedby="basic-addon">
+        </div>
+
+        <div class="clearfix"></div>
+        <br/>
+        <div class="form-group">
+            <div>
+                <a href="{{ path("security_logout") }}" id="bCancel" name="bCancel" class="btn btn-danger">Anullo</a>
+                <button id="bSubmit" name="bSubmit" class="btn btn-success">Konfirmo</button>
             </div>
         </div>
-    </div>
+    </form>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(".nav-pills > li").removeClass("active");
+        $("#activate-google-auth").addClass("active");
+    </script>
 {% endblock %}

@@ -6,12 +6,59 @@ namespace AppBundle\Controller\Web;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserRegistrationForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+
+    /**
+     * @Route("/change_password", name="user_change_password")
+     * @param Request $request
+     *
+     * @Security("is_granted('ROLE_USER')")
+     * @return Response
+     */
+    public function changePasswordAction(Request $request){
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        if ($request->getMethod() == 'POST') {
+            $currentPassword = $request->get('piCurrPass');
+            if($this->get("security.password_encoder")->isPasswordValid($user, $currentPassword)){
+                if($request->get('piNewPass') == $request->get('piNewPassRepeat')){
+                    $user->setPlainPassword($request->get('piNewPass'));
+
+                    $this->getDoctrine()->getManager()->persist($user);
+                    $this->getDoctrine()->getManager()->flush();
+                    $this->addFlash("success", "Fjalekalimi u ndryshuar me sukses");
+
+                    return $this->render("account/dashboard_layout.html.twig");
+                }else{
+                    $this->addFlash("error", "Fushat Fjalekalimi i Ri dhe Perserit Fjalekalimin nuk jane njesoj!");
+                }
+            }else{
+                $this->addFlash("error", "Fjalekalimi aktual qe jus shtypet nuk eshte i sakte!");
+            }
+        }
+
+        return $this->render('account/change_password.html.twig');
+    }
+
+    /**
+     * @Route("/dashboard", name="user_dashboard")
+     * @param Request $request
+     *
+     * @Security("is_granted('ROLE_USER')")
+     * @return Response
+     */
+    public function dashboardAction(Request $request){
+        return $this->render('account/dashboard_layout.html.twig');
+    }
+
     /**
      * @Route("/register", name="register_user")
      * @param Request $request
