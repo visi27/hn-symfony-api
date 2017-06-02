@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Security\TwoFactor\Google;
+namespace AppBundle\Security\TwoFactor;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
@@ -13,9 +13,8 @@ use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 
 class RequestListener
 {
-
     /**
-     * @var \AppBundle\Security\TwoFactor\Google\Helper $helper
+     * @var HelperInterface $helper
      */
     protected $helper;
 
@@ -28,30 +27,38 @@ class RequestListener
      * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
      */
     protected $templating;
-    /**
-     * @var Router
-     */
-    private $router;
 
     /**
-     * @param \AppBundle\Security\TwoFactor\Google\Helper $helper
+     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     */
+    protected $router;
+    /**
+     * @var HelperFactory
+     */
+    private $helperFactory;
+
+    /**
+     * Construct the listener
+     * @param HelperFactory $helperFactory
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityContext
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param Router $router
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @internal param HelperInterface $helper
      */
     public function __construct(
-        Helper $helper,
+        HelperFactory $helperFactory,
         TokenStorageInterface $securityContext,
         EngineInterface $templating,
         Router $router
     ) {
-        $this->helper = $helper;
         $this->securityContext = $securityContext;
         $this->templating = $templating;
         $this->router = $router;
+        $this->helperFactory = $helperFactory;
     }
 
     /**
+     * Listen for request events
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      */
     public function onCoreRequest(GetResponseEvent $event)
@@ -65,6 +72,8 @@ class RequestListener
         if ((!$token instanceof GuardTokenInterface) || ($token instanceof JWTUserToken)) {
             return;
         }
+        $user = $token->getUser();
+        $this->helper = $this->helperFactory->getHelper($user);
 
         $key = $this->helper->getSessionKey($this->securityContext->getToken());
         $request = $event->getRequest();
@@ -72,7 +81,6 @@ class RequestListener
          * @var Session $session
          */
         $session = $event->getRequest()->getSession();
-        $user = $this->securityContext->getToken()->getUser();
 
         //Check if user has to do two-factor authentication
         if (!$session->has($key)) {
@@ -99,8 +107,7 @@ class RequestListener
         }
 
         //Force authentication code dialog
-        $response = $this->templating->renderResponse('twofactor/google.html.twig');
+        $response = $this->templating->renderResponse('twofactor/2fa_code.html.twig');
         $event->setResponse($response);
     }
-
 }

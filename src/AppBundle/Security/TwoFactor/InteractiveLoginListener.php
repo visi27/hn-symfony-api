@@ -1,8 +1,9 @@
 <?php
 
-namespace AppBundle\Security\TwoFactor\Google;
+namespace AppBundle\Security\TwoFactor;
 
 use AppBundle\Entity\User;
+use AppBundle\Security\TwoFactor\Email\Helper;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -10,16 +11,22 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class InteractiveLoginListener
 {
     /**
-     * @var \AppBundle\Security\TwoFactor\Google\Helper $helper
+     * @var HelperInterface $helper
      */
     private $helper;
+    /**
+     * @var HelperFactory
+     */
+    private $helperFactory;
 
     /**
-     * @param \AppBundle\Security\TwoFactor\Google\Helper $helper
+     * Construct a listener, which is handling successful authentication
+     * @param HelperFactory $helperFactory
+     * @internal param HelperInterface $helper
      */
-    public function __construct(Helper $helper)
+    public function __construct(HelperFactory $helperFactory)
     {
-        $this->helper = $helper;
+        $this->helperFactory = $helperFactory;
     }
 
     /**
@@ -36,18 +43,23 @@ class InteractiveLoginListener
         }
 
         //Check if user can do two-factor authentication
-        $ip = $event->getRequest()->getClientIp();
+        //$ip = $event->getRequest()->getClientIp();
         $token = $event->getAuthenticationToken();
         $user = $token->getUser();
+        $this->helper = $this->helperFactory->getHelper($user);
         if (!$user instanceof User) {
             return;
         }
-        if (!$user->getGoogleAuthenticatorCode()) {
+        if (!$this->helper->is2faActive($user)) {
             return;
         }
 
         //Set flag in the session
         $event->getRequest()->getSession()->set($this->helper->getSessionKey($token), null);
-    }
 
+        if($this->helper instanceof Helper){
+            $this->helper->generateAndSend($user);
+        }
+
+    }
 }
