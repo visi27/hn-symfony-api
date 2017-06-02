@@ -79,10 +79,6 @@ class Helper implements HelperInterface
      */
     public function is2faActive(UserInterface $user)
     {
-        if (!$user->getGoogleAuthenticatorCode() || ($user->getGoogleAuthenticatorCode()=='')) {
-            return false;
-        }
-
-        return true;
+        return $user->getTwoFactorAuthentication();
     }
 }

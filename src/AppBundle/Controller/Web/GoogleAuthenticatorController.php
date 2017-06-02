@@ -38,7 +38,7 @@ class GoogleAuthenticatorController extends Controller
             //Flag authentication complete
             $this->addFlash('error', 'Google Authenticator Is Already Active');
 
-            return $this->redirectToRoute('admin_blog_list');
+            return $this->redirectToRoute('user_dashboard');
         }
 
         $authenticator = new GoogleAuthenticator();
