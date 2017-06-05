@@ -13,7 +13,7 @@ machine:
     - echo "memory_limit = 512M" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
 
     # Restart Apache to pickup new config
-    - sudo apt-get install php-mysql
+    - sudo apt-get install php5-mysql
     - sudo cp $HOME/$CIRCLE_PROJECT_REPONAME/local.conf /etc/apache2/sites-available
     - sudo service apache2 start
     - sudo a2ensite local
