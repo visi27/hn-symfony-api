@@ -28,6 +28,6 @@ test:
     - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:visi0310ht
     - bin/console doctrine:database:create --env=test
     - bin/console doctrine:schema:update --force --env=test
-    - sudo chown www-data.www-data var -R
+    - sudo chmod 777 var -R
     - sudo chown www-data.www-data var/jwt/*.*
     - vendor/bin/phpunit
