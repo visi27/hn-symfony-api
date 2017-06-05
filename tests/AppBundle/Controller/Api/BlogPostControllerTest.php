@@ -258,6 +258,7 @@ class BlogPostControllerTest extends ApiTestCase
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
             ]
         );
+        $this->debugResponse($response);
         $this->assertEquals(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Ultra Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
