@@ -19,6 +19,7 @@ machine:
     - sudo service apache2 reload
     - sudo a2enmod rewrite
     - sudo service apache2 restart
+    - docker-php-ext-install pdo pdo_mysql
 
 
 test:
