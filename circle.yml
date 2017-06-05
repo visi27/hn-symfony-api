@@ -22,13 +22,12 @@ machine:
 
 
 test:
-  pre:
-    - sudo chown www-data.www-data var
   override:
     - mkdir var/jwt
     - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:visi0310ht 4096
     - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:visi0310ht
-    - sudo chown www-data.www-data var/jwt/*.*
     - bin/console doctrine:database:create --env=test
     - bin/console doctrine:schema:update --force --env=test
+    - sudo chown www-data.www-data var -R
+    - sudo chown www-data.www-data var/jwt/*.*
     - vendor/bin/phpunit
