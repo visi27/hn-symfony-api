@@ -228,7 +228,7 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyEquals($response, 'count', 5);
     }
 
-    public function testPUTGenus()
+    public function testPUTBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
             array(
