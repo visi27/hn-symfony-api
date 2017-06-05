@@ -20,16 +20,12 @@ machine:
     - sudo a2enmod rewrite
     - sudo service apache2 restart
 
-  post:
-    # Make Composer executables available globally.
-    - echo "export PATH=$PATH:$HOME/${CIRCLE_PROJECT_REPONAME}/bin" >> /home/ubuntu/.bashrc
-    - source /home/ubuntu/.bashrc
-    - mkdir var/jwt
-    - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:visi0310ht 4096
-    - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:visi0310ht
 
 test:
   override:
+    - mkdir var/jwt
+    - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:visi0310ht 4096
+    - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:visi0310ht
     - bin/console doctrine:database:create --env=test
     - bin/console doctrine:schema:update --force --env=test
     - vendor/bin/phpunit
