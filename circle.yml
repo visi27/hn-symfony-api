@@ -1,0 +1,35 @@
+machine:
+  timezone:
+      Europe/Tirane
+
+  php:
+    version: 5.6.18
+
+  hosts:
+    local.dev: 127.0.0.1
+
+  pre:
+    - rm /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini
+    - echo "memory_limit = 512M" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
+
+    # Restart Apache to pickup new config
+    - sudo cp ./host.conf /etc/apache2/sites-available
+    - sudo service apache2 start
+    - sudo a2ensite circle
+    - sudo service apache2 reload
+    - sudo a2enmod rewrite
+    - sudo service apache2 restart
+
+  post:
+    # Make Composer executables available globally.
+    - echo "export PATH=$PATH:$HOME/${CIRCLE_PROJECT_REPONAME}/bin" >> /home/ubuntu/.bashrc
+    - source /home/ubuntu/.bashrc
+    - mkdir var/jwt
+    - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:visi0310ht 4096
+    - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:visi0310ht
+
+test:
+  override:
+    - bin/console doctrine:database:create --env=test
+    - bin/console doctrine:schema:update --force --env=test
+    - vendor/bin/phpunit
