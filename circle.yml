@@ -22,6 +22,8 @@ machine:
 
 
 test:
+  pre:
+    - sudo chown www-data.www-data var
   override:
     - mkdir var/jwt
     - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:visi0310ht 4096
