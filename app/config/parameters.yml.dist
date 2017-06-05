@@ -14,4 +14,4 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     #LexikJWTAuthenticationBundle
-    jwt_key_pass_phrase: ~
+    jwt_key_pass_phrase: visi0310ht
