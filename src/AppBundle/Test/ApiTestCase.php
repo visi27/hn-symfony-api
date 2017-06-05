@@ -102,6 +102,7 @@ class ApiTestCase extends KernelTestCase
             $this->printLastRequestUrl();
             $this->printDebug('');
             $this->printDebug($e->getMessage());
+            $this->printDebug($e->getTraceAsString());
             $this->debugResponse($lastResponse);
         }
 
