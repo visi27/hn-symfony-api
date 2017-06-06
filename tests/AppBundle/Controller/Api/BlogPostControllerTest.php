@@ -67,6 +67,7 @@ class BlogPostControllerTest extends ApiTestCase
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         //$data = $response->json();
+        $this->debugResponse($response);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -251,6 +252,7 @@ class BlogPostControllerTest extends ApiTestCase
         $context->setGroups($groups);
 
         $data = $this->getService('jms_serializer')->serialize($createdBlogPost, 'json', $context);
+        $this->printDebug($data);
         $response = $this->client->put(
             '/api/blog/'.$createdBlogPost->getId(),
             [
@@ -258,7 +260,6 @@ class BlogPostControllerTest extends ApiTestCase
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
             ]
         );
-        $this->debugResponse($response);
         $this->assertEquals(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Ultra Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
