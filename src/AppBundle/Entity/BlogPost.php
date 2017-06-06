@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // Instead of Hateoas we can still use our Links Annotation serializer subscriber to generate links
@@ -83,6 +84,7 @@ class BlogPost
     /**
      * @Assert\NotBlank()
      * @ORM\Column(type="date")
+     * @Type("DateTime<'Y-m-d'>")
      */
     private $publishedAt;
 
