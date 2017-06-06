@@ -49,6 +49,7 @@ class BlogPostFormType extends AbstractType
                 DateType::class,
                 [
                     'widget' => 'single_text',
+                    'format' => 'Y-m-d',
                     'attr' => ['class' => 'js-datepicker'],
                     'html5' => false,
                 ]
