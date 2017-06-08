@@ -63,13 +63,19 @@ class RequestListener
      */
     public function onCoreRequest(GetResponseEvent $event)
     {
+        //If the actual request is a subrequest(i.e. the renderResponse at the end of this method) exit immediately
+        if(!$event->isMasterRequest()){
+            return;
+        }
+
         $token = $this->securityContext->getToken();
 
         if (!$token) {
             return;
         }
 
-        if ((!$token instanceof GuardTokenInterface) || ($token instanceof JWTUserToken)) {
+        //@ToDo Make the list of allowed tokens configurable
+        if (!($token instanceof GuardTokenInterface) || ($token instanceof JWTUserToken)) {
             return;
         }
         $user = $token->getUser();
@@ -96,8 +102,8 @@ class RequestListener
                 //Flag authentication complete
                 $session->set($key, true);
 
-                //Redirect to user's dashboard
-                $redirect = new RedirectResponse($this->router->generate("admin_blog_list"));
+                //Redirect to homepage
+                $redirect = new RedirectResponse($this->router->generate("homepage"));
                 $event->setResponse($redirect);
 
                 return;
