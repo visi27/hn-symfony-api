@@ -9,6 +9,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 interface HelperInterface
 {
     public function is2faActive(UserInterface $user);
-    public function checkCode(UserInterface $user, $code);
+    public function checkCode($authCode, $code);
     public function getSessionKey(TokenInterface $token);
 }

@@ -4,7 +4,6 @@ parameters:
   app_user.twofactor.email.provider.class: AppBundle\Security\TwoFactor\Email\Helper
   app_user.twofactor.google.provider.class: AppBundle\Security\TwoFactor\Google\Helper
   app_user.twofactor.google.class: Google\Authenticator\GoogleAuthenticator
-  app.security.param.servername: "TestServer"
 
   app_user.twofactor.interactive_login_listener.class: AppBundle\Security\TwoFactor\InteractiveLoginListener
   app_user.twofactor.request_listener.class: AppBundle\Security\TwoFactor\RequestListener
@@ -32,9 +31,13 @@ services:
 
   app.security.twofactor.request_listener:
     class: "%app_user.twofactor.request_listener.class%"
-    arguments: ["@app.security.twofactor.provide_factory","@security.token_storage", "@templating","@router"]
+    arguments: ["@app.security.twofactor.provide_factory","@security.token_storage", "@templating","@router", "@app.security.encryption_service"]
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onCoreRequest, priority: -1 }
+
+  app.security.encryption_service:
+    class: AppBundle\Security\Encryption\EncryptionService
+    arguments: ["%defuse_key%","@logger"]
 
   app.security.login_form_authenticator:
     class: AppBundle\Security\LoginFormAuthenticator
@@ -47,6 +50,12 @@ services:
   app.doctrine.hash_password_listener:
     class: AppBundle\Doctrine\HashPasswordListener
     arguments: ["@security.password_encoder"]
+    tags:
+      - {name: doctrine.event_subscriber}
+
+  app.doctrine.google_auth_listener:
+    class: AppBundle\Doctrine\GoogleAuthKeyListener
+    arguments: ["@app.security.encryption_service"]
     tags:
       - {name: doctrine.event_subscriber}
 

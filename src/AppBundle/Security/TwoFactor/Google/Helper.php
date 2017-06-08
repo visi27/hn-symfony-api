@@ -35,23 +35,24 @@ class Helper implements HelperInterface
 
     /**
      * Validates the code, which was entered by the user
-     * @param User|UserInterface $user
+     * @param $googleAuthCode
      * @param $code
      * @return bool
      */
-    public function checkCode(UserInterface $user, $code)
+    public function checkCode($googleAuthCode, $code)
     {
-        return $this->authenticator->checkCode($user->getGoogleAuthenticatorCode(), $code);
+        return $this->authenticator->checkCode($googleAuthCode, $code);
     }
 
     /**
      * Generate the URL of a QR code, which can be scanned by Google Authenticator app
      * @param \AppBundle\Entity\User $user
+     * @param $authCode
      * @return string
      */
-    public function getUrl(User $user)
+    public function getUrl(User $user, $authCode)
     {
-        return $this->authenticator->getUrl($user->getUsername(), $this->server, $user->getGoogleAuthenticatorCode());
+        return $this->authenticator->getUrl($user->getUsername(), $this->server, $authCode);
     }
 
     /**

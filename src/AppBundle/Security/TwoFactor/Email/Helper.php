@@ -62,13 +62,14 @@ class Helper implements HelperInterface
 
     /**
      * Validates the code, which was entered by the user
-     * @param User|UserInterface $user
+     * @param $authCode
      * @param $code
      * @return bool
+     * @internal param User|UserInterface $user
      */
-    public function checkCode(UserInterface $user, $code)
+    public function checkCode($authCode, $code)
     {
-        return $user->getTwoFactorCode() == $code;
+        return $authCode === $code;
     }
 
     /**

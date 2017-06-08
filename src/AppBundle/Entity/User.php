@@ -54,9 +54,15 @@ class User implements UserInterface
 
     /**
      * @var string $googleAuthenticatorCode Stores the secret code
-     * @ORM\Column(type="string", length=16, nullable=true)
+     * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $googleAuthenticatorCode = null;
+
+    /**
+     * A non-persisted field that's used to create the encoded Google Auth Code.
+     * @var string
+     */
+    private $plainGoogleAuthenticatorCode;
 
     /**
      * A non-persisted field that's used to create the encoded password.
@@ -212,6 +218,22 @@ class User implements UserInterface
     public function setGoogleAuthenticatorCode($googleAuthenticatorCode)
     {
         $this->googleAuthenticatorCode = $googleAuthenticatorCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainGoogleAuthenticatorCode()
+    {
+        return $this->plainGoogleAuthenticatorCode;
+    }
+
+    /**
+     * @param string $plainGoogleAuthenticatorCode
+     */
+    public function setPlainGoogleAuthenticatorCode($plainGoogleAuthenticatorCode)
+    {
+        $this->plainGoogleAuthenticatorCode = $plainGoogleAuthenticatorCode;
     }
 
 

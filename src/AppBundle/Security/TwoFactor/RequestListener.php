@@ -2,6 +2,7 @@
 
 namespace AppBundle\Security\TwoFactor;
 
+use AppBundle\Security\Encryption\EncryptionService;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -36,6 +37,10 @@ class RequestListener
      * @var HelperFactory
      */
     private $helperFactory;
+    /**
+     * @var EncryptionService
+     */
+    private $encryptionService;
 
     /**
      * Construct the listener
@@ -43,18 +48,21 @@ class RequestListener
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityContext
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
      * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @param EncryptionService $encryptionService
      * @internal param HelperInterface $helper
      */
     public function __construct(
         HelperFactory $helperFactory,
         TokenStorageInterface $securityContext,
         EngineInterface $templating,
-        Router $router
+        Router $router,
+        EncryptionService $encryptionService
     ) {
         $this->securityContext = $securityContext;
         $this->templating = $templating;
         $this->router = $router;
         $this->helperFactory = $helperFactory;
+        $this->encryptionService = $encryptionService;
     }
 
     /**
@@ -98,11 +106,12 @@ class RequestListener
 
         if ($request->getMethod() == 'POST') {
             //Check the authentication code
-            if ($this->helper->checkCode($user, $request->get('_auth_code')) == true) {
+            $authKey = $this->encryptionService->decrypt($user->getGoogleAuthenticatorCode());
+            if ($this->helper->checkCode($authKey, $request->get('_auth_code')) == true) {
                 //Flag authentication complete
                 $session->set($key, true);
 
-                //Redirect to homepage
+                //Redirect to user's dashboard
                 $redirect = new RedirectResponse($this->router->generate("homepage"));
                 $event->setResponse($redirect);
 
