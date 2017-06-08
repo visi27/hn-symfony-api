@@ -3,8 +3,6 @@
 namespace AppBundle\Controller\Web;
 
 use AppBundle\Entity\User;
-use AppBundle\Security\TwoFactor\Google\Helper;
-use Google\Authenticator\GoogleAuthenticator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -41,34 +39,38 @@ class GoogleAuthenticatorController extends Controller
             return $this->redirectToRoute('user_dashboard');
         }
 
-        $authenticator = new GoogleAuthenticator();
-        $helper = new Helper("TestServer", $authenticator);
+        $helper = $this->get('app.security.twofactor.google.provider');
 
         if ($request->getMethod() == 'POST') {
             //check authentication key
             //Check the authentication code
-            if ($helper->checkCode($user, $request->get('_auth_code')) == true) {
+            $authKey = $this->get('app.security.encryption_service')->decrypt($user->getGoogleAuthenticatorCode());
+            if ($helper->checkCode($authKey, $request->get('_auth_code')) == true) {
                 //activate 2fa authenticator
                 $user->setTwoFactorAuthentication(true);
+                $user->setDefaultTwoFactorMethod("google");
+
                 $this->getDoctrine()->getManager()->persist($user);
                 $this->getDoctrine()->getManager()->flush();
                 $this->addFlash('success', 'Google Authenticator Activated');
 
-                return $this->redirectToRoute('admin_blog_list');
+                return $this->redirectToRoute('user_dashboard');
             } else {
                 $this->addFlash('error', 'Invalid Code');
-                $qrCodeUrl = $helper->getUrl($user);
+                $qrCodeUrl = $helper->getUrl($user, $authKey);
 
                 return $this->render('twofactor/activate.html.twig', ['qrCodeURL' => $qrCodeUrl]);
             }
         } else {
             //generate new key
             $code = $helper->generateSecret();
-            $user->setGoogleAuthenticatorCode($code);
+
+            $user->setGoogleAuthenticatorCode("");
+            $user->setPlainGoogleAuthenticatorCode($code);
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();
 
-            $qrCodeUrl = $helper->getUrl($user);
+            $qrCodeUrl = $helper->getUrl($user, $code);
 
             return $this->render('twofactor/activate.html.twig', ['qrCodeURL' => $qrCodeUrl]);
         }
