@@ -67,7 +67,6 @@ class BlogPostControllerTest extends ApiTestCase
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         //$data = $response->json();
-        $this->debugResponse($response);
 
         $this->assertEquals(200, $response->getStatusCode());
 
@@ -252,7 +251,6 @@ class BlogPostControllerTest extends ApiTestCase
         $context->setGroups($groups);
 
         $data = $this->getService('jms_serializer')->serialize($createdBlogPost, 'json', $context);
-        $this->printDebug($data);
         $response = $this->client->put(
             '/api/blog/'.$createdBlogPost->getId(),
             [
