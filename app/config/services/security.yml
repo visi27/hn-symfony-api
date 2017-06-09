@@ -1,5 +1,3 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
 parameters:
   app_user.twofactor.email.provider.class: AppBundle\Security\TwoFactor\Email\Helper
   app_user.twofactor.google.provider.class: AppBundle\Security\TwoFactor\Google\Helper
@@ -58,25 +56,3 @@ services:
     arguments: ["@app.security.encryption_service"]
     tags:
       - {name: doctrine.event_subscriber}
-
-  api_exception_subscriber:
-    class: AppBundle\EventListener\ApiExceptionSubscriber
-    arguments: ['%kernel.debug%' , '@logger', '@api.response_factory']
-    tags:
-      - { name: kernel.event_subscriber }
-
-  api.response_factory:
-    class: AppBundle\Api\ResponseFactory
-
-  pagination_factory:
-    class: AppBundle\Pagination\PaginationFactory
-    arguments: ["@router"]
-
-  link_serialization_subscriber:
-    class: AppBundle\Serializer\LinkSerializationSubscriber
-    arguments: ["@router", "@annotation_reader"]
-    tags:
-      - { name: jms_serializer.event_subscriber }
-
-  custom_hateoas_json_serializer:
-    class: AppBundle\Serializer\CustomHATEOASJsonSerializer
