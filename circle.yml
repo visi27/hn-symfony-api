@@ -28,3 +28,4 @@ test:
     - sudo chmod 777 var -R
     - sudo chown www-data.www-data var/jwt/*.*
     - vendor/bin/phpunit
+    - vendor/bin/behat
