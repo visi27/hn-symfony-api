@@ -47,26 +47,7 @@
             <a class="navbar-brand" href="/">HOME</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="{{ path('blog_list') }}">Blog</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="{{ path('admin_blog_list') }}">Admin Area</a>
-                </li>
-                {% if is_granted('ROLE_USER') %}
-                    <li><a href="{{ path('security_logout') }}">Logout</a></li>
-                {% else %}
-                    <li><a href="{{ path('security_login') }}">Login</a></li>
-                {% endif %}
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+        {{ render(controller('AppBundle:Web/Menu:renderMenu')) }}
     </div>
     <!-- /.container -->
 </nav>
