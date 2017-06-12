@@ -57,7 +57,7 @@ class InteractiveLoginListener
         //Set flag in the session
         $event->getRequest()->getSession()->set($this->helper->getSessionKey($token), null);
 
-        if($this->helper instanceof Helper){
+        if ($this->helper instanceof Helper) {
             $this->helper->generateAndSend($user);
         }
 

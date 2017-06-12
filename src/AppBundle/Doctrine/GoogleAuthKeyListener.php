@@ -57,7 +57,7 @@ class GoogleAuthKeyListener implements EventSubscriber
         $em->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $entity);
     }
 
-    public function postLoad(LifecycleEventArgs $args){
+    public function postLoad(LifecycleEventArgs $args) {
         $entity = $args->getEntity();
 
         if (!$entity instanceof User) {

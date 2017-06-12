@@ -40,7 +40,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      */
-    private $defaultTwoFactorMethod="email";
+    private $defaultTwoFactorMethod = "email";
 
     /**
      * @ORM\Column(type="boolean")
@@ -129,7 +129,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      */
     public function setEmail($email)
     {
@@ -157,7 +157,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDefaultTwoFactorMethod()
     {
@@ -165,7 +165,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $defaultTwoFactorMethod
+     * @param string $defaultTwoFactorMethod
      */
     public function setDefaultTwoFactorMethod($defaultTwoFactorMethod)
     {
@@ -173,7 +173,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
     public function getTwoFactorAuthentication()
     {
@@ -181,7 +181,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $twoFactorAuthentication
+     * @param boolean $twoFactorAuthentication
      */
     public function setTwoFactorAuthentication($twoFactorAuthentication)
     {
@@ -197,7 +197,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $twoFactorCode
+     * @param integer $twoFactorCode
      */
     public function setTwoFactorCode($twoFactorCode)
     {

@@ -38,7 +38,7 @@ class PaginationFactory
         //actual request params with route params
         $routeParams = array_merge($routeParams, $request->query->all());
 
-        $createLinkUrl = function ($targetPage) use ($route, $routeParams) {
+        $createLinkUrl = function($targetPage) use ($route, $routeParams) {
             return $this->router->generate(
                 $route,
                 array_merge(

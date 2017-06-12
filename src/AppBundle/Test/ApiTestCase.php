@@ -57,7 +57,7 @@ class ApiTestCase extends KernelTestCase
         $handler->push(Middleware::mapRequest(function(RequestInterface $request) {
             $path = $request->getUri()->getPath();
             if (strpos($path, '/app_test.php') !== 0) {
-                $path = '/app_test.php' . $path;
+                $path = '/app_test.php'.$path;
             }
             $uri = $request->getUri()->withPath($path);
 
@@ -115,6 +115,9 @@ class ApiTestCase extends KernelTestCase
         $purger->purge();
     }
 
+    /**
+     * @param string $id
+     */
     protected function getService($id)
     {
         return self::$kernel->getContainer()
@@ -137,7 +140,7 @@ class ApiTestCase extends KernelTestCase
         foreach ($response->getHeaders() as $name => $values) {
             $this->printDebug(sprintf('%s: %s', $name, implode(', ', $values)));
         }
-        $body = (string) $response->getBody();
+        $body = (string)$response->getBody();
 
         $contentType = $response->getHeader('Content-Type');
         $contentType = $contentType[0];
@@ -225,7 +228,7 @@ class ApiTestCase extends KernelTestCase
     /**
      * Print a debugging message out in a big red block
      *
-     * @param $string
+     * @param string $string
      */
     protected function printErrorBlock($string)
     {

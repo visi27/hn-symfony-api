@@ -72,7 +72,7 @@ class RequestListener
     public function onCoreRequest(GetResponseEvent $event)
     {
         //If the actual request is a subrequest(i.e. the renderResponse at the end of this method) exit immediately
-        if(!$event->isMasterRequest()){
+        if (!$event->isMasterRequest()) {
             return;
         }
 

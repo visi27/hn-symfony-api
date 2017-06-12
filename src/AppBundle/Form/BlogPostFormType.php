@@ -23,7 +23,7 @@ class BlogPostFormType extends AbstractType
                 'category',
                 EntityType::class,
                 [
-                    'query_builder' => function (CategoryRepository $repository) {
+                    'query_builder' => function(CategoryRepository $repository) {
                         return $repository->createAlphabeticalQueryBuilder();
                     },
                     'class' => Category::class,
