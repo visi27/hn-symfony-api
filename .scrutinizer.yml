@@ -1,4 +1,7 @@
 build:
-    environment:
-        php:
-            version: 5.6
+  tests:
+    override:
+      - ./scrutinizer-tests.sh
+  environment:
+    php:
+      version: 5.6
