@@ -4,10 +4,8 @@ namespace AppBundle\Security\TwoFactor\Google;
 use AppBundle\Security\TwoFactor\HelperInterface;
 use Google\Authenticator\GoogleAuthenticator as BaseGoogleAuthenticator;
 use AppBundle\Entity\User;
-use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 
 class Helper implements HelperInterface

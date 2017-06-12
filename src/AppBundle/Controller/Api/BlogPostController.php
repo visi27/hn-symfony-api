@@ -4,7 +4,6 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
-use Lexik\Bundle\JWTAuthenticationBundle\TokenExtractor\AuthorizationHeaderTokenExtractor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -40,7 +39,7 @@ class BlogPostController extends BaseController
 
         $category = $em->getRepository("AppBundle:Category")->findOneBy(['id' => $data["category"]]);
 
-        if(!$category){
+        if (!$category) {
             $category = new Category();
             $category->setName($data["category"]);
 

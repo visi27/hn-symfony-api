@@ -21,15 +21,15 @@ class UserController extends Controller
      * @Security("is_granted('ROLE_USER')")
      * @return Response
      */
-    public function changePasswordAction(Request $request){
+    public function changePasswordAction(Request $request) {
         /**
          * @var User $user
          */
         $user = $this->getUser();
         if ($request->getMethod() == 'POST') {
             $currentPassword = $request->get('piCurrPass');
-            if($this->get("security.password_encoder")->isPasswordValid($user, $currentPassword)){
-                if($request->get('piNewPass') == $request->get('piNewPassRepeat')){
+            if ($this->get("security.password_encoder")->isPasswordValid($user, $currentPassword)) {
+                if ($request->get('piNewPass') == $request->get('piNewPassRepeat')) {
                     $user->setPlainPassword($request->get('piNewPass'));
 
                     $this->getDoctrine()->getManager()->persist($user);
@@ -37,10 +37,10 @@ class UserController extends Controller
                     $this->addFlash("success", "Fjalekalimi u ndryshuar me sukses");
 
                     return $this->render("account/dashboard_layout.html.twig");
-                }else{
+                } else {
                     $this->addFlash("error", "Fushat Fjalekalimi i Ri dhe Perserit Fjalekalimin nuk jane njesoj!");
                 }
-            }else{
+            } else {
                 $this->addFlash("error", "Fjalekalimi aktual qe jus shtypet nuk eshte i sakte!");
             }
         }
@@ -55,7 +55,7 @@ class UserController extends Controller
      * @Security("is_granted('ROLE_USER')")
      * @return Response
      */
-    public function dashboardAction(Request $request){
+    public function dashboardAction(Request $request) {
         return $this->render('account/dashboard_layout.html.twig');
     }
 

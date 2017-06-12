@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MenuController extends Controller
 {
-    public function renderMenuAction(){
+    public function renderMenuAction() {
         $em = $this->getDoctrine()->getManager();
         $menuObjects = $em->getRepository('AppBundle:Menu')->findBy(
             ["status"=>true],

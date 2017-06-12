@@ -3,7 +3,6 @@
 namespace AppBundle\Security\TwoFactor;
 
 use AppBundle\Entity\User;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class HelperFactory
@@ -24,9 +23,9 @@ class HelperFactory
         $this->googleHelper = $googleHelper;
     }
 
-    public function getHelper(User $user){
+    public function getHelper(User $user) {
 
-        switch ($user->getDefaultTwoFactorMethod()){
+        switch ($user->getDefaultTwoFactorMethod()) {
             case "email":
                 return $this->emailHelper;
                 break;
