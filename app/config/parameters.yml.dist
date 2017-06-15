@@ -21,3 +21,7 @@ parameters:
 
     #2FA server name
     app.security.param.servername: "partners.infotelecom.al"
+
+    #Email sending account
+    email_username: ~
+    email_password: ~

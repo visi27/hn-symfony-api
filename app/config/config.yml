@@ -91,6 +91,6 @@ swiftmailer:
     local_mailer:
       transport: 'smtp'
       host:      'mail.infotelecom.al'
-      username:  'evis.bregu@infotelecom.al'
-      password:  'visi0310ht'
+      username:  '%email_username%'
+      password:  '%email_password%'
       port:      '25'
