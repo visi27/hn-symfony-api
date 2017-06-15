@@ -50,12 +50,12 @@ class UserController extends Controller
 
     /**
      * @Route("/dashboard", name="user_dashboard")
-     * @param Request $request
+     * @return Response
+     * @internal param Request $request
      *
      * @Security("is_granted('ROLE_USER')")
-     * @return Response
      */
-    public function dashboardAction(Request $request) {
+    public function dashboardAction() {
         return $this->render('account/dashboard_layout.html.twig');
     }
 

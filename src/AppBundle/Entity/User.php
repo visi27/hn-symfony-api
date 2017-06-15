@@ -72,6 +72,14 @@ class User implements UserInterface
      */
     private $plainPassword;
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUsername()
     {
         return $this->email;

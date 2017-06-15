@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\Web;
 
 
-use AppBundle\Security\TwoFactor\Email\Helper;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MainController extends Controller

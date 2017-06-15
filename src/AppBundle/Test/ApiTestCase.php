@@ -117,6 +117,7 @@ class ApiTestCase extends KernelTestCase
 
     /**
      * @param string $id
+     * @return object
      */
     protected function getService($id)
     {

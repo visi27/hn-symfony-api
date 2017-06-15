@@ -3,9 +3,8 @@
 namespace AppBundle\Repository;
 
 
-use AppBundle\Entity\BlogPost;
+
 use AppBundle\Entity\Category;
-use AppBundle\Entity\SubFamily;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 

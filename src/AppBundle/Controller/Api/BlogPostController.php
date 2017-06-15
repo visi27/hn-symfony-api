@@ -153,12 +153,11 @@ class BlogPostController extends BaseController
      * @Route("/api/blog/{id}", name="api_delete_blog_post")
      * @Method("DELETE")
      *
-     * @param Request $request
      * @param integer $id
-     *
      * @return Response
+     * @internal param Request $request
      */
-    public function deleteAction($id, Request $request)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
