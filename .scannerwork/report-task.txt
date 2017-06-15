@@ -1,0 +1,7 @@
+organization=visi27-github
+projectKey=visi27.symfony-skeleton
+serverUrl=https://sonarcloud.io
+serverVersion=6.4.0.25310
+dashboardUrl=https://sonarcloud.io/dashboard/index/visi27.symfony-skeleton
+ceTaskId=AVyrE5HeXg44SA2FClqZ
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AVyrE5HeXg44SA2FClqZ
