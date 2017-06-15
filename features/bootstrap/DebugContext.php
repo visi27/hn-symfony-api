@@ -18,7 +18,6 @@ class DebugContext extends RawMinkContext implements Context
      */
     public function iSaveAScreenshotIn($filename)
     {
-        sleep(1);
         $this->saveScreenshot($filename, __DIR__.'/../..');
     }
 
