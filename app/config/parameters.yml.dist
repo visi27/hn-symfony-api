@@ -17,7 +17,7 @@ parameters:
     jwt_key_pass_phrase: secret
 
     #defuse encryption key
-    defuse_key: ''
+    defuse_key: def000004d733de5dfd2bc5ba0bfd1e43b12047bf7b3516038798a95fd2c9bef8374df809573ebd32757f25230e048b6bc32858e14dd0705b0ec77b78b98231e20cb875c
 
     #2FA server name
     app.security.param.servername: "partners.infotelecom.al"
