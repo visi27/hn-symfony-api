@@ -8,6 +8,13 @@ build:
       - bin/console doctrine:schema:update --force --env=test
       - sudo chmod 777 var -R
       - sudo chown www-data.www-data var/jwt/*.*
+    override:
+      -
+        command: 'vendor/bin/phpunit --coverage-clover=coverage.clover'
+        coverage:
+          file: 'coverage.clover'
+          format: 'clover'
+      - command: 'vendor/bin/behat'
   environment:
     php:
       version: 5.6
