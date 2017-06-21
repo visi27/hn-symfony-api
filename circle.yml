@@ -27,5 +27,5 @@ test:
     - bin/console doctrine:schema:update --force --env=test
     - sudo chmod 777 var -R
     - sudo chown www-data.www-data var/jwt/*.*
-    - vendor/bin/phpunit
+    - vendor/bin/phpunit --coverage-html $CIRCLE_ARTIFACTS
     - vendor/bin/behat
