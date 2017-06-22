@@ -1,4 +1,6 @@
 coverage.clover
+.php_cs.cache
+.scannerwork
 /app/config/parameters.yml
 /build/
 /phpunit.xml
