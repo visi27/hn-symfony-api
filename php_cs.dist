@@ -1,9 +1,7 @@
 <?php
 
 $fileHeaderComment = <<<COMMENT
-
 (c) Evis Bregu <evis.bregu@gmail.com>
-
 COMMENT;
 
 $finder = PhpCsFixer\Finder::create()
