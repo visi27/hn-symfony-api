@@ -4,6 +4,7 @@ namespace AppBundle\Test;
 
 
 use AppBundle\Entity\Menu;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -21,11 +22,19 @@ class ContainerDependableTestCase extends KernelTestCase
     {
         self::bootKernel();
         $this->_container = static::$kernel->getContainer();
+
+        $this->purgeDatabase();
     }
 
     protected function get($service)
     {
         return $this->_container->get($service);
+    }
+
+    private function purgeDatabase()
+    {
+        $purger = new ORMPurger($this->get("doctrine")->getManager());
+        $purger->purge();
     }
 
     public function createDummyMenuEntries($count = 20)

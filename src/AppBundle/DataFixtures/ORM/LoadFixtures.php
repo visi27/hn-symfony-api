@@ -11,7 +11,7 @@ class LoadFixtures implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        Fixtures::load(
+        return Fixtures::load(
             __DIR__.'/fixtures.yml',
             $manager,
             [

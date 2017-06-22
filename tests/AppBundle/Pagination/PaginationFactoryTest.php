@@ -13,9 +13,10 @@ class PaginationFactoryTest extends ContainerDependableTestCase
         $paginationFactory = $this->_container->get("pagination_factory");
 
         $this->createDummyMenuEntries(25);
+        $filter = "Menu";
         $qb = $this->_container->get("doctrine")
             ->getRepository('AppBundle:Menu')
-            ->findAllQueryBuilder();
+            ->findAllQueryBuilder($filter);
 
         $request = new Request([],[],[],[],[],[],json_encode(["menu"=>"test"]));
         $request->query->set("page", 2);

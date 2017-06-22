@@ -3,6 +3,8 @@
 namespace AppBundle\Test;
 
 
+use AppBundle\Entity\Category;
+use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -12,6 +14,7 @@ class DoctrineDependableTestCase extends KernelTestCase
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
+    protected $createdUser;
 
     /**
      * {@inheritDoc}
@@ -23,6 +26,14 @@ class DoctrineDependableTestCase extends KernelTestCase
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $this->purgeDatabase();
+    }
+
+    private function purgeDatabase()
+    {
+        $purger = new ORMPurger($this->em);
+        $purger->purge();
     }
 
     /**
@@ -32,15 +43,35 @@ class DoctrineDependableTestCase extends KernelTestCase
     {
         parent::tearDown();
 
-        $this->purgeDatabase();
-
         $this->em->close();
         $this->em = null; // avoid memory leaks
     }
 
-    private function purgeDatabase()
+    protected function createCategory($name)
     {
-        $purger = new ORMPurger($this->em);
-        $purger->purge();
+        $category = new Category();
+        $category->setName($name);
+
+        $this->em->persist($category);
+        $this->em->flush();
+
+        return $category;
+    }
+
+    protected function createUser($username, $plainPassword = 'foo')
+    {
+        $user = new User();
+        //$user->setUsername($username);
+        $user->setEmail($username.'@foo.com');
+
+        $user->setPassword($plainPassword);
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        $this->createdUser = $user;
+
+        return $user;
+
     }
 }

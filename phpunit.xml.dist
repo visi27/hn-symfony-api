@@ -26,7 +26,12 @@
                 <directory>src/*Bundle/Resources</directory>
                 <directory>src/*/*Bundle/Resources</directory>
                 <directory>src/*/Bundle/*Bundle/Resources</directory>
+                <directory>src/AppBundle/Controller/*</directory>
             </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html" target="./report" lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="coverage.clover"/>
+    </logging>
 </phpunit>

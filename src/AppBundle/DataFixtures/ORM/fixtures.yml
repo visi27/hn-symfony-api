@@ -1,4 +1,4 @@
-Appbundle\Entity\Category:
+AppBundle\Entity\Category:
   category_{1..5}:
     name: <category()>
 
@@ -20,7 +20,6 @@ AppBundle\Entity\BlogPost:
 
 AppBundle\Entity\Menu:
   menu_1:
-    id: 1
     navHeader: ""
     icon: "glyphicon glyphicon-th-list"
     name: "Blog List"
@@ -29,7 +28,6 @@ AppBundle\Entity\Menu:
     sort: 1
     status: 1
   menu_2:
-    id: 2
     navHeader: ""
     icon: "glyphicon glyphicon-lock"
     name: "Admin Area"
@@ -38,7 +36,6 @@ AppBundle\Entity\Menu:
     sort: 2
     status: 1
   menu_3:
-    id: 3
     navHeader: ""
     icon: "glyphicon glyphicon-user"
     name: "Dashboard"
