@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Form;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -15,5 +20,4 @@ class LoginForm extends AbstractType
             ->add('_username')
             ->add('_password', PasswordType::class);
     }
-
 }

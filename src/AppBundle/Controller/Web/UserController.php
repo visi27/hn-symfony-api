@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Controller\Web;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Web;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserRegistrationForm;
@@ -13,35 +18,36 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-
     /**
      * @Route("/change_password", name="user_change_password")
+     *
      * @param Request $request
      *
      * @Security("is_granted('ROLE_USER')")
+     *
      * @return Response
      */
-    public function changePasswordAction(Request $request) {
+    public function changePasswordAction(Request $request)
+    {
         /**
-         * @var User $user
+         * @var User
          */
         $user = $this->getUser();
-        if ($request->getMethod() == 'POST') {
+        if ($request->getMethod() === 'POST') {
             $currentPassword = $request->get('piCurrPass');
-            if ($this->get("security.password_encoder")->isPasswordValid($user, $currentPassword)) {
-                if ($request->get('piNewPass') == $request->get('piNewPassRepeat')) {
+            if ($this->get('security.password_encoder')->isPasswordValid($user, $currentPassword)) {
+                if ($request->get('piNewPass') === $request->get('piNewPassRepeat')) {
                     $user->setPlainPassword($request->get('piNewPass'));
 
                     $this->getDoctrine()->getManager()->persist($user);
                     $this->getDoctrine()->getManager()->flush();
-                    $this->addFlash("success", "Fjalekalimi u ndryshuar me sukses");
+                    $this->addFlash('success', 'Fjalekalimi u ndryshuar me sukses');
 
-                    return $this->render("account/dashboard_layout.html.twig");
-                } else {
-                    $this->addFlash("error", "Fushat Fjalekalimi i Ri dhe Perserit Fjalekalimin nuk jane njesoj!");
+                    return $this->render('account/dashboard_layout.html.twig');
                 }
+                $this->addFlash('error', 'Fushat Fjalekalimi i Ri dhe Perserit Fjalekalimin nuk jane njesoj!');
             } else {
-                $this->addFlash("error", "Fjalekalimi aktual qe jus shtypet nuk eshte i sakte!");
+                $this->addFlash('error', 'Fjalekalimi aktual qe jus shtypet nuk eshte i sakte!');
             }
         }
 
@@ -50,17 +56,21 @@ class UserController extends Controller
 
     /**
      * @Route("/dashboard", name="user_dashboard")
+     *
      * @return Response
+     *
      * @internal param Request $request
      *
      * @Security("is_granted('ROLE_USER')")
      */
-    public function dashboardAction() {
+    public function dashboardAction()
+    {
         return $this->render('account/dashboard_layout.html.twig');
     }
 
     /**
      * @Route("/register", name="register_user")
+     *
      * @param Request $request
      *
      * @return Response
@@ -71,7 +81,6 @@ class UserController extends Controller
 
         $form->handleRequest($request);
         if ($form->isValid()) {
-
             /**
              * @var User
              */
@@ -97,6 +106,5 @@ class UserController extends Controller
                 'form' => $form->createView(),
             ]
         );
-
     }
 }

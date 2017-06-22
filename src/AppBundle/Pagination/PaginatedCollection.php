@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Pagination;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Pagination;
 
 class PaginatedCollection
 {
@@ -23,10 +28,11 @@ class PaginatedCollection
     /**
      * @var array
      */
-    private $_links = array();
+    private $_links = [];
 
     /**
      * PaginatedCollection constructor.
+     *
      * @param $items
      * @param $total
      */

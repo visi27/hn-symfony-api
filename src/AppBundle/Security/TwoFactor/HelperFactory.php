@@ -1,13 +1,17 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Security\TwoFactor;
 
 use AppBundle\Entity\User;
 
-
 class HelperFactory
 {
-
     /**
      * @var HelperInterface
      */
@@ -23,13 +27,13 @@ class HelperFactory
         $this->googleHelper = $googleHelper;
     }
 
-    public function getHelper(User $user) {
-
+    public function getHelper(User $user)
+    {
         switch ($user->getDefaultTwoFactorMethod()) {
-            case "email":
+            case 'email':
                 return $this->emailHelper;
                 break;
-            case "google":
+            case 'google':
                 return $this->googleHelper;
                 break;
             default:

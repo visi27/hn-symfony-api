@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Api;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Api;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -11,7 +16,7 @@ class ResponseFactory
     {
         $data = $apiProblem->toArray();
         // making type a URL, to a temporarily fake page
-        if ($data['type'] != 'about:blank') {
+        if ($data['type'] !== 'about:blank') {
             $data['type'] = 'http://localhost:8000/docs/errors#'.$data['type'];
         }
         $response = new JsonResponse(

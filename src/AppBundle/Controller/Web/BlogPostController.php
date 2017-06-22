@@ -1,15 +1,19 @@
 <?php
 
-namespace AppBundle\Controller\Web;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Web;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class BlogPostController
- * @package AppBundle\Controller
+ * Class BlogPostController.
  */
 class BlogPostController extends Controller
 {
@@ -29,7 +33,9 @@ class BlogPostController extends Controller
      * @Route("/blog/{postId}", name="blog_post_show")
      *
      * @param $postId
+     *
      * @return Response
+     *
      * @internal param string $genusName
      */
     public function showAction($postId)
@@ -43,9 +49,9 @@ class BlogPostController extends Controller
 
         return $this->render(
             'blog/show.html.twig',
-            array(
-                'blog' => $blogPost
-            )
+            [
+                'blog' => $blogPost,
+            ]
         );
     }
 }

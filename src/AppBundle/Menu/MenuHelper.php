@@ -1,25 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evis
- * Date: 6/7/17
- * Time: 10:45 AM
+
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
  */
 
 namespace AppBundle\Menu;
-
 
 use AppBundle\Entity\Menu;
 
 class MenuHelper
 {
     /**
-     * @var Menu[]|array $menuObjects
+     * @var Menu[]|array
      */
     private $menuObjects;
 
     /**
      * MenuHelper constructor.
+     *
      * @param Menu[] $menuObjects
      */
     public function __construct(array $menuObjects)
@@ -32,26 +32,25 @@ class MenuHelper
      */
     public function getMenuTree()
     {
-        $menuTree = array();
+        $menuTree = [];
         foreach ($this->menuObjects as $menuRecord) {
-
-            if ($menuRecord->getParentId() == 0) {
+            if ($menuRecord->getParentId() === 0) {
                 $menuTree[$menuRecord->getId()] = [
-                    "icon" => $menuRecord->getIcon(),
-                    "name" => $menuRecord->getName(),
-                    "link" => $menuRecord->getLink(),
-                    "hasChildren" => false,
-                    "childrens" => array(),
+                    'icon' => $menuRecord->getIcon(),
+                    'name' => $menuRecord->getName(),
+                    'link' => $menuRecord->getLink(),
+                    'hasChildren' => false,
+                    'childrens' => [],
                 ];
             } else {
-                $menuTree[$menuRecord->getParentId()]["hasChildren"] = true;
+                $menuTree[$menuRecord->getParentId()]['hasChildren'] = true;
                 array_push(
-                    $menuTree[$menuRecord->getParentId()]["childrens"],
+                    $menuTree[$menuRecord->getParentId()]['childrens'],
                     [
-                        "name" => $menuRecord->getName(),
-                        "link" => $menuRecord->getLink(),
-                        "icon" => $menuRecord->getIcon(),
-                        "header" =>$menuRecord->getNavHeader()
+                        'name' => $menuRecord->getName(),
+                        'link' => $menuRecord->getLink(),
+                        'icon' => $menuRecord->getIcon(),
+                        'header' => $menuRecord->getNavHeader(),
                     ]
                 );
             }

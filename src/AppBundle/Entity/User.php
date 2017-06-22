@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -40,7 +46,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string")
      */
-    private $defaultTwoFactorMethod = "email";
+    private $defaultTwoFactorMethod = 'email';
 
     /**
      * @ORM\Column(type="boolean")
@@ -53,13 +59,14 @@ class User implements UserInterface
     private $twoFactorCode;
 
     /**
-     * @var string $googleAuthenticatorCode Stores the secret code
+     * @var string Stores the secret code
      * @ORM\Column(type="string", length=500, nullable=true)
      */
     private $googleAuthenticatorCode = null;
 
     /**
      * A non-persisted field that's used to create the encoded Google Auth Code.
+     *
      * @var string
      */
     private $plainGoogleAuthenticatorCode;
@@ -68,6 +75,7 @@ class User implements UserInterface
      * A non-persisted field that's used to create the encoded password.
      *
      * @Assert\NotBlank(groups={"Registration"})
+     *
      * @var string
      */
     private $plainPassword;
@@ -89,7 +97,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
 
-        if (!in_array('ROLE_USER', $roles)) {
+        if (!in_array('ROLE_USER', $roles, true)) {
             $roles[] = 'ROLE_USER';
         }
 
@@ -103,7 +111,6 @@ class User implements UserInterface
     {
         $this->roles = $roles;
     }
-
 
     public function getPassword()
     {
@@ -181,7 +188,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function getTwoFactorAuthentication()
     {
@@ -189,7 +196,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param boolean $twoFactorAuthentication
+     * @param bool $twoFactorAuthentication
      */
     public function setTwoFactorAuthentication($twoFactorAuthentication)
     {
@@ -205,7 +212,7 @@ class User implements UserInterface
     }
 
     /**
-     * @param integer $twoFactorCode
+     * @param int $twoFactorCode
      */
     public function setTwoFactorCode($twoFactorCode)
     {
@@ -243,6 +250,4 @@ class User implements UserInterface
     {
         $this->plainGoogleAuthenticatorCode = $plainGoogleAuthenticatorCode;
     }
-
-
 }

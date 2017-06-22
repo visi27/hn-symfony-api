@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Annotation;
 
 /**
@@ -21,5 +27,5 @@ class Link
      */
     public $route;
 
-    public $params = array();
+    public $params = [];
 }

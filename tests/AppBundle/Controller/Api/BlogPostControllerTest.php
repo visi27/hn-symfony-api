@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace Tests\AppBundle\Controller\Api;
 
 use AppBundle\Test\ApiTestCase;
@@ -15,21 +21,21 @@ class BlogPostControllerTest extends ApiTestCase
 
     public function testPostBlogPost()
     {
-        $title = "Super Awsome Blog Post";
-        $category = $this->createCategory("Category".rand(1, 100));
-        $summary = "Lorem Ipsum Sit Amet";
-        $content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+        $title = 'Super Awsome Blog Post';
+        $category = $this->createCategory('Category'.rand(1, 100));
+        $summary = 'Lorem Ipsum Sit Amet';
+        $content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum';
         $isPublished = true;
         $publishedAt = (new \DateTime('-1 month'));
 
-        $data = array(
-            "title" => $title,
-            "category" => $category->getId(),
-            "summary" => $summary,
-            "content" => $content,
-            "isPublished" => $isPublished,
-            "publishedAt" => $publishedAt->format('Y-m-d'),
-        );
+        $data = [
+            'title' => $title,
+            'category' => $category->getId(),
+            'summary' => $summary,
+            'content' => $content,
+            'isPublished' => $isPublished,
+            'publishedAt' => $publishedAt->format('Y-m-d'),
+        ];
 
         $response = $this->client->post(
             '/api/blog',
@@ -39,28 +45,28 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals('application/json', $response->getHeader('Content-Type')[0]);
+        $this->assertSame('application/json', $response->getHeader('Content-Type')[0]);
 
-        $this->assertEquals(201, $response->getStatusCode());
+        $this->assertSame(201, $response->getStatusCode());
         $this->assertTrue($response->hasHeader('Location'));
         $finishedData = json_decode($response->getBody(), true);
-        $this->assertArrayHasKey("title", $finishedData);
-        $this->assertEquals("Super Awsome Blog Post", $finishedData["title"]);
-        $this->asserter()->assertResponsePropertyContains($response, "user", "filanfisteku");
+        $this->assertArrayHasKey('title', $finishedData);
+        $this->assertSame('Super Awsome Blog Post', $finishedData['title']);
+        $this->asserter()->assertResponsePropertyContains($response, 'user', 'filanfisteku');
     }
 
     public function testGETBlogPost()
     {
-        $category = "Category ".rand(1, 100);
+        $category = 'Category '.rand(1, 100);
         $createdBlogPost = $this->createBlogPost(
-            array(
-                "title" => "Super Awsome Blog Post",
-                "category" => $category,
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-1 month')),
-            )
+            [
+                'title' => 'Super Awsome Blog Post',
+                'category' => $category,
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-1 month')),
+            ]
         );
 
         $response = $this->client->get('/api/blog/'.$createdBlogPost->getId(), [
@@ -68,21 +74,21 @@ class BlogPostControllerTest extends ApiTestCase
         ]);
         //$data = $response->json();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
 
         $this->asserter()->assertResponsePropertiesExist(
             $response,
-            array(
-                "title",
-                "category",
-                "summary",
-                "content",
-                "isPublished",
-                "publishedAt",
-            )
+            [
+                'title',
+                'category',
+                'summary',
+                'content',
+                'isPublished',
+                'publishedAt',
+            ]
         );
 
-        $this->asserter()->assertResponsePropertyEquals($response, "_embedded.category.name", $category);
+        $this->asserter()->assertResponsePropertyEquals($response, '_embedded.category.name', $category);
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Super Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'isPublished', $createdBlogPost->getisPublished());
         $this->asserter()->assertResponsePropertyEquals(
@@ -95,52 +101,52 @@ class BlogPostControllerTest extends ApiTestCase
     public function testGETBlogPostDeep()
     {
         $createdGenus = $this->createBlogPost(
-            array(
-                "title" => "Super Awsome Blog Post",
-                "category" => "Category ".rand(1, 100),
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-1 month')),
-            )
+            [
+                'title' => 'Super Awsome Blog Post',
+                'category' => 'Category '.rand(1, 100),
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-1 month')),
+            ]
         );
 
-        $response = $this->client->get('/api/blog/'.$createdGenus->getId().'?deep=1',[
+        $response = $this->client->get('/api/blog/'.$createdGenus->getId().'?deep=1', [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         //$data = $response->json();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertiesExist(
             $response,
-            array(
+            [
                 'category.name',
-            )
+            ]
         );
     }
 
     public function testGETBlogPostCollection()
     {
         $this->createBlogPost(
-            array(
-                "title" => "Super Awsome Blog Post",
-                "category" => "Awsome Category",
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-1 month')),
-            )
+            [
+                'title' => 'Super Awsome Blog Post',
+                'category' => 'Awsome Category',
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-1 month')),
+            ]
         );
 
         $this->createBlogPost(
-            array(
-                "title" => "Ultra Awsome Blog Post",
-                "category" => "Ultra Awsome Category",
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-2 month')),
-            )
+            [
+                'title' => 'Ultra Awsome Blog Post',
+                'category' => 'Ultra Awsome Category',
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-2 month')),
+            ]
         );
 
         $response = $this->client->get('/api/blog', [
@@ -148,38 +154,37 @@ class BlogPostControllerTest extends ApiTestCase
         ]);
         //$data = $response->json();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyExists($response, 'items');
         $this->asserter()->assertResponsePropertyIsArray($response, 'items');
 
         $this->asserter()->assertResponsePropertyEquals($response, 'items[0].title', 'Super Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'items[1].title', 'Ultra Awsome Blog Post');
-
     }
 
     public function testGETBlogPostaCollectionPaginated()
     {
         $this->createBlogPost(
-            array(
-                "title" => "WILLNOTMATCH",
-                "category" => "Awsome Category 999",
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-12 month')),
-            )
+            [
+                'title' => 'WILLNOTMATCH',
+                'category' => 'Awsome Category 999',
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-12 month')),
+            ]
         );
 
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 25; ++$i) {
             $this->createBlogPost(
-                array(
-                    "title" => "Super Awsome Blog Post ".$i,
-                    "category" => "Awsome Cateogory".rand(1, 100),
-                    "summary" => "Lorem Ipsum Sit Amet",
-                    "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                    "isPublished" => true,
-                    "publishedAt" => (new \DateTime('-'.rand(1,24).' month')),
-                )
+                [
+                    'title' => 'Super Awsome Blog Post '.$i,
+                    'category' => 'Awsome Cateogory'.rand(1, 100),
+                    'summary' => 'Lorem Ipsum Sit Amet',
+                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                    'isPublished' => true,
+                    'publishedAt' => (new \DateTime('-'.rand(1, 24).' month')),
+                ]
             );
         }
 
@@ -187,7 +192,7 @@ class BlogPostControllerTest extends ApiTestCase
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyExists($response, 'items');
         $this->asserter()->assertResponsePropertyIsArray($response, 'items');
         $this->asserter()->assertResponsePropertyEquals(
@@ -205,7 +210,7 @@ class BlogPostControllerTest extends ApiTestCase
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals(
             $response,
             'items[5].title',
@@ -218,7 +223,7 @@ class BlogPostControllerTest extends ApiTestCase
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals(
             $response,
             'items[4].title',
@@ -231,23 +236,23 @@ class BlogPostControllerTest extends ApiTestCase
     public function testPUTBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
-            array(
-                "title" => "Super Awsome Blog Post",
-                "category" => "Awsome Category",
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-1 month')),
-            )
+            [
+                'title' => 'Super Awsome Blog Post',
+                'category' => 'Awsome Category',
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-1 month')),
+            ]
         );
 
-        $createdBlogPost->setTitle("Ultra Awsome Blog Post");
+        $createdBlogPost->setTitle('Ultra Awsome Blog Post');
 
         $context = new SerializationContext();
         $context->setSerializeNull(true);
 
         //Serialize only Default group, otherwise form validation will fail for category
-        $groups = array('Default');
+        $groups = ['Default'];
         $context->setGroups($groups);
 
         $data = $this->getService('jms_serializer')->serialize($createdBlogPost, 'json', $context);
@@ -258,7 +263,7 @@ class BlogPostControllerTest extends ApiTestCase
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
             ]
         );
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Ultra Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
     }
@@ -266,19 +271,19 @@ class BlogPostControllerTest extends ApiTestCase
     public function testPATCHBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
-            array(
-                "title" => "Super Awsome Blog Post",
-                "category" => "Awsome Category",
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-1 month')),
-            )
+            [
+                'title' => 'Super Awsome Blog Post',
+                'category' => 'Awsome Category',
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-1 month')),
+            ]
         );
 
-        $data = array(
-            "title" => "Ultra Awsome Blog Post",
-        );
+        $data = [
+            'title' => 'Ultra Awsome Blog Post',
+        ];
 
         $response = $this->client->patch(
             '/api/blog/'.$createdBlogPost->getId(),
@@ -288,7 +293,7 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Ultra Awsome Blog Post');
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
     }
@@ -296,38 +301,37 @@ class BlogPostControllerTest extends ApiTestCase
     public function testDELETEBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
-            array(
-                "title" => "Super Awsome Blog Post",
-                "category" => "Awsome Category",
-                "summary" => "Lorem Ipsum Sit Amet",
-                "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                "isPublished" => true,
-                "publishedAt" => (new \DateTime('-1 month')),
-            )
+            [
+                'title' => 'Super Awsome Blog Post',
+                'category' => 'Awsome Category',
+                'summary' => 'Lorem Ipsum Sit Amet',
+                'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                'isPublished' => true,
+                'publishedAt' => (new \DateTime('-1 month')),
+            ]
         );
 
         $response = $this->client->delete('/api/blog/'.$createdBlogPost->getId(), [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
-        $this->assertEquals(204, $response->getStatusCode());
+        $this->assertSame(204, $response->getStatusCode());
     }
 
     public function testValidations()
     {
-
-        $category = "Awsome Category ".rand(1, 100);
-        $summary = "Lorem Ipsum Sit Amet";
-        $content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+        $category = 'Awsome Category '.rand(1, 100);
+        $summary = 'Lorem Ipsum Sit Amet';
+        $content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum';
         $isPublished = true;
         $publishedAt = (new \DateTime('-1 month'));
 
-        $data = array(
-            "category" => $category,
-            "summary" => $summary,
-            "content" => $content,
-            "isPublished" => $isPublished,
-            "publishedAt" => $publishedAt->format('Y-m-d H:i:s'),
-        );
+        $data = [
+            'category' => $category,
+            'summary' => $summary,
+            'content' => $content,
+            'isPublished' => $isPublished,
+            'publishedAt' => $publishedAt->format('Y-m-d H:i:s'),
+        ];
 
         $response = $this->client->post(
             '/api/blog',
@@ -337,15 +341,15 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals('application/problem+json', $response->getHeader('Content-Type')[0]);
-        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertSame('application/problem+json', $response->getHeader('Content-Type')[0]);
+        $this->assertSame(400, $response->getStatusCode());
         $this->asserter()->assertResponsePropertiesExist(
             $response,
-            array(
+            [
                 'type',
                 'title',
                 'errors',
-            )
+            ]
         );
         $this->asserter()->assertResponsePropertyExists($response, 'errors.title');
         $this->asserter()->assertResponsePropertyEquals($response, 'errors.title[0]', 'Please enter a valid title');
@@ -375,7 +379,7 @@ EOF;
             ]
         );
 
-        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertSame(400, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyContains($response, 'type', 'invalid_body_format');
     }
 
@@ -384,8 +388,8 @@ EOF;
         $response = $this->client->get('/api/blog/97108', [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('application/problem+json', $response->getHeader('Content-Type')[0]);
+        $this->assertSame(404, $response->getStatusCode());
+        $this->assertSame('application/problem+json', $response->getHeader('Content-Type')[0]);
         $this->asserter()->assertResponsePropertyEquals($response, 'type', 'about:blank');
         $this->asserter()->assertResponsePropertyEquals($response, 'title', 'Not Found');
         $this->asserter()->assertResponsePropertyEquals($response, 'detail', 'No blog post found with id "97108"!!');
@@ -393,15 +397,15 @@ EOF;
 
     public function testRequiresAuthentication()
     {
-        $subFamily = $this->createCategory("Awsome Category");
-        $data = array(
-            "title" => "Super Awsome Blog Post",
-            "category" => $subFamily->getId(),
-            "summary" => "Lorem Ipsum",
-            "content" => "Lorem Ipsum",
-            "isPublished" => 1,
-            "publishedAt" => "2017-04-08 10:29:44"
-        );
+        $subFamily = $this->createCategory('Awsome Category');
+        $data = [
+            'title' => 'Super Awsome Blog Post',
+            'category' => $subFamily->getId(),
+            'summary' => 'Lorem Ipsum',
+            'content' => 'Lorem Ipsum',
+            'isPublished' => 1,
+            'publishedAt' => '2017-04-08 10:29:44',
+        ];
         $response = $this->client->post(
             '/api/blog',
             [
@@ -409,6 +413,6 @@ EOF;
             ]
         );
 
-        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertSame(401, $response->getStatusCode());
     }
 }

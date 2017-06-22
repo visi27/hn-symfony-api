@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Test;
 
 use AppBundle\Entity\BlogPost;
@@ -25,7 +31,7 @@ class ApiTestCase extends KernelTestCase
     /**
      * @var array
      */
-    private static $history = array();
+    private static $history = [];
 
     /**
      * @var Client
@@ -54,9 +60,9 @@ class ApiTestCase extends KernelTestCase
         $handler = HandlerStack::create();
 
         $handler->push(Middleware::history(self::$history));
-        $handler->push(Middleware::mapRequest(function(RequestInterface $request) {
+        $handler->push(Middleware::mapRequest(function (RequestInterface $request) {
             $path = $request->getUri()->getPath();
-            if (strpos($path, '/app_test.php') !== 0) {
+            if (mb_strpos($path, '/app_test.php') !== 0) {
                 $path = '/app_test.php'.$path;
             }
             $uri = $request->getUri()->withPath($path);
@@ -71,7 +77,7 @@ class ApiTestCase extends KernelTestCase
         self::$staticClient = new Client([
             'base_uri' => $baseUrl,
             'http_errors' => false,
-            'handler' => $handler
+            'handler' => $handler,
         ]);
 
         self::bootKernel();
@@ -81,7 +87,7 @@ class ApiTestCase extends KernelTestCase
     {
         $this->client = self::$staticClient;
         // reset the history
-        self::$history = array();
+        self::$history = [];
 
         $this->purgeDatabase();
     }
@@ -117,6 +123,7 @@ class ApiTestCase extends KernelTestCase
 
     /**
      * @param string $id
+     *
      * @return object
      */
     protected function getService($id)
@@ -141,11 +148,11 @@ class ApiTestCase extends KernelTestCase
         foreach ($response->getHeaders() as $name => $values) {
             $this->printDebug(sprintf('%s: %s', $name, implode(', ', $values)));
         }
-        $body = (string)$response->getBody();
+        $body = (string) $response->getBody();
 
         $contentType = $response->getHeader('Content-Type');
         $contentType = $contentType[0];
-        if ($contentType == 'application/json' || strpos($contentType, '+json') !== false) {
+        if ($contentType === 'application/json' || mb_strpos($contentType, '+json') !== false) {
             $data = json_decode($body);
             if ($data === null) {
                 // invalid JSON!
@@ -156,7 +163,7 @@ class ApiTestCase extends KernelTestCase
             }
         } else {
             // the response is HTML - see if we should print all of it or some of it
-            $isValidHtml = strpos($body, '</body>') !== false;
+            $isValidHtml = mb_strpos($body, '</body>') !== false;
 
             if ($isValidHtml) {
                 $this->printDebug('');
@@ -164,7 +171,7 @@ class ApiTestCase extends KernelTestCase
 
                 // very specific to Symfony's error page
                 $isError = $crawler->filter('#traces-0')->count() > 0
-                    || strpos($body, 'looks like something went wrong') !== false;
+                    || mb_strpos($body, 'looks like something went wrong') !== false;
                 if ($isError) {
                     $this->printDebug('There was an Error!!!!');
                     $this->printDebug('');
@@ -173,12 +180,12 @@ class ApiTestCase extends KernelTestCase
                 }
 
                 // finds the h1 and h2 tags and prints them only
-                foreach ($crawler->filter('h1, h2')->extract(array('_text')) as $header) {
+                foreach ($crawler->filter('h1, h2')->extract(['_text']) as $header) {
                     // avoid these meaningless headers
-                    if (strpos($header, 'Stack Trace') !== false) {
+                    if (mb_strpos($header, 'Stack Trace') !== false) {
                         continue;
                     }
-                    if (strpos($header, 'Logs') !== false) {
+                    if (mb_strpos($header, 'Logs') !== false) {
                         continue;
                     }
 
@@ -213,7 +220,7 @@ class ApiTestCase extends KernelTestCase
     }
 
     /**
-     * Print a message out - useful for debugging
+     * Print a message out - useful for debugging.
      *
      * @param $string
      */
@@ -227,7 +234,7 @@ class ApiTestCase extends KernelTestCase
     }
 
     /**
-     * Print a debugging message out in a big red block
+     * Print a debugging message out in a big red block.
      *
      * @param string $string
      */
@@ -273,11 +280,10 @@ class ApiTestCase extends KernelTestCase
         return $last['response'];
     }
 
-
-    protected function getAuthorizedHeaders($username, $headers = array())
+    protected function getAuthorizedHeaders($username, $headers = [])
     {
         $token = $this->getService('lexik_jwt_authentication.encoder')
-            ->encode(['username' => $username."@foo.com"]);
+            ->encode(['username' => $username.'@foo.com']);
 
         $headers['Authorization'] = 'Bearer '.$token;
 
@@ -300,7 +306,6 @@ class ApiTestCase extends KernelTestCase
         $this->createdUser = $user;
 
         return $user;
-
     }
 
     protected function createBlogPost(array $data)
@@ -308,7 +313,7 @@ class ApiTestCase extends KernelTestCase
         $accessor = PropertyAccess::createPropertyAccessor();
 
         $category = new Category();
-        $category->setName($data["category"]);
+        $category->setName($data['category']);
 
         $blogPost = new BlogPost();
         foreach ($data as $key => $value) {
@@ -326,9 +331,9 @@ class ApiTestCase extends KernelTestCase
     }
 
     /**
-     * Used to create multiple blog posts in a single category
+     * Used to create multiple blog posts in a single category.
      *
-     * @param array $data
+     * @param array    $data
      * @param Category $category
      */
     protected function createBlogPostSingleCategory(array $data, Category $category)
@@ -380,16 +385,16 @@ class ApiTestCase extends KernelTestCase
     }
 
     /**
-     * Call this when you want to compare URLs in a test
+     * Call this when you want to compare URLs in a test.
      *
      * (since the returned URL's will have /app_test.php in front)
      *
      * @param string $uri
+     *
      * @return string
      */
     protected function adjustUri($uri)
     {
         return '/app_test.php'.$uri;
     }
-
 }

@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Doctrine;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Doctrine;
 
 use AppBundle\Entity\User;
 use AppBundle\Security\Encryption\EncryptionService;
@@ -17,11 +22,11 @@ class GoogleAuthKeyListener implements EventSubscriber
 
     /**
      * GoogleAuthKeyListener constructor.
+     *
      * @param EncryptionService $encryptionService
      */
     public function __construct(EncryptionService $encryptionService)
     {
-
         $this->encryptionService = $encryptionService;
     }
 
@@ -57,7 +62,8 @@ class GoogleAuthKeyListener implements EventSubscriber
         $em->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $entity);
     }
 
-    public function postLoad(LifecycleEventArgs $args) {
+    public function postLoad(LifecycleEventArgs $args)
+    {
         $entity = $args->getEntity();
 
         if (!$entity instanceof User) {

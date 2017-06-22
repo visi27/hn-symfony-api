@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\BlogPost;
@@ -11,18 +17,18 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class BlogPostController
- * @package AppBundle\Controller\Api
+ * Class BlogPostController.
+ *
  * @Security("is_granted('ROLE_USER')")
  */
 class BlogPostController extends BaseController
 {
-
     /**
      * @Route("/api/blog", name="api_create_blog_post")
      * @Method("POST")
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function newAction(Request $request)
@@ -37,11 +43,11 @@ class BlogPostController extends BaseController
             return $this->throwApiProblemValidationException($form);
         }
 
-        $category = $em->getRepository("AppBundle:Category")->findOneBy(['id' => $data["category"]]);
+        $category = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $data['category']]);
 
         if (!$category) {
             $category = new Category();
-            $category->setName($data["category"]);
+            $category->setName($data['category']);
 
             $em->persist($category);
         }
@@ -55,7 +61,7 @@ class BlogPostController extends BaseController
         $response = $this->createApiResponse($blogPost, 201);
 
         $blogPostUrl = $this->generateUrl(
-            "api_show_blog_post",
+            'api_show_blog_post',
             ['id' => $blogPost->getId()]
         );
 
@@ -68,13 +74,14 @@ class BlogPostController extends BaseController
      * @Route("/api/blog/{id}", name = "api_show_blog_post")
      * @Method("GET")
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return Response
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $blogPost = $em->getRepository("AppBundle:BlogPost")->findOneBy(['id' => $id]);
+        $blogPost = $em->getRepository('AppBundle:BlogPost')->findOneBy(['id' => $id]);
 
         if (!$blogPost) {
             throw $this->createNotFoundException(
@@ -94,6 +101,7 @@ class BlogPostController extends BaseController
      * @Method("GET")
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function listAction(Request $request)
@@ -117,14 +125,14 @@ class BlogPostController extends BaseController
      * @Method({"PUT", "PATCH"})
      *
      * @param Request $request
-     * @param integer $id
+     * @param int     $id
      *
      * @return Response
      */
     public function updateAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $blogPost = $em->getRepository("AppBundle:BlogPost")->findOneBy(['id' => $id]);
+        $blogPost = $em->getRepository('AppBundle:BlogPost')->findOneBy(['id' => $id]);
 
         if (!$blogPost) {
             throw $this->createNotFoundException(
@@ -139,7 +147,7 @@ class BlogPostController extends BaseController
         $this->processForm($request, $form);
 
         if (!$form->isValid()) {
-            $this->get("logger")->error($form->getErrors());
+            $this->get('logger')->error($form->getErrors());
 
             return $this->throwApiProblemValidationException($form);
         }
@@ -153,21 +161,23 @@ class BlogPostController extends BaseController
      * @Route("/api/blog/{id}", name="api_delete_blog_post")
      * @Method("DELETE")
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return Response
+     *
      * @internal param Request $request
      */
     public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $blogPost = $em->getRepository("AppBundle:BlogPost")->findOneBy(['id' => $id]);
+        $blogPost = $em->getRepository('AppBundle:BlogPost')->findOneBy(['id' => $id]);
         if ($blogPost) {
             $em->remove($blogPost);
             $em->flush();
         }
 
-        $response = $this->createApiResponse("OK", 204);
+        $response = $this->createApiResponse('OK', 204);
 
         return $response;
     }

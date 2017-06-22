@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Serializer;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Serializer;
 
 use AppBundle\Annotation\Link;
 use Doctrine\Common\Annotations\Reader;
@@ -26,8 +31,9 @@ class LinkSerializationSubscriber implements EventSubscriberInterface
 
     /**
      * LinkSerializationSubscriber constructor.
+     *
      * @param RouterInterface $router
-     * @param Reader $annotationReader
+     * @param Reader          $annotationReader
      */
     public function __construct(RouterInterface $router, Reader $annotationReader)
     {
@@ -38,13 +44,13 @@ class LinkSerializationSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
-            array(
+        return [
+            [
                 'event' => 'serializer.post_serialize',
                 'method' => 'onPostSerialize',
                 'format' => 'json',
-            ),
-        );
+            ],
+        ];
     }
 
     public function onPostSerialize(ObjectEvent $event)
@@ -56,7 +62,7 @@ class LinkSerializationSubscriber implements EventSubscriberInterface
         $annotations = $this->annotationReader
             ->getClassAnnotations(new \ReflectionObject($object));
 
-        $links = array();
+        $links = [];
 
         foreach ($annotations as $annotation) {
             if ($annotation instanceof Link) {
@@ -77,7 +83,7 @@ class LinkSerializationSubscriber implements EventSubscriberInterface
     {
         foreach ($params as $key => $param) {
             $params[$key] = $this->expressionLanguage
-                ->evaluate($param, array('object' => $object));
+                ->evaluate($param, ['object' => $object]);
         }
 
         return $params;

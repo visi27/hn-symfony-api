@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Doctrine;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Doctrine;
 
 use AppBundle\Entity\User;
 use Doctrine\Common\EventSubscriber;
@@ -67,5 +72,4 @@ class HashPasswordListener implements EventSubscriber
         );
         $entity->setPassword($encoded);
     }
-
 }

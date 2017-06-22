@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Security;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Security;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ResponseFactory;
@@ -60,7 +65,7 @@ class JwtTokenAuthenticator extends AbstractGuardAuthenticator
         $token = $extractor->extract($request);
 
         if (!$token) {
-            /** @noinspection PhpInconsistentReturnPointsInspection */
+            /* @noinspection PhpInconsistentReturnPointsInspection */
             return;
         }
 

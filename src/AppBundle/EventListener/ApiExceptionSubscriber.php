@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\EventListener;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\EventListener;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ApiProblemException;
@@ -33,15 +38,15 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             KernelEvents::EXCEPTION => 'onKernelException',
-        );
+        ];
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         // only reply to /api URLs
-        if (strpos($event->getRequest()->getPathInfo(), '/api') !== 0) {
+        if (mb_strpos($event->getRequest()->getPathInfo(), '/api') !== 0) {
             return;
         }
 
@@ -50,7 +55,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         $this->logger->debug($e->getTraceAsString());
 
         $statusCode = $e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500;
-        if ($statusCode == 500 && $this->debug) {
+        if ($statusCode === 500 && $this->debug) {
             return;
         }
 

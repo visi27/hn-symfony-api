@@ -1,13 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evis
- * Date: 5/9/17
- * Time: 3:20 PM
+
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
  */
 
 namespace Tests\AppBundle\Controller\Api;
-
 
 use AppBundle\Test\ApiTestCase;
 
@@ -19,20 +18,20 @@ class CategoryControllerTest extends ApiTestCase
         $this->createUser('filanfisteku', 'I<3Pizza');
     }
 
-    public function testGETBlogPostsByCategory(){
+    public function testGETBlogPostsByCategory()
+    {
+        $category = $this->createCategory('Awsome Category');
 
-        $category = $this->createCategory("Awsome Category");
-
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 25; ++$i) {
             $this->createBlogPostSingleCategory(
-                array(
-                    "title" => "Awsome Blog Post ".$i,
+                [
+                    'title' => 'Awsome Blog Post '.$i,
                     //"category" => "Awsome Category ".rand(1, 100),
-                    "summary" => "Lorem Ipsum Sit Amet",
-                    "content" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                    "isPublished" => true,
-                    "publishedAt" => (new \DateTime('-1 month')),
-                ), $category
+                    'summary' => 'Lorem Ipsum Sit Amet',
+                    'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                    'isPublished' => true,
+                    'publishedAt' => (new \DateTime('-1 month')),
+                ], $category
             );
         }
 
@@ -40,16 +39,16 @@ class CategoryControllerTest extends ApiTestCase
         $response = $this->client->get('/api/category/'.$category->getId(), [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->asserter()->assertResponsePropertyExists($response, "_links.blogposts");
+        $this->assertSame(200, $response->getStatusCode());
+        $this->asserter()->assertResponsePropertyExists($response, '_links.blogposts');
 
         //Get the link for the endpoint which lists a given categories blog posts
-        $blogPostsLink = $this->asserter()->readResponseProperty($response, "_links.blogposts");
+        $blogPostsLink = $this->asserter()->readResponseProperty($response, '_links.blogposts');
         $response = $this->client->get($blogPostsLink, [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
         $this->asserter()->assertResponsePropertyExists($response, 'items');
     }
 }

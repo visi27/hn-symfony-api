@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Test;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Test;
 
 use AppBundle\Entity\Category;
 use AppBundle\Entity\User;
@@ -17,7 +22,7 @@ class DoctrineDependableTestCase extends KernelTestCase
     protected $createdUser;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -37,7 +42,7 @@ class DoctrineDependableTestCase extends KernelTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function tearDown()
     {
@@ -72,6 +77,5 @@ class DoctrineDependableTestCase extends KernelTestCase
         $this->createdUser = $user;
 
         return $user;
-
     }
 }

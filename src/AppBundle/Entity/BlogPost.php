@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Entity;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -137,7 +142,7 @@ class BlogPost
     }
 
     /**
-     * Used only in serialisaztion
+     * Used only in serialisaztion.
      *
      * @Serializer\VirtualProperty()
      * @Serializer\SerializedName("category")
@@ -228,7 +233,7 @@ class BlogPost
     }
 
     /**
-     * Used only in serialisaztion
+     * Used only in serialisaztion.
      *
      * @Serializer\VirtualProperty()
      * @Serializer\SerializedName("user")
@@ -240,7 +245,6 @@ class BlogPost
 
     public function __toString()
     {
-        return $this->title." | ".$this->id;
+        return $this->title.' | '.$this->id;
     }
-
 }

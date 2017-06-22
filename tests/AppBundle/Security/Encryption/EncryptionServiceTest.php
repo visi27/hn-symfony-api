@@ -1,27 +1,33 @@
 <?php
 
-namespace Tests\AppBundle\Security\Encryption;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace Tests\AppBundle\Security\Encryption;
 
 use AppBundle\Security\Encryption\EncryptionService;
 use AppBundle\Test\ContainerDependableTestCase;
 
 class EncryptionServiceTest extends ContainerDependableTestCase
 {
-    public function testEncryptDecrypt(){
+    public function testEncryptDecrypt()
+    {
         /**
-         * @var EncryptionService $encryptionService
+         * @var EncryptionService
          */
         $encryptionService = $this->get('app.security.encryption_service');
-        $toEncrypt = "TESTING ENCRYPTION";
+        $toEncrypt = 'TESTING ENCRYPTION';
         $encrypted = $encryptionService->encrypt($toEncrypt);
         $decrypted = $encryptionService->decrypt($encrypted);
 
-        $this->assertEquals($toEncrypt, $decrypted);
+        $this->assertSame($toEncrypt, $decrypted);
         $this->assertNotEmpty($encrypted);
         $this->assertNotEmpty($decrypted);
 
-        $encrypted = "CHANGED VALUE";
+        $encrypted = 'CHANGED VALUE';
         $decrypted = $encryptionService->decrypt($encrypted);
         $this->assertEmpty($decrypted);
     }

@@ -1,15 +1,19 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Category;
 use AppBundle\Repository\CategoryRepository;
-
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,7 +27,7 @@ class BlogPostFormType extends AbstractType
                 'category',
                 EntityType::class,
                 [
-                    'query_builder' => function(CategoryRepository $repository) {
+                    'query_builder' => function (CategoryRepository $repository) {
                         return $repository->createAlphabeticalQueryBuilder();
                     },
                     'class' => Category::class,
@@ -66,7 +70,6 @@ class BlogPostFormType extends AbstractType
                 'allow_extra_fields' => true,
             ]
         );
-
     }
 
     public function getBlockPrefix()

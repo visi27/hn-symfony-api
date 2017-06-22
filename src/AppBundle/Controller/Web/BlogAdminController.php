@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Controller\Web;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Web;
 
 use AppBundle\Entity\BlogPost;
 use AppBundle\Form\BlogPostFormType;
@@ -13,8 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class BlogAdminController
- * @package AppBundle\Controller
+ * Class BlogAdminController.
  *
  * @Security("is_granted('ROLE_ADMIN')")
  */
@@ -25,7 +29,6 @@ class BlogAdminController extends Controller
      */
     public function adminAction()
     {
-
     }
 
     /**
@@ -47,6 +50,7 @@ class BlogAdminController extends Controller
      * @Route("/admin/blog/new", name="admin_blog_new")
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function newAction(Request $request)
@@ -56,7 +60,7 @@ class BlogAdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /**
-             * @var BlogPost $blogPost
+             * @var BlogPost
              */
             $blogPost = $form->getData();
 
@@ -82,10 +86,10 @@ class BlogAdminController extends Controller
     /**
      * @Route("/admin/blog/{id}/edit", name="admin_blog_post_edit")
      *
-     * @param Request $request
+     * @param Request  $request
      * @param BlogPost $blogPost
-     * @return Response
      *
+     * @return Response
      */
     public function editAction(Request $request, BlogPost $blogPost)
     {
@@ -115,7 +119,9 @@ class BlogAdminController extends Controller
     /**
      * @Route("/admin/blog/{id}/delete", name="admin_blog_post_delete")
      * @Method("POST")
+     *
      * @param BlogPost $blogPost
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(BlogPost $blogPost)
@@ -124,7 +130,7 @@ class BlogAdminController extends Controller
         $em->remove($blogPost);
         $em->flush();
         $this->addFlash('success', 'The blog post was deleted');
+
         return $this->redirectToRoute('admin_blog_list');
     }
-
 }

@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Pagination;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Pagination;
 
 use Doctrine\ORM\QueryBuilder;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -18,7 +23,7 @@ class PaginationFactory
         $this->router = $router;
     }
 
-    public function createCollection(QueryBuilder $qb, Request $request, $route, array $routeParams = array())
+    public function createCollection(QueryBuilder $qb, Request $request, $route, array $routeParams = [])
     {
         $page = $request->query->get('page', 1);
         $adapter = new DoctrineORMAdapter($qb);
@@ -38,12 +43,12 @@ class PaginationFactory
         //actual request params with route params
         $routeParams = array_merge($routeParams, $request->query->all());
 
-        $createLinkUrl = function($targetPage) use ($route, $routeParams) {
+        $createLinkUrl = function ($targetPage) use ($route, $routeParams) {
             return $this->router->generate(
                 $route,
                 array_merge(
                     $routeParams,
-                    array('page' => $targetPage)
+                    ['page' => $targetPage]
                 )
             );
         };

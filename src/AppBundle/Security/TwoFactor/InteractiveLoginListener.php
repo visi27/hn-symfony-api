@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Security\TwoFactor;
 
 use AppBundle\Entity\User;
@@ -11,7 +17,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 class InteractiveLoginListener
 {
     /**
-     * @var HelperInterface $helper
+     * @var HelperInterface
      */
     private $helper;
     /**
@@ -20,8 +26,10 @@ class InteractiveLoginListener
     private $helperFactory;
 
     /**
-     * Construct a listener, which is handling successful authentication
+     * Construct a listener, which is handling successful authentication.
+     *
      * @param HelperFactory $helperFactory
+     *
      * @internal param HelperInterface $helper
      */
     public function __construct(HelperFactory $helperFactory)
@@ -30,7 +38,8 @@ class InteractiveLoginListener
     }
 
     /**
-     * Listen for successful login events
+     * Listen for successful login events.
+     *
      * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -60,6 +69,5 @@ class InteractiveLoginListener
         if ($this->helper instanceof Helper) {
             $this->helper->generateAndSend($user);
         }
-
     }
 }

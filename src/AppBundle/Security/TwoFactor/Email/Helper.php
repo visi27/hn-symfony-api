@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Security\TwoFactor\Email;
 
 use AppBundle\Entity\User;
@@ -11,19 +17,20 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Helper implements HelperInterface
 {
     /**
-     * @var \Doctrine\ORM\EntityManager $em
+     * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
     /**
-     * @var object $mailer
+     * @var object
      */
     private $mailer;
 
     /**
-     * Construct the helper service for mail authenticator
+     * Construct the helper service for mail authenticator.
+     *
      * @param \Doctrine\ORM\EntityManager $em
-     * @param object $mailer
+     * @param object                      $mailer
      */
     public function __construct(EntityManager $em, $mailer)
     {
@@ -32,7 +39,8 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Generate a new authentication code an send it to the user
+     * Generate a new authentication code an send it to the user.
+     *
      * @param \AppBundle\Entity\User $user
      */
     public function generateAndSend(User $user)
@@ -45,7 +53,8 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Send email with code to user
+     * Send email with code to user.
+     *
      * @param \AppBundle\Entity\User $user
      */
     private function sendCode(User $user)
@@ -53,18 +62,21 @@ class Helper implements HelperInterface
         $message = new \Swift_Message();
         $message
             ->setTo($user->getEmail())
-            ->setSubject("Acme Authentication Code")
-            ->setFrom("security@acme.com")
+            ->setSubject('Acme Authentication Code')
+            ->setFrom('security@acme.com')
             ->setBody($user->getTwoFactorCode())
         ;
         $this->mailer->send($message);
     }
 
     /**
-     * Validates the code, which was entered by the user
+     * Validates the code, which was entered by the user.
+     *
      * @param $authCode
      * @param $code
+     *
      * @return bool
+     *
      * @internal param User|UserInterface $user
      */
     public function checkCode($authCode, $code)
@@ -73,8 +85,10 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Generates the attribute key for the session
+     * Generates the attribute key for the session.
+     *
      * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token
+     *
      * @return string
      */
     public function getSessionKey(TokenInterface $token)
@@ -84,7 +98,8 @@ class Helper implements HelperInterface
 
     /**
      * @param User|UserInterface $user
-     * @return boolean
+     *
+     * @return bool
      */
     public function is2faActive(UserInterface $user)
     {

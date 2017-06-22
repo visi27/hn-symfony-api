@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Category;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,13 +20,14 @@ class CategoryController extends BaseController
      * @Route("/api/category/{id}", name = "api_show_category")
      * @Method("GET")
      *
-     * @param integer $id
+     * @param int $id
+     *
      * @return Response
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $category = $em->getRepository("AppBundle:Category")->findOneBy(['id' => $id]);
+        $category = $em->getRepository('AppBundle:Category')->findOneBy(['id' => $id]);
 
         if (!$category) {
             throw $this->createNotFoundException(
@@ -41,6 +47,7 @@ class CategoryController extends BaseController
      * @Method("GET")
      *
      * @param Request $request
+     *
      * @return Response
      */
     public function listAction(Request $request)
@@ -62,20 +69,22 @@ class CategoryController extends BaseController
     /**
      * @Route("/api/category/{id}/blog", name="api_list_blog_posts_by_category")
      * @Method("GET")
+     *
      * @param Category $category
-     * @param Request $request
+     * @param Request  $request
+     *
      * @return Response
+     *
      * @internal param $id
      */
     public function listGenusesAction(Category $category, Request $request)
     {
-
         $qb = $this->getDoctrine()
             ->getRepository('AppBundle:BlogPost')
             ->findAllByCategoryQueryBuilder($category);
 
         $paginatedCollection = $this->get('pagination_factory')
-            ->createCollection($qb, $request, 'api_list_blog_posts_by_category', ["id" => $category]);
+            ->createCollection($qb, $request, 'api_list_blog_posts_by_category', ['id' => $category]);
 
         $response = $this->createApiResponse($paginatedCollection, 200);
 

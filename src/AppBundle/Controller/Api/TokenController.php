@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,7 +19,9 @@ class TokenController extends BaseController
     /**
      * @Route("/api/tokens", name="api_token_new")
      * @Method("POST")
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function newTokenAction(Request $request)
@@ -37,7 +44,7 @@ class TokenController extends BaseController
             ->encode(
                 [
                     'username' => $user->getUsername(),
-                    'exp' => time() + 3600 // 1 hour expiration
+                    'exp' => time() + 3600, // 1 hour expiration
                 ]
             );
 

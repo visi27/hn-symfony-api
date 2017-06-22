@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\DataFixtures\ORM;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -31,7 +36,7 @@ class LoadFixtures implements FixtureInterface
             'Sport',
             'Q&A',
             'FAQ',
-            'Technology'
+            'Technology',
         ];
 
         $key = array_rand($category);

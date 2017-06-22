@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Serializer;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Serializer;
 
 use Hateoas\Serializer\JsonHalSerializer;
 use JMS\Serializer\JsonSerializationVisitor;
@@ -14,7 +19,7 @@ class CustomHATEOASJsonSerializer extends JsonHalSerializer
      */
     public function serializeLinks(array $links, JsonSerializationVisitor $visitor, SerializationContext $context)
     {
-        $serializedLinks = array();
+        $serializedLinks = [];
         foreach ($links as $link) {
             $serializedLinks[$link->getRel()] = $link->getHref();
         }

@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace Tests\AppBundle\Form;
 
 use AppBundle\Form\LoginForm;
@@ -7,10 +13,11 @@ use Symfony\Component\Form\Test\TypeTestCase;
 
 class LoginFormTest extends TypeTestCase
 {
-    public function testSubmitValidData(){
+    public function testSubmitValidData()
+    {
         $formData = [
-            "_username" => "filan.fisteku@gmail.com",
-            "_password" => "I<3Pizza"
+            '_username' => 'filan.fisteku@gmail.com',
+            '_password' => 'I<3Pizza',
         ];
 
         $form = $this->factory->create(LoginForm::class);

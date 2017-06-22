@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Repository;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 

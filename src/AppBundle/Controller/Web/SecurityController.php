@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Controller\Web;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Web;
 
 use AppBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,11 +34,11 @@ class SecurityController extends Controller
 
         return $this->render(
             'security/login.html.twig',
-            array(
+            [
                 // last username entered by the user
                 'form' => $form->createView(),
                 'error' => $error,
-            )
+            ]
         );
     }
 

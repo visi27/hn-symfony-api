@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Test;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Test;
 
 use AppBundle\Entity\Menu;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -16,7 +21,7 @@ class ContainerDependableTestCase extends KernelTestCase
     protected $_container;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function setUp()
     {
@@ -33,23 +38,23 @@ class ContainerDependableTestCase extends KernelTestCase
 
     private function purgeDatabase()
     {
-        $purger = new ORMPurger($this->get("doctrine")->getManager());
+        $purger = new ORMPurger($this->get('doctrine')->getManager());
         $purger->purge();
     }
 
     public function createDummyMenuEntries($count = 20)
     {
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $menu = new Menu();
-            $menu->setNavHeader("")
-                ->setIcon("glyphicon glyphicon-th-list")
-                ->setName("Menu".$i)
-                ->setLink("menu_".$i)
+            $menu->setNavHeader('')
+                ->setIcon('glyphicon glyphicon-th-list')
+                ->setName('Menu'.$i)
+                ->setLink('menu_'.$i)
                 ->setParentId(0)
                 ->setSort(1)
                 ->setStatus(true);
-            $this->_container->get("doctrine")->getManager()->persist($menu);
+            $this->_container->get('doctrine')->getManager()->persist($menu);
         }
-        $this->_container->get("doctrine")->getManager()->flush();
+        $this->_container->get('doctrine')->getManager()->flush();
     }
 }

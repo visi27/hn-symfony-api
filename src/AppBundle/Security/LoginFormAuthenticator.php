@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Security;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Security;
 
 use AppBundle\Form\LoginForm;
 use Doctrine\ORM\EntityManager;
@@ -42,9 +47,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * LoginFormAuthenticator constructor.
      *
      * @param FormFactoryInterface $formFactory
-     * @param EntityManager $em
-     * @param RouterInterface $router
-     * @param UserPasswordEncoder $passwordEncoder
+     * @param EntityManager        $em
+     * @param RouterInterface      $router
+     * @param UserPasswordEncoder  $passwordEncoder
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -60,7 +65,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-        $isLoginSubmit = $request->getPathInfo() == '/login' && $request->isMethod('POST');
+        $isLoginSubmit = $request->getPathInfo() === '/login' && $request->isMethod('POST');
 
         if (!$isLoginSubmit) {
             // skip authentication
@@ -104,7 +109,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-
         // if the user hits a secure page and start() was called, this was
         // the URL they were on, and probably where you want to redirect to
         $targetPath = $this->getTargetPath($request->getSession(), $providerKey);

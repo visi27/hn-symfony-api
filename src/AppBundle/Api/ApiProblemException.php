@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Api;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -11,7 +17,7 @@ class ApiProblemException extends HttpException
     public function __construct(
         ApiProblem $apiProblem,
         \Exception $previous = null,
-        array $headers = array(),
+        array $headers = [],
         $code = 0
     ) {
         $this->apiProblem = $apiProblem;

@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Api;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ApiProblemException;
@@ -15,14 +20,15 @@ class BaseController extends Controller
 {
     public function indexAction($name)
     {
-        return $this->render('', array('name' => $name));
+        return $this->render('', ['name' => $name]);
     }
 
     /**
-     * Use JMS Serialiser to serialize objects in our controllers
+     * Use JMS Serialiser to serialize objects in our controllers.
      *
      * @param object|array $data
-     * @param string $format
+     * @param string       $format
+     *
      * @return mixed|string
      */
     protected function serialize($data, $format = 'json')
@@ -31,7 +37,7 @@ class BaseController extends Controller
         $context->setSerializeNull(true);
 
         $request = $this->get('request_stack')->getCurrentRequest();
-        $groups = array('Default');
+        $groups = ['Default'];
 
         if ($request->query->get('deep')) {
             $groups[] = 'deep';
@@ -39,11 +45,11 @@ class BaseController extends Controller
 
         $context->setGroups($groups);
 
-        return $this->get("jms_serializer")->serialize($data, $format, $context);
+        return $this->get('jms_serializer')->serialize($data, $format, $context);
     }
 
     /**
-     * Centralise Response creation for our controllers
+     * Centralise Response creation for our controllers.
      *
      * @param $data
      * @param int $statusCode
@@ -55,15 +61,15 @@ class BaseController extends Controller
         $json = $this->serialize($data);
 
         return new Response(
-            $json, $statusCode, array(
+            $json, $statusCode, [
                 'Content-Type' => 'application/json',
-            )
+            ]
         );
     }
 
     private function getErrorsFromForm(FormInterface $form)
     {
-        $errors = array();
+        $errors = [];
         foreach ($form->getErrors() as $error) {
             $errors[] = $error->getMessage();
         }
@@ -87,7 +93,7 @@ class BaseController extends Controller
             ApiProblem::TYPE_VALIDATION_ERROR
         );
 
-        $apiProblem->set("errors", $errors);
+        $apiProblem->set('errors', $errors);
         throw new ApiProblemException($apiProblem);
     }
 
@@ -100,7 +106,7 @@ class BaseController extends Controller
             throw new ApiProblemException($apiProblem);
         }
 
-        $clearMissing = $request->getMethod() != 'PATCH';
+        $clearMissing = $request->getMethod() !== 'PATCH';
         $form->submit($data, $clearMissing);
     }
 }

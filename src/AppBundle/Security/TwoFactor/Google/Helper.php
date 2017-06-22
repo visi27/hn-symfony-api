@@ -1,9 +1,16 @@
 <?php
+
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Security\TwoFactor\Google;
 
+use AppBundle\Entity\User;
 use AppBundle\Security\TwoFactor\HelperInterface;
 use Google\Authenticator\GoogleAuthenticator as BaseGoogleAuthenticator;
-use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
@@ -11,18 +18,19 @@ use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
 class Helper implements HelperInterface
 {
     /**
-     * @var string $server
+     * @var string
      */
     protected $server;
 
     /**
-     * @var \Google\Authenticator\GoogleAuthenticator $authenticator
+     * @var \Google\Authenticator\GoogleAuthenticator
      */
     protected $authenticator;
 
     /**
-     * Construct the helper service for Google Authenticator
-     * @param string $server
+     * Construct the helper service for Google Authenticator.
+     *
+     * @param string                                    $server
      * @param \Google\Authenticator\GoogleAuthenticator $authenticator
      */
     public function __construct($server, BaseGoogleAuthenticator $authenticator)
@@ -32,9 +40,11 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Validates the code, which was entered by the user
+     * Validates the code, which was entered by the user.
+     *
      * @param $googleAuthCode
      * @param $code
+     *
      * @return bool
      */
     public function checkCode($googleAuthCode, $code)
@@ -43,9 +53,11 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Generate the URL of a QR code, which can be scanned by Google Authenticator app
+     * Generate the URL of a QR code, which can be scanned by Google Authenticator app.
+     *
      * @param \AppBundle\Entity\User $user
      * @param $authCode
+     *
      * @return string
      */
     public function getUrl(User $user, $authCode)
@@ -54,7 +66,8 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Generate a new secret for Google Authenticator
+     * Generate a new secret for Google Authenticator.
+     *
      * @return string
      */
     public function generateSecret()
@@ -63,8 +76,10 @@ class Helper implements HelperInterface
     }
 
     /**
-     * Generates the attribute key for the session
+     * Generates the attribute key for the session.
+     *
      * @param TokenInterface|PostAuthenticationGuardToken $token
+     *
      * @return string
      */
     public function getSessionKey(TokenInterface $token)
@@ -74,7 +89,8 @@ class Helper implements HelperInterface
 
     /**
      * @param User|UserInterface $user
-     * @return boolean
+     *
+     * @return bool
      */
     public function is2faActive(UserInterface $user)
     {

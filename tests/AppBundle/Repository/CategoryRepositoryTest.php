@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace Tests\AppBundle\Repository;
 
 use AppBundle\Entity\Category;
@@ -11,26 +17,25 @@ class CategoryRepositoryTest extends DoctrineDependableTestCase
     {
         $this->createCategories();
 
-        $categories = $this->em->getRepository("AppBundle:Category")->findAllQueryBuilder()->getQuery()->execute();
+        $categories = $this->em->getRepository('AppBundle:Category')->findAllQueryBuilder()->getQuery()->execute();
 
-        $this->assertInternalType("array", $categories);
+        $this->assertInternalType('array', $categories);
         $this->assertInstanceOf("AppBundle\Entity\Category", $categories[0]);
-        $this->assertEquals(8, count($categories));
-        $this->assertEquals("f", $categories[1]);
+        $this->assertSame(8, count($categories));
+        $this->assertSame('f', $categories[1]->getName());
 
-        $categories = $this->em->getRepository("AppBundle:Category")->findAllQueryBuilder("a")->getQuery()->execute();
-        $this->assertInternalType("array", $categories);
+        $categories = $this->em->getRepository('AppBundle:Category')->findAllQueryBuilder('a')->getQuery()->execute();
+        $this->assertInternalType('array', $categories);
         $this->assertInstanceOf("AppBundle\Entity\Category", $categories[0]);
-        $this->assertEquals(2, count($categories));
-        $this->assertEquals("ax", $categories[1]);
+        $this->assertSame(2, count($categories));
+        $this->assertSame('ax', $categories[1]->getName());
 
-        $categories = $this->em->getRepository("AppBundle:Category")->createAlphabeticalQueryBuilder()->getQuery()->execute();
+        $categories = $this->em->getRepository('AppBundle:Category')->createAlphabeticalQueryBuilder()->getQuery()->execute();
 
-        $this->assertInternalType("array", $categories);
+        $this->assertInternalType('array', $categories);
         $this->assertInstanceOf("AppBundle\Entity\Category", $categories[0]);
-        $this->assertEquals(8, count($categories));
-        $this->assertEquals("ax", $categories[1]);
-
+        $this->assertSame(8, count($categories));
+        $this->assertSame('ax', $categories[1]->getName());
     }
 
     private function createCategories()

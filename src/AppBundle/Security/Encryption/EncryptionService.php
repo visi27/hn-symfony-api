@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Security\Encryption;
 
 use Defuse\Crypto\Crypto;
@@ -10,7 +16,7 @@ use Psr\Log\LoggerInterface;
 class EncryptionService
 {
     /**
-     * @var String
+     * @var string
      */
     private $key;
     /**
@@ -20,7 +26,8 @@ class EncryptionService
 
     /**
      * EncryptionService constructor.
-     * @param String $key
+     *
+     * @param string          $key
      * @param LoggerInterface $logger
      */
     public function __construct($key, LoggerInterface $logger)
@@ -31,6 +38,7 @@ class EncryptionService
 
     /**
      * @param $plainText
+     *
      * @return string
      */
     public function encrypt($plainText)
@@ -46,10 +54,9 @@ class EncryptionService
         try {
             $plainText = Crypto::decrypt($encryptedText, $cryptoKey);
         } catch (WrongKeyOrModifiedCiphertextException $ex) {
-
-            $this->logger->critical("Error decrypting data");
+            $this->logger->critical('Error decrypting data');
             $this->logger->critical($ex->getMessage());
-            $plainText = "";
+            $plainText = '';
         }
 
         return $plainText;

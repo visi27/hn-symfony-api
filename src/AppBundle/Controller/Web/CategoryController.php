@@ -1,20 +1,26 @@
 <?php
 
-namespace AppBundle\Controller\Web;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Controller\Web;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CategoryController extends Controller
 {
-    public function listCategoriesSidebarAction() {
+    public function listCategoriesSidebarAction()
+    {
         $em = $this->getDoctrine()->getManager();
 
         $categories = $em->getRepository('AppBundle:Category')->findAll();
 
         return $this->render(
             ':sidebar:_categories.html.twig',
-            array('categories' => $categories)
+            ['categories' => $categories]
         );
     }
 }

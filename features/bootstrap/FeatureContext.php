@@ -1,11 +1,15 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
-use AppBundle\Entity\Product;
 use AppBundle\Entity\User;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
@@ -30,15 +34,18 @@ class FeatureContext extends RawMinkContext implements Context
         return $this->getSession()->getPage();
     }
 
-    private function getEntityManager(){
+    private function getEntityManager()
+    {
         return $this->getContainer()->get('doctrine')->getManager();
     }
 
     /**
      * @param $categoryName
+     *
      * @return Category
      */
-    private function createCategory($categoryName){
+    private function createCategory($categoryName)
+    {
         $category = new Category();
         $category->setName($categoryName);
 
@@ -48,17 +55,18 @@ class FeatureContext extends RawMinkContext implements Context
         return $category;
     }
 
-    private function createBlogPosts($count, User $author = null){
-        $category = $this->createCategory("Behat Is Awsome");
+    private function createBlogPosts($count, User $author = null)
+    {
+        $category = $this->createCategory('Behat Is Awsome');
 
-        if(!$author){
+        if (!$author) {
             $author = $this->currentUser;
         }
 
-        for ($i = 0; $i < $count; $i++) {
+        for ($i = 0; $i < $count; ++$i) {
             $blogPost = new BlogPost();
             $blogPost->setTitle('Article  '.$i);
-            $blogPost->setSummary("Lorem Ipsum");
+            $blogPost->setSummary('Lorem Ipsum');
             $blogPost->setContent('<b>Lorem Ipsum Dolor Sit Amet</b>');
             $blogPost->setIsPublished(true);
             $blogPost->setCategory($category);
@@ -74,7 +82,8 @@ class FeatureContext extends RawMinkContext implements Context
     /**
      * @BeforeScenario
      */
-    public function clearData(){
+    public function clearData()
+    {
         $purger = new ORMPurger($this->getContainer()->get('doctrine')->getManager());
         $purger->purge();
     }
@@ -136,7 +145,7 @@ class FeatureContext extends RawMinkContext implements Context
     {
         $table = $this->getPage()->find('css', 'table.table');
         assertNotNull($table, 'Cannot find a table!');
-        assertCount(intval($count), $table->findAll('css', 'tbody tr'));
+        assertCount((int) $count, $table->findAll('css', 'tbody tr'));
     }
 
     /**
@@ -145,10 +154,10 @@ class FeatureContext extends RawMinkContext implements Context
     public function thereIsAnAdminUserWithPassword($username, $password)
     {
         $user = new \AppBundle\Entity\User();
-        $user->setEmail($username."@foo.com");
+        $user->setEmail($username.'@foo.com');
         $user->setPlainPassword($password);
 
-        $user->setRoles(array('ROLE_ADMIN'));
+        $user->setRoles(['ROLE_ADMIN']);
 
         $em = $this->getEntityManager();
 
@@ -164,14 +173,14 @@ class FeatureContext extends RawMinkContext implements Context
     public function theFollowingArticlesExist(TableNode $table)
     {
         $category = new Category();
-        $category->setName("Behat Is Awsome");
+        $category->setName('Behat Is Awsome');
 
         foreach ($table as $row) {
             $blogPost = new BlogPost();
             $blogPost->setTitle($row['title']);
             $blogPost->setSummary($row['summary']);
 
-            if (isset($row['is published']) && $row['is published'] == 'yes') {
+            if (isset($row['is published']) && $row['is published'] === 'yes') {
                 $blogPost->setIsPublished(true);
             }
 
@@ -207,11 +216,11 @@ class FeatureContext extends RawMinkContext implements Context
         $button->click();
     }
 
-    private function findRowByText($rowText){
+    private function findRowByText($rowText)
+    {
         $row = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));
         assertNotNull($row, 'Cannot find a table row with this text!');
 
         return $row;
     }
-
 }

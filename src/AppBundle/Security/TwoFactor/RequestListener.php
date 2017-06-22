@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Security\TwoFactor;
 
 use AppBundle\Security\Encryption\EncryptionService;
@@ -15,22 +21,22 @@ use Symfony\Component\Security\Guard\Token\GuardTokenInterface;
 class RequestListener
 {
     /**
-     * @var HelperInterface $helper
+     * @var HelperInterface
      */
     protected $helper;
 
     /**
-     * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityContext
+     * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface
      */
     protected $securityContext;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
+     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
      */
     protected $templating;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router $router
+     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
      */
     protected $router;
     /**
@@ -43,12 +49,14 @@ class RequestListener
     private $encryptionService;
 
     /**
-     * Construct the listener
-     * @param HelperFactory $helperFactory
+     * Construct the listener.
+     *
+     * @param HelperFactory                                                                       $helperFactory
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityContext
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router $router
-     * @param EncryptionService $encryptionService
+     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface                          $templating
+     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                      $router
+     * @param EncryptionService                                                                   $encryptionService
+     *
      * @internal param HelperInterface $helper
      */
     public function __construct(
@@ -66,7 +74,8 @@ class RequestListener
     }
 
     /**
-     * Listen for request events
+     * Listen for request events.
+     *
      * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
      */
     public function onCoreRequest(GetResponseEvent $event)
@@ -92,7 +101,7 @@ class RequestListener
         $key = $this->helper->getSessionKey($this->securityContext->getToken());
         $request = $event->getRequest();
         /**
-         * @var Session $session
+         * @var Session
          */
         $session = $event->getRequest()->getSession();
 
@@ -104,21 +113,20 @@ class RequestListener
             return;
         }
 
-        if ($request->getMethod() == 'POST') {
+        if ($request->getMethod() === 'POST') {
             //Check the authentication code
             $authKey = $this->encryptionService->decrypt($user->getGoogleAuthenticatorCode());
-            if ($this->helper->checkCode($authKey, $request->get('_auth_code')) == true) {
+            if ($this->helper->checkCode($authKey, $request->get('_auth_code')) === true) {
                 //Flag authentication complete
                 $session->set($key, true);
 
                 //Redirect to user's dashboard
-                $redirect = new RedirectResponse($this->router->generate("homepage"));
+                $redirect = new RedirectResponse($this->router->generate('homepage'));
                 $event->setResponse($redirect);
 
                 return;
-            } else {
-                $session->getFlashBag()->set("error", "The verification code is not valid.");
             }
+            $session->getFlashBag()->set('error', 'The verification code is not valid.');
         }
 
         //Force authentication code dialog

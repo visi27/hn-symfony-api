@@ -1,8 +1,12 @@
 <?php
 
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
+
 namespace AppBundle\Repository;
-
-
 
 use AppBundle\Entity\Category;
 use Doctrine\ORM\EntityRepository;
@@ -12,6 +16,7 @@ class BlogPostRepository extends EntityRepository
 {
     /**
      * @param string $filter
+     *
      * @return QueryBuilder
      */
     public function findAllQueryBuilder($filter = '')

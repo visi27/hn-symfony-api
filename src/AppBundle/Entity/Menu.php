@@ -1,7 +1,12 @@
 <?php
 
-namespace AppBundle\Entity;
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
+ */
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -20,7 +25,7 @@ class Menu
     /**
      * @ORM\Column(type="string", length=50)
      */
-    private $navHeader = "";
+    private $navHeader = '';
     /**
      * @ORM\Column(type="string", length=50)
      */
@@ -32,7 +37,7 @@ class Menu
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $link = "#";
+    private $link = '#';
     /**
      * @ORM\Column(type="integer")
      */
@@ -64,6 +69,7 @@ class Menu
 
     /**
      * @param mixed $navHeader
+     *
      * @return Menu
      */
     public function setNavHeader($navHeader)
@@ -83,6 +89,7 @@ class Menu
 
     /**
      * @param mixed $icon
+     *
      * @return Menu
      */
     public function setIcon($icon)
@@ -102,6 +109,7 @@ class Menu
 
     /**
      * @param mixed $name
+     *
      * @return Menu
      */
     public function setName($name)
@@ -121,6 +129,7 @@ class Menu
 
     /**
      * @param mixed $link
+     *
      * @return Menu
      */
     public function setLink($link)
@@ -140,6 +149,7 @@ class Menu
 
     /**
      * @param mixed $parentId
+     *
      * @return Menu
      */
     public function setParentId($parentId)
@@ -159,6 +169,7 @@ class Menu
 
     /**
      * @param mixed $sort
+     *
      * @return Menu
      */
     public function setSort($sort)
@@ -178,6 +189,7 @@ class Menu
 
     /**
      * @param mixed $status
+     *
      * @return Menu
      */
     public function setStatus($status)
@@ -186,6 +198,4 @@ class Menu
 
         return $this;
     }
-
-
 }

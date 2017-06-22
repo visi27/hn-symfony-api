@@ -1,9 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evis
- * Date: 6/21/17
- * Time: 2:37 PM
+
+/*
+ *
+ * (c) Evis Bregu <evis.bregu@gmail.com>
+ *
  */
 
 namespace Tests\AppBundle\DataFixtures\ORM;
@@ -18,8 +18,8 @@ class LoadFixturesTest extends ContainerDependableTestCase
         $fixtureLoader = new LoadFixtures();
         $objects = $fixtureLoader->load($this->_container->get('doctrine')->getManager());
 
-        $this->assertEquals(28, count($objects));
-        $this->assertInstanceOf("AppBundle\Entity\User", $objects["user_1"]);
+        $this->assertSame(28, count($objects));
+        $this->assertInstanceOf("AppBundle\Entity\User", $objects['user_1']);
 
         $categories = [
             'News',
@@ -33,7 +33,7 @@ class LoadFixturesTest extends ContainerDependableTestCase
             'Technology',
         ];
 
-        for ($i = 0; $i <= count($categories); $i++) {
+        for ($i = 0; $i <= count($categories); ++$i) {
             $this->assertContains($fixtureLoader->category(), $categories);
         }
     }
