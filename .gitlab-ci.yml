@@ -1,6 +1,11 @@
 before_script:
 # Install dependencies
 - bash ci/docker_install.sh > /dev/null
+- cp local.conf /etc/apache2/sites-available
+- service apache2 start
+- a2ensite local
+- a2enmod rewrite
+- service apache2 restart
 - composer install
 - mkdir var/jwt
 - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:secret 4096
