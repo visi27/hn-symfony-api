@@ -1,0 +1,15 @@
+before_script:
+# Install dependencies
+- bash ci/docker_install.sh > /dev/null
+
+# We test PHP5.6
+test:5.6:
+  image: php:5.6
+  script:
+  - phpunit
+
+# We test PHP7.0 (good luck with that)
+test:7.0:
+  image: php:7.0
+  script:
+  - phpunit
