@@ -1,6 +1,7 @@
 before_script:
 # Install dependencies
 - bash ci/docker_install.sh > /dev/null
+- composer install
 - mkdir var/jwt
 - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:secret 4096
 - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:secret
