@@ -4,7 +4,7 @@ services:
 variables:
   # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
   MYSQL_DATABASE: test
-  MYSQL_ALLOW_EMPTY_PASSWORD: yes
+  MYSQL_ALLOW_EMPTY_PASSWORD: true
 
 before_script:
 # Install dependencies
