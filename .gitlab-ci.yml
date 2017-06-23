@@ -21,8 +21,8 @@ before_script:
 - openssl rsa -pubout -in var/jwt/private.pem -out var/jwt/public.pem -passin pass:secret
 - bin/console doctrine:database:create --env=test
 - bin/console doctrine:schema:update --force --env=test
-- sudo chmod 777 var -R
-- sudo chown www-data.www-data var/jwt/*.*
+- chmod 777 var -R
+- chown www-data.www-data var/jwt/*.*
 
 # We test PHP5.6
 test:5.6:
