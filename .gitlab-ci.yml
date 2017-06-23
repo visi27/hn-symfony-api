@@ -1,9 +1,9 @@
 before_script:
 # Install dependencies
 - bash ci/docker_install.sh > /dev/null
-- cp local.conf /etc/apache2/sites-available
+- cp gitlab.conf /etc/apache2/sites-available
 - service apache2 start
-- a2ensite local
+- a2ensite gitlab
 - a2enmod rewrite
 - service apache2 restart
 - pwd
