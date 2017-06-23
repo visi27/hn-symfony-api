@@ -4,7 +4,6 @@ services:
 variables:
   # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
   MYSQL_DATABASE: test
-  MYSQL_ROOT_PASSWORD:
 
 before_script:
 # Install dependencies
