@@ -6,6 +6,7 @@ before_script:
 - a2ensite local
 - a2enmod rewrite
 - service apache2 restart
+- pwd
 - composer install
 - mkdir var/jwt
 - openssl genrsa -out var/jwt/private.pem -aes256 -passout pass:secret 4096
