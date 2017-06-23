@@ -1,3 +1,11 @@
+services:
+  - mysql:latest
+
+variables:
+  # Configure mysql environment variables (https://hub.docker.com/r/_/mysql/)
+  MYSQL_DATABASE: test
+  MYSQL_ROOT_PASSWORD: asteriskReporT
+
 before_script:
 # Install dependencies
 - bash ci/docker_install.sh > /dev/null

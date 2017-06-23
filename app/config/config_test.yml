@@ -15,7 +15,7 @@ web_profiler:
 doctrine:
     dbal:
         driver:   pdo_mysql
-        host:     "%database_host%"
+        host:     "mysql"
         port:     "%database_port%"
         dbname:   "%database_name%_test"
         user:     "%database_user%"
