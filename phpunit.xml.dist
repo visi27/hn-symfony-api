@@ -27,6 +27,7 @@
                 <directory>src/*/*Bundle/Resources</directory>
                 <directory>src/*/Bundle/*Bundle/Resources</directory>
                 <directory>src/AppBundle/Controller/*</directory>
+                <directory>src/AppBundle/Form</directory>
                 <file>src/AppBundle/Security/LoginFormAuthenticator.php</file>
                 <file>src/AppBundle/Security/JwtTokenAuthenticator.php</file>
             </exclude>
