@@ -9,6 +9,7 @@
 namespace Tests\AppBundle\Controller\Api;
 
 use AppBundle\Test\ApiTestCase;
+use GuzzleHttp\Psr7\Response;
 use JMS\Serializer\SerializationContext;
 
 class BlogPostControllerTest extends ApiTestCase
@@ -53,6 +54,13 @@ class BlogPostControllerTest extends ApiTestCase
         $this->assertArrayHasKey('title', $finishedData);
         $this->assertSame('Super Awsome Blog Post', $finishedData['title']);
         $this->asserter()->assertResponsePropertyContains($response, 'user', 'filanfisteku');
+    }
+
+    public function testReadEmptyResponse(){
+        $response = new Response();
+
+        $this->expectException("\Exception");
+        $this->asserter()->readResponseProperty($response, "inexisten_property");
     }
 
     public function testGETBlogPost()
@@ -200,6 +208,7 @@ class BlogPostControllerTest extends ApiTestCase
             'items[5].title',
             'Super Awsome Blog Post 5'
         );
+        $this->asserter()->assertResponsePropertyCount($response, 'items', 10);
         $this->asserter()->assertResponsePropertyEquals($response, 'count', 10);
         $this->asserter()->assertResponsePropertyEquals($response, 'total', 25);
         $this->asserter()->assertResponsePropertyExists($response, '_links.next');
