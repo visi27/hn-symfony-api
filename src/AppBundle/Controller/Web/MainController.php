@@ -16,11 +16,11 @@ class MainController extends Controller
     public function homepageAction()
     {
         $hl = new Highlighter();
-        $highlighted = $hl->highlight("markdown", file_get_contents('../README.md'));
+        $highlighted = $hl->highlight('markdown', file_get_contents('../README.md'));
 
         $content = $this->stripFirstLine($this->stripFirstLine($highlighted->value));
 
-        return $this->render('main/homepage.html.twig', ["content" => $content, "language"=>$highlighted->language]);
+        return $this->render('main/homepage.html.twig', ['content' => $content, 'language'=>$highlighted->language]);
     }
 
     private function stripFirstLine($text)
