@@ -8,6 +8,8 @@
 
 namespace AppBundle\Controller\Web;
 
+use AppBundle\Entity\Category;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class CategoryController extends Controller
@@ -22,5 +24,19 @@ class CategoryController extends Controller
             ':sidebar:_categories.html.twig',
             ['categories' => $categories]
         );
+    }
+
+    /**
+     * @Route("/category/{id}", name="category_list")
+     * @param Category $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction(Category $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $blogPosts = $em->getRepository('AppBundle:BlogPost')->findAllByCategoryQueryBuilder($id)->getQuery()->execute();
+
+        return $this->render('blog/list.html.twig', ['blogPosts' => $blogPosts]);
     }
 }
