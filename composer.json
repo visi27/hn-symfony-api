@@ -38,7 +38,8 @@
         "egeloen/ckeditor-bundle": "^5.0",
         "guzzlehttp/guzzle": "^6.2",
         "sonata-project/google-authenticator": "1.x-dev",
-        "defuse/php-encryption": "^2.1"
+        "defuse/php-encryption": "^2.1",
+        "scrivo/highlight.php": "9.*"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",

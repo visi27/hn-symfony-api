@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "13e2271c06007250765dc7ba4407b717",
+    "content-hash": "cfab09b687a60688951ab688b2779d63",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2324,6 +2324,40 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "scrivo/highlight.php",
+            "version": "v9.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/scrivo/highlight.php.git",
+                "reference": "a905bf346a47f5fa40f33641b346c37f418d1242"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/scrivo/highlight.php/zipball/a905bf346a47f5fa40f33641b346c37f418d1242",
+                "reference": "a905bf346a47f5fa40f33641b346c37f418d1242",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Highlight\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Server side syntax highlighter that supports over 90 languages. It's a PHP port of highlight.js",
+            "keywords": [
+                "code",
+                "highlight",
+                "highlight.js",
+                "highlight.php",
+                "syntax"
+            ],
+            "time": "2016-01-01T14:08:00+00:00"
         },
         {
             "name": "sensio/distribution-bundle",
