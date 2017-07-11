@@ -29,7 +29,7 @@ services:
 
   app.security.twofactor.request_listener:
     class: "%app_user.twofactor.request_listener.class%"
-    arguments: ["@app.security.twofactor.provide_factory","@security.token_storage", "@templating","@router", "@app.security.encryption_service"]
+    arguments: ["@app.security.twofactor.provide_factory","@security.token_storage", "@templating","@router"]
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onCoreRequest, priority: -1 }
 
