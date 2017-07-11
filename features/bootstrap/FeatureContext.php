@@ -24,6 +24,9 @@ class FeatureContext extends RawMinkContext implements Context
 {
     use \Behat\Symfony2Extension\Context\KernelDictionary;
 
+    /**
+     * @var User
+     */
     private $currentUser;
 
     /**
@@ -105,7 +108,7 @@ class FeatureContext extends RawMinkContext implements Context
      */
     public function iAmLoggedInAsAnAdmin()
     {
-        $this->currentUser = $this->thereIsAnAdminUserWithPassword('admin', 'admin');
+        $this->thereIsAnAdminUserWithPassword('admin', 'admin');
 
         $this->visitPath('/login');
 
@@ -164,8 +167,47 @@ class FeatureContext extends RawMinkContext implements Context
         $em->persist($user);
         $em->flush();
 
-        return $user;
+        $this->currentUser =  $user;
     }
+
+    /**
+     * @Given twoFA is active
+     */
+    public function twoFAIsActive()
+    {
+        $this->currentUser->setTwoFactorAuthentication(true);
+
+        $em = $this->getEntityManager();
+
+        $em->persist($this->currentUser);
+        $em->flush();
+    }
+
+    /**
+     * @Given twoFA method is :method and twoFA code is :code
+     */
+    public function twoFAMethodIsAndtwoFACodeIs($method, $code)
+    {
+        $this->currentUser->setDefaultTwoFactorMethod($method);
+        $this->currentUser->setTwoFactorCode($code);
+
+        $em = $this->getEntityManager();
+
+        $em->persist($this->currentUser);
+        $em->flush();
+    }
+
+    /**
+     * @When I fill in :field with auth value from db
+     */
+    public function iFillInWithAuthValueFromDb($field)
+    {
+
+        $this->getEntityManager()->refresh($this->currentUser);
+
+        $this->getPage()->fillField($field, $this->currentUser->getTwoFactorCode());
+    }
+
 
     /**
      * @Given the following articles exist:
