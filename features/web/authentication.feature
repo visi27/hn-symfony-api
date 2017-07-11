@@ -2,7 +2,7 @@ Feature: Authentication
   In order to gain access to the site management area
   As an admin
   I need to be able to login and logout
-  
+
   Scenario: Logging In
     Given there is an admin user "evis" with password "admin"
     And twoFA is active
