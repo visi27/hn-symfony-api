@@ -11,7 +11,7 @@ services:
     class: "%app_user.twofactor.google.class%"
   app.security.twofactor.google.provider:
     class: "%app_user.twofactor.google.provider.class%"
-    arguments: ["%app.security.param.servername%", "@app.security.twofactor.google"]
+    arguments: ["%app.security.param.servername%", "@app.security.twofactor.google", "@app.security.encryption_service"]
 
   app.security.twofactor.email.provider:
     class: "%app_user.twofactor.email.provider.class%"

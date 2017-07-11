@@ -9,6 +9,7 @@
 namespace AppBundle\Security\TwoFactor\Google;
 
 use AppBundle\Entity\User;
+use AppBundle\Security\Encryption\EncryptionService;
 use AppBundle\Security\TwoFactor\HelperInterface;
 use Google\Authenticator\GoogleAuthenticator as BaseGoogleAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -26,17 +27,23 @@ class Helper implements HelperInterface
      * @var \Google\Authenticator\GoogleAuthenticator
      */
     protected $authenticator;
+    /**
+     * @var EncryptionService
+     */
+    private $encryptionService;
 
     /**
      * Construct the helper service for Google Authenticator.
      *
-     * @param string                                    $server
+     * @param string $server
      * @param \Google\Authenticator\GoogleAuthenticator $authenticator
+     * @param EncryptionService $encryptionService
      */
-    public function __construct($server, BaseGoogleAuthenticator $authenticator)
+    public function __construct($server, BaseGoogleAuthenticator $authenticator, EncryptionService $encryptionService)
     {
         $this->server = $server;
         $this->authenticator = $authenticator;
+        $this->encryptionService = $encryptionService;
     }
 
     /**
@@ -95,5 +102,13 @@ class Helper implements HelperInterface
     public function is2faActive(UserInterface $user)
     {
         return $user->getTwoFactorAuthentication();
+    }
+
+    public function getAuthKey(UserInterface $user)
+    {
+        /**
+         * @var $user User
+         */
+        return $this->encryptionService->decrypt($user->getGoogleAuthenticatorCode());
     }
 }

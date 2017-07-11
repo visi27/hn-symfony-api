@@ -18,4 +18,6 @@ interface HelperInterface
     public function checkCode($authCode, $code);
 
     public function getSessionKey(TokenInterface $token);
+
+    public function getAuthKey(UserInterface $user);
 }

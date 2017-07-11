@@ -43,10 +43,7 @@ class RequestListener
      * @var HelperFactory
      */
     private $helperFactory;
-    /**
-     * @var EncryptionService
-     */
-    private $encryptionService;
+
 
     /**
      * Construct the listener.
@@ -63,14 +60,12 @@ class RequestListener
         HelperFactory $helperFactory,
         TokenStorageInterface $securityContext,
         EngineInterface $templating,
-        Router $router,
-        EncryptionService $encryptionService
+        Router $router
     ) {
         $this->securityContext = $securityContext;
         $this->templating = $templating;
         $this->router = $router;
         $this->helperFactory = $helperFactory;
-        $this->encryptionService = $encryptionService;
     }
 
     /**
@@ -115,7 +110,7 @@ class RequestListener
 
         if ($request->getMethod() === 'POST') {
             //Check the authentication code
-            $authKey = $this->encryptionService->decrypt($user->getGoogleAuthenticatorCode());
+            $authKey = $this->helper->getAuthKey($user);
             if ($this->helper->checkCode($authKey, $request->get('_auth_code')) === true) {
                 //Flag authentication complete
                 $session->set($key, true);

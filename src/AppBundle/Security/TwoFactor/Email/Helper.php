@@ -105,4 +105,12 @@ class Helper implements HelperInterface
     {
         return $user->getTwoFactorAuthentication();
     }
+
+    public function getAuthKey(UserInterface $user)
+    {
+        /**
+         * @var $user User
+         */
+        return $user->getTwoFactorCode();
+    }
 }
