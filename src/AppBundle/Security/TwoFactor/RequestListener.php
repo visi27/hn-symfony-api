@@ -52,7 +52,6 @@ class RequestListener
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityContext
      * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface                          $templating
      * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                      $router
-     * @param EncryptionService                                                                   $encryptionService
      *
      * @internal param HelperInterface $helper
      */
