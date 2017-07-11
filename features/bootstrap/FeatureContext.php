@@ -258,6 +258,17 @@ class FeatureContext extends RawMinkContext implements Context
         $button->click();
     }
 
+    /**
+     * @When I click on :selector in the :rowText row
+     */
+    public function iClickOnInTheRow($selector, $rowText)
+    {
+        $row = $this->findRowByText($rowText);
+        $button = $row->find("css", $selector);
+        assertNotNull($button, 'Cannot find link in row with css selector '.$selector);
+        $button->click();
+    }
+
     private function findRowByText($rowText)
     {
         $row = $this->getPage()->find('css', sprintf('table tr:contains("%s")', $rowText));

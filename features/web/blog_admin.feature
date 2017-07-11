@@ -31,7 +31,6 @@ Feature: Product admin panel
     And I should not see "Awsome Behat"
     But I should see "Awsome BDD"
 
-
   Scenario: Add a new product
     Given there is a category named "Behat"
     And I am on "/admin/blog/list"
@@ -47,3 +46,15 @@ Feature: Product admin panel
     And I should see "Awsome Behat"
     And I should see "admin@foo.com"
 
+  Scenario: Editing a product
+    Given the following articles exist:
+      | title        | summary           |
+      | Nice Behat | Lorem Ipsum Behat |
+      | Awsome BDD   | Lorem Ipsum BDD   |
+    When I go to "/admin/blog/list"
+    And I click on "a.btn-success" in the "Nice Behat" row
+    And I fill in "Title" with "Behat is Awsome"
+    And I press "Save"
+    Then I should see "Blog Post Updated!"
+    And I should not see "Nice Behat"
+    But I should see "Behat is Awsome"
