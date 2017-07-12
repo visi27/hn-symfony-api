@@ -27,5 +27,6 @@ test:
     - bin/console doctrine:schema:update --force --env=test
     - sudo chmod 777 var -R
     - sudo chown www-data.www-data var/jwt/*.*
-    - vendor/bin/phpunit --coverage-html $CIRCLE_ARTIFACTS
+    - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+    - vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
     - vendor/bin/behat
