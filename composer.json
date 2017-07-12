@@ -45,7 +45,7 @@
         "symfony/phpunit-bridge": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
         "nelmio/alice": "^2.3",
-        "phpunit/phpunit": "~5.4",
+        "phpunit/phpunit": "^6.2",
         "behat/mink-extension": "^2.2",
         "behat/mink-goutte-driver": "^1.2",
         "behat/symfony2-extension": "^2.1",
