@@ -9,9 +9,10 @@
 namespace Tests\AppBundle\Api;
 
 use AppBundle\Api\ApiProblem;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiProblemTest extends \PHPUnit_Framework_TestCase
+class ApiProblemTest extends TestCase
 {
     public function testApiProblem(){
         $notFoundApiProblem = new ApiProblem(404);

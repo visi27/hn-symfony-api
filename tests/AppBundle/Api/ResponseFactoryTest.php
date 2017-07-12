@@ -10,8 +10,9 @@ namespace Tests\AppBundle\Api;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ResponseFactory;
+use PHPUnit\Framework\TestCase;
 
-class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
+class ResponseFactoryTest extends TestCase
 {
     public function testResponseFactory(){
         $notFoundApiProblem = new ApiProblem(500, "validation_error");

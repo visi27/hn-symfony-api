@@ -4,8 +4,9 @@ namespace Tests\AppBundle\Api;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ApiProblemException;
+use PHPUnit\Framework\TestCase;
 
-class ApiProblemExceptionTest extends \PHPUnit_Framework_TestCase
+class ApiProblemExceptionTest extends TestCase
 {
     public function testApiProblemException(){
         $firstException = new \Exception("General Error");

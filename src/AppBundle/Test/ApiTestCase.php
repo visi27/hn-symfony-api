@@ -100,7 +100,7 @@ class ApiTestCase extends KernelTestCase
         // purposefully not calling parent class, which shuts down the kernel
     }
 
-    protected function onNotSuccessfulTest($e)
+    protected function onNotSuccessfulTest(\Throwable $e)
     {
         if ($lastResponse = $this->getLastResponse()) {
             $this->printDebug('');

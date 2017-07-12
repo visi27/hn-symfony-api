@@ -8,6 +8,7 @@
 
 namespace AppBundle\Test;
 
+use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\RuntimeException;
@@ -17,7 +18,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 /**
  * Helper class to assert different conditions on Guzzle responses.
  */
-class ResponseAsserter extends \PHPUnit_Framework_Assert
+class ResponseAsserter extends Assert
 {
     /**
      * @var PropertyAccessor
