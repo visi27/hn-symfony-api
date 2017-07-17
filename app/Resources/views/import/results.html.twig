@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Transformed Results</h1>
+                <br><br>
+
+                <table>
+
+                    <tr>
+                        <th>PONumber</th>
+                        <th>ShipToName</th>
+                        <th>ShipToPhone</th>
+                        <th>ShipToCompany</th>
+                        <th>ShipToAddress</th>
+                        <th>ItemSKU</th>
+                        <th>QTY</th>
+                        <th>Description</th>
+                        <th>Rate</th>
+                        <th>Ammount</th>
+                    </tr>
+
+                    {% for result in results %}
+                        <tr>
+                            <td>{{ result.po }}</td>
+                            <td>{{ result.shipToName }}</td>
+                            <td>{{ result.shipToPhone }}</td>
+                            <td></td>
+                            <td>{{ result.shipToAddress }}</td>
+                            <td>{{ result.itemSku }}</td>
+                            <td>{{ result.qty }}</td>
+                            <td>{{ result.description }}</td>
+                            <td>{{ result.rate }}</td>
+                            <td>{{ result.amount }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Upload PDF!</h1>
+
+                {{ form_start(form) }}
+                {{ form_row(form.file) }}
+
+                <button type="submit" class="btn btn-success">Upload <span class="fa fa-lock"></span></button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
