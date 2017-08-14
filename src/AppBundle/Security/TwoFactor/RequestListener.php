@@ -8,7 +8,6 @@
 
 namespace AppBundle\Security\TwoFactor;
 
-use AppBundle\Security\Encryption\EncryptionService;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
@@ -95,7 +94,7 @@ class RequestListener
         $key = $this->helper->getSessionKey($this->securityContext->getToken());
         $request = $event->getRequest();
         /**
-         * @var Session
+         * @var Session $session
          */
         $session = $event->getRequest()->getSession();
 
