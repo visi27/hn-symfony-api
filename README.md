@@ -65,6 +65,102 @@ fixtures definitions in `src/AppBundle/DataFixtures/ORM`
     * `app.doctrine.google_auth_listener`
 11. Also, if you deactivate 2FA, remove every parameter starting with `app_user.twofactor` from `services.yml`
 
+API's In Action
+===============
+This skeleton app is bundled with a fully featured API Suite. 
+To see the API's in action you can either start the local Symphony server or use onalb.com where I have hosted a copy of this application:
+
+First get the API authentication token by sending a POST request with Basic Authorisation headers to http://onalb.com/api/tokens like this:
+
+```php
+<?php
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "http://onalb.com/api/tokens",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "POST",
+  CURLOPT_HTTPHEADER => array(
+    "authorization: Basic ZmlsYW5maXN0ZWt1KzFAZ21haWwuY29tOmZpbGFuZmlzdGVrdQ==",
+    "cache-control: no-cache",
+    "postman-token: 08daa855-69bc-72d6-652c-097bf5773f6b"
+  ),
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+  echo $response;
+}
+```
+or in a linux shell with WGET:
+```bash
+wget --quiet \
+  --method POST \
+  --header 'authorization: Basic ZmlsYW5maXN0ZWt1KzFAZ21haWwuY29tOmZpbGFuZmlzdGVrdQ==' \
+  --header 'cache-control: no-cache' \
+  --header 'postman-token: 7f1fda30-8677-66bd-20b3-394c998a430b' \
+  --output-document \
+  - http://onalb.com/api/tokens
+```
+the header authorisation has a value Basic base64encoded("username:password") in our case "filanfisteku+1@gmail.com:filanfisteku"
+
+After you have extracted the token you can query the API's for informatin, ex: list blog post:
+
+```php
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => "http://onalb.com/api/blog",
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => "",
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => array(
+    "authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ1c2VybmFtZSI6ImZpbGFuZmlzdGVrdSsxQGdtYWlsLmNvbSIsImV4cCI6MTUwMjc4Nzk0MSwiaWF0IjoxNTAyNzg0MzQxfQ.KUCP619SMIiSNFQ7Q0wUSbCzzPKRlBAghcv1i8H1Ya0g9XqdxzsC3lewL8JJlAB5kITpiG8tKTiENDrNdpkOOpamvJPtls4CKCrRxxkwkXaUzVIvDouHM-Y8V90w3mTb1ICaeT3OYnz-MCgSx5srmdQoVMLZGHo6Yr7P2n3zHjzecMfRaRDOJtQ_f9urABHdC_yC0eEAGLed5H9-_jcYqFdSM6I0UTkwf-qpSqWRBt1gPujnPwFQV2WVNUYrxs74Yh-cFi7vSkWrkW_K-5QA-uGRdTE8MnouIZm4QBr4k-PY_pjN3trBkx9tRCbzsOTAU6LzGNrAmFNJMIMYiB7Sw72qY03-ByjBWu29nTMUd7qQ6L5zp5nHWliGBsFc-NFGIIjZ1X_nUzBuvxumzG9MBsvBbEjVtivleZb85CjYEP2WRaClrosgb-2FPEQIsWdYH0uzY10ITgdYFFSlyi0sPDpHBa4zSousNe7Ut9b-JqMHdXUyBthqPFQrEfIl64rORO_zSRXwkm8Q6JvaU1I5sjkkG6k37AGKuQclvQDltHyk-CfOWaoi5vK54mBHSpdmYVIMGbx4FIUqFxy5tMZpvHJD8rO0gPRf8RUr8-4Pl09xEPeMB-eeMba44TQuhk3GKYpkvJxVEPwMyEf0owVMVwpBuFHwunWuEwRMBOXoCTM",
+    "cache-control: no-cache",
+    "postman-token: f3413a1f-27a2-b245-1b1b-6df6cebf1ebd"
+  ),
+));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+
+if ($err) {
+  echo "cURL Error #:" . $err;
+} else {
+  echo $response;
+}
+```
+
+Make sure the value of the token is in the key authorization after Bearer.
+In a linux shel with WGET:
+
+```bash
+wget --quiet \
+  --method GET \
+  --header 'authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJ1c2VybmFtZSI6ImZpbGFuZmlzdGVrdSsxQGdtYWlsLmNvbSIsImV4cCI6MTUwMjc4Nzk0MSwiaWF0IjoxNTAyNzg0MzQxfQ.KUCP619SMIiSNFQ7Q0wUSbCzzPKRlBAghcv1i8H1Ya0g9XqdxzsC3lewL8JJlAB5kITpiG8tKTiENDrNdpkOOpamvJPtls4CKCrRxxkwkXaUzVIvDouHM-Y8V90w3mTb1ICaeT3OYnz-MCgSx5srmdQoVMLZGHo6Yr7P2n3zHjzecMfRaRDOJtQ_f9urABHdC_yC0eEAGLed5H9-_jcYqFdSM6I0UTkwf-qpSqWRBt1gPujnPwFQV2WVNUYrxs74Yh-cFi7vSkWrkW_K-5QA-uGRdTE8MnouIZm4QBr4k-PY_pjN3trBkx9tRCbzsOTAU6LzGNrAmFNJMIMYiB7Sw72qY03-ByjBWu29nTMUd7qQ6L5zp5nHWliGBsFc-NFGIIjZ1X_nUzBuvxumzG9MBsvBbEjVtivleZb85CjYEP2WRaClrosgb-2FPEQIsWdYH0uzY10ITgdYFFSlyi0sPDpHBa4zSousNe7Ut9b-JqMHdXUyBthqPFQrEfIl64rORO_zSRXwkm8Q6JvaU1I5sjkkG6k37AGKuQclvQDltHyk-CfOWaoi5vK54mBHSpdmYVIMGbx4FIUqFxy5tMZpvHJD8rO0gPRf8RUr8-4Pl09xEPeMB-eeMba44TQuhk3GKYpkvJxVEPwMyEf0owVMVwpBuFHwunWuEwRMBOXoCTM' \
+  --header 'cache-control: no-cache' \
+  --header 'postman-token: 302acfe0-e68a-2c29-3169-41cf2b799a77' \
+  --output-document \
+  - http://onalb.com/api/blog
+``` 
+
 Tests
 =====
 * Install phpunit and execute it inside the project directory
