@@ -95,3 +95,13 @@ swiftmailer:
       username:  '%email_username%'
       password:  '%email_password%'
       port:      '25'
+
+nelmio_api_doc:
+  routes:
+    path_patterns: # an array of regexps
+      - ^/api
+  documentation:
+    info:
+      title: Symfony Skeleton
+      description: This is an awesome skeleton!
+      version: 1.0.0

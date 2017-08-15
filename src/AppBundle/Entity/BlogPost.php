@@ -13,6 +13,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
 use Symfony\Component\Validator\Constraints as Assert;
+use Swagger\Annotations as SWG;
 
 // Instead of Hateoas we can still use our Links Annotation serializer subscriber to generate links
 // * @Link(
@@ -42,6 +43,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     ),
  *     embedded = "expr(object.getCategory())"
  * )
+ *
+ *
+ * @SWG\Definition(
+ *     definition="BlogPost",
+ *     required={"title", "category", "summary", "content", "publishedAt"},
+ *     properties={"id", "title", "category", "summary", "content", "publishedAt"},
+ *     type="object",
+ *     @SWG\Xml(name="BlogPost"))
+ *
  */
 class BlogPost
 {
@@ -51,12 +61,16 @@ class BlogPost
      * @ORM\Column(type="integer")
      *
      * @Serializer\Exclude()
+     *
+     * @SWG\Property(format="int64")
      */
     private $id;
 
     /**
      * @Assert\NotBlank(message="Please enter a valid title")
      * @ORM\Column(type="string")
+     *
+     *  @SWG\Property()
      */
     private $title;
 
@@ -66,23 +80,31 @@ class BlogPost
      *
      * @Serializer\Groups({"deep"})
      * @Assert\Valid()
+     *
+     * @SWG\Property()
      */
     private $category;
 
     /**
      * @Assert\NotBlank(message="Summary should not be empty")
      * @ORM\Column(type="text")
+     *
+     * @SWG\Property()
      */
     private $summary;
 
     /**
      * @Assert\NotBlank(message="Content should not be empty")
      * @ORM\Column(type="text")
+     *
+     * @SWG\Property()
      */
     private $content;
 
     /**
      * @ORM\Column(type="boolean")
+     *
+     * @SWG\Property()
      */
     private $isPublished = true;
 
@@ -90,6 +112,8 @@ class BlogPost
      * @Assert\NotBlank()
      * @ORM\Column(type="date")
      * @Type("DateTime<'Y-m-d'>")
+     *
+     * @SWG\Property()
      */
     private $publishedAt;
 

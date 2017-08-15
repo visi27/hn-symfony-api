@@ -1,6 +1,11 @@
 app:
     resource: "@AppBundle/Controller/Web"
     type:     annotation
+
+app.swagger_ui:
+    resource: "@NelmioApiDocBundle/Resources/config/routing/swaggerui.xml"
+    prefix:   /api/doc
+
 api:
     resource: "@AppBundle/Controller/Api"
     type:     annotation

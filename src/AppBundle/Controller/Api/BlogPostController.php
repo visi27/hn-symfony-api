@@ -10,11 +10,13 @@ namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Swagger\Annotations as SWG;
 
 /**
  * Class BlogPostController.
@@ -26,6 +28,26 @@ class BlogPostController extends BaseController
     /**
      * @Route("/api/blog", name="api_create_blog_post")
      * @Method("POST")
+     *
+     * consumes={"application/json"},
+     * produces={"application/json"},
+     * @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     description="BlogPost object that needs to be added",
+     *     required=true,
+     *     @SWG\Schema(ref="#/definitions/BlogPost"),
+     * ),
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Creates a new Blog Post",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @Model(type=BlogPost::class, groups={"full"})
+     *     )
+     * )
+     * @SWG\Tag(name="Blog Posts")
      *
      * @param Request $request
      *
