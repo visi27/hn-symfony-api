@@ -39,7 +39,7 @@ class BlogPostControllerTest extends ApiTestCase
         ];
 
         $response = $this->client->post(
-            '/api/blog',
+            '/api/v1.0/blog',
             [
                 'body' => json_encode($data),
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
@@ -77,7 +77,7 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $response = $this->client->get('/api/blog/'.$createdBlogPost->getId(), [
+        $response = $this->client->get('/api/v1.0/blog/'.$createdBlogPost->getId(), [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         //$data = $response->json();
@@ -102,7 +102,7 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyEquals(
             $response,
             '_links.self',
-            $this->adjustUri('/api/blog/'.$createdBlogPost->getId())
+            $this->adjustUri('/api/v1.0/blog/'.$createdBlogPost->getId())
         );
     }
 
@@ -119,7 +119,7 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $response = $this->client->get('/api/blog/'.$createdGenus->getId().'?deep=1', [
+        $response = $this->client->get('/api/v1.0/blog/'.$createdGenus->getId().'?deep=1', [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         //$data = $response->json();
@@ -157,7 +157,7 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $response = $this->client->get('/api/blog', [
+        $response = $this->client->get('/api/v1.0/blog', [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         //$data = $response->json();
@@ -196,7 +196,7 @@ class BlogPostControllerTest extends ApiTestCase
             );
         }
 
-        $response = $this->client->get('/api/blog?filter=awsome', [
+        $response = $this->client->get('/api/v1.0/blog?filter=awsome', [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
 
@@ -266,7 +266,7 @@ class BlogPostControllerTest extends ApiTestCase
 
         $data = $this->getService('jms_serializer')->serialize($createdBlogPost, 'json', $context);
         $response = $this->client->put(
-            '/api/blog/'.$createdBlogPost->getId(),
+            '/api/v1.0/blog/'.$createdBlogPost->getId(),
             [
                 'body' => $data,
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
@@ -295,7 +295,7 @@ class BlogPostControllerTest extends ApiTestCase
         ];
 
         $response = $this->client->patch(
-            '/api/blog/'.$createdBlogPost->getId(),
+            '/api/v1.0/blog/'.$createdBlogPost->getId(),
             [
                 'body' => json_encode(($data)),
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
@@ -320,7 +320,7 @@ class BlogPostControllerTest extends ApiTestCase
             ]
         );
 
-        $response = $this->client->delete('/api/blog/'.$createdBlogPost->getId(), [
+        $response = $this->client->delete('/api/v1.0/blog/'.$createdBlogPost->getId(), [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         $this->assertSame(204, $response->getStatusCode());
@@ -343,7 +343,7 @@ class BlogPostControllerTest extends ApiTestCase
         ];
 
         $response = $this->client->post(
-            '/api/blog',
+            '/api/v1.0/blog',
             [
                 'body' => json_encode($data),
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
@@ -381,7 +381,7 @@ class BlogPostControllerTest extends ApiTestCase
 }
 EOF;
         $response = $this->client->post(
-            '/api/blog',
+            '/api/v1.0/blog',
             [
                 'body' => $invalidBody,
                 'headers' => $this->getAuthorizedHeaders('filanfisteku'),
@@ -394,7 +394,7 @@ EOF;
 
     public function test404Exception()
     {
-        $response = $this->client->get('/api/blog/97108', [
+        $response = $this->client->get('/api/v1.0/blog/97108', [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         $this->assertSame(404, $response->getStatusCode());
@@ -416,7 +416,7 @@ EOF;
             'publishedAt' => '2017-04-08 10:29:44',
         ];
         $response = $this->client->post(
-            '/api/blog',
+            '/api/v1.0/blog',
             [
                 'body' => json_encode($data),
             ]

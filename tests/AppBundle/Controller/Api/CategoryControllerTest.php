@@ -36,7 +36,7 @@ class CategoryControllerTest extends ApiTestCase
         }
 
         //First get the subfamily from its endpoint
-        $response = $this->client->get('/api/category/'.$category->getId(), [
+        $response = $this->client->get('/api/v1.0/category/'.$category->getId(), [
             'headers' => $this->getAuthorizedHeaders('filanfisteku'),
         ]);
         $this->assertSame(200, $response->getStatusCode());
