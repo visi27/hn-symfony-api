@@ -29,13 +29,10 @@ class ApiVersionController extends BaseController
 
         $router = $this->container->get('router');
 
+        // Route matcher
         $matcher = $router->getMatcher();
 
-
-//        foreach ($router->getRouteCollection()->getIterator() as $route){
-//            $route->getPath();
-//        }
-
+        // init $check_api_version with $url_api_version
         $check_api_version = $url_api_version;
         // Check if the requested API version is correct (we have it in our config)
         // We loop the configured versions going back one version each time. For each version try and match the url to
@@ -68,7 +65,7 @@ class ApiVersionController extends BaseController
         // Check if the requested API version is correct (we have it in our config)
         if (in_array($currentVersion, $apiVersions)) {
             // Get the index (on our config) of the requested API version.
-            // If we find the version and it is not the first version try to fall back one version by redirecting
+            // If we find the version and it is not the first version try to fall back one version
             $api_version_config_index = array_search($currentVersion, $apiVersions);
             if ($api_version_config_index && $api_version_config_index > 0) {
                 // Build the path of this api for the previeous version
