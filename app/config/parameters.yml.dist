@@ -25,3 +25,9 @@ parameters:
     #Email sending account
     email_username: ~
     email_password: ~
+
+    # Configured Api Versions
+    api_versions:
+      - "v1.0"
+      - "v1.1"
+      - "v2.0"
