@@ -6,8 +6,9 @@
  *
  */
 
-namespace AppBundle\Controller\Api;
+namespace AppBundle\Controller\Api\V1;
 
+use AppBundle\Controller\Api\BaseController;
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -26,7 +27,7 @@ use Swagger\Annotations as SWG;
 class BlogPostController extends BaseController
 {
     /**
-     * @Route("/api/blog", name="api_create_blog_post")
+     * @Route("/api/v1.0/blog", name="api_v1.0_create_blog_post")
      * @Method("POST")
      *
      * consumes={"application/json"},
@@ -93,7 +94,7 @@ class BlogPostController extends BaseController
     }
 
     /**
-     * @Route("/api/blog/{id}", name = "api_show_blog_post")
+     * @Route("/api/v1.0/blog/{id}", name = "api_v1.0_show_blog_post")
      * @Method("GET")
      *
      * @param int $id
@@ -119,7 +120,7 @@ class BlogPostController extends BaseController
     }
 
     /**
-     * @Route("/api/blog", name="api_list_blog_posts")
+     * @Route("/api/v1.0/blog", name="api_v1.0_list_blog_posts")
      * @Method("GET")
      *
      * @param Request $request
@@ -143,7 +144,7 @@ class BlogPostController extends BaseController
     }
 
     /**
-     * @Route("/api/blog/{id}", name="api_update_blog_post")
+     * @Route("/api/v1.0/blog/{id}", name="api_v1.0_update_blog_post")
      * @Method({"PUT", "PATCH"})
      *
      * @param Request $request
@@ -180,7 +181,7 @@ class BlogPostController extends BaseController
     }
 
     /**
-     * @Route("/api/blog/{id}", name="api_delete_blog_post")
+     * @Route("/api/v1.0/blog/{id}", name="api_v1.0_delete_blog_post")
      * @Method("DELETE")
      *
      * @param int $id

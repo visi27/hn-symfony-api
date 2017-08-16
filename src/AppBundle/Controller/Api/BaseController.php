@@ -6,7 +6,7 @@
  *
  */
 
-namespace AppBundle\Controller\Api\V1;
+namespace AppBundle\Controller\Api;
 
 use AppBundle\Api\ApiProblem;
 use AppBundle\Api\ApiProblemException;

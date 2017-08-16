@@ -6,8 +6,9 @@
  *
  */
 
-namespace AppBundle\Controller\Api;
+namespace AppBundle\Controller\Api\V1;
 
+use AppBundle\Controller\Api\BaseController;
 use AppBundle\Entity\Category;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CategoryController extends BaseController
 {
     /**
-     * @Route("/api/category/{id}", name = "api_show_category")
+     * @Route("/api/v1.0/category/{id}", name = "api_v1.0_show_category")
      * @Method("GET")
      *
      * @param int $id
@@ -43,7 +44,7 @@ class CategoryController extends BaseController
     }
 
     /**
-     * @Route("/api/category", name="api_list_categories")
+     * @Route("/api/v1.0/category", name="api_v1.0_list_categories")
      * @Method("GET")
      *
      * @param Request $request
@@ -67,7 +68,7 @@ class CategoryController extends BaseController
     }
 
     /**
-     * @Route("/api/category/{id}/blog", name="api_list_blog_posts_by_category")
+     * @Route("/api/v1.0/category/{id}/blog", name="api_v1.0_list_blog_posts_by_category")
      * @Method("GET")
      *
      * @param Category $category
