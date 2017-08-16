@@ -12,6 +12,15 @@ api:
     defaults:
       _format: json
 
+defaultCatchAll:
+    path:     /api/{path}
+    defaults:
+        _controller: AppBundle:Api\ApiVersion:handleVersion
+        path: /
+        permanent: true
+    requirements:
+        path: ".+"
+
 homepage:
   path: /
   defaults:
