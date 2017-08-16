@@ -17,6 +17,9 @@ class ApiVersionController extends BaseController
         // Get the requested path. The api/ portion is removed from the cath all route configuration
         $request_path = $request->get('path');
 
+        // Remove app_test.php if our request is from phpunit
+        $request_path = str_replace("app_test.php/", "", $request_path);
+
         // Get the configured values of Api versions. This will be used to try and fallback to an older API version
         $api_versions = $this->getParameter('api_versions');
 

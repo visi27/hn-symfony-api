@@ -31,14 +31,14 @@ use Swagger\Annotations as SWG;
  * @Hateoas\Relation(
  *     "self",
  *     href=@Hateoas\Route(
- *          "api_show_blog_post",
+ *          "api_v1.0_show_blog_post",
  *          parameters={"id"= "expr(object.getId())"}
  *     )
  * )
  * @Hateoas\Relation(
  *     "category",
  *     href=@Hateoas\Route(
- *          "api_show_category",
+ *          "api_v1.0_show_category",
  *          parameters={"id"= "expr(object.getCategory())"}
  *     ),
  *     embedded = "expr(object.getCategory())"

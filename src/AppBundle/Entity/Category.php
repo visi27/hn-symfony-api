@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Hateoas\Relation(
  *      "blogposts",
  *      href=@Hateoas\Route(
- *          "api_list_blog_posts_by_category",
+ *          "api_v1.0_list_blog_posts_by_category",
  *          parameters = { "id"= "expr(object.getId())" }
  *      )
  * )

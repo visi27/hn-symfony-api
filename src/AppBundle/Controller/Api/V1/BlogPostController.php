@@ -84,7 +84,7 @@ class BlogPostController extends BaseController
         $response = $this->createApiResponse($blogPost, 201);
 
         $blogPostUrl = $this->generateUrl(
-            'api_show_blog_post',
+            'api_v1.0_show_blog_post',
             ['id' => $blogPost->getId()]
         );
 
@@ -136,7 +136,7 @@ class BlogPostController extends BaseController
             ->findAllQueryBuilder($filter);
 
         $paginatedCollection = $this->get('pagination_factory')
-            ->createCollection($qb, $request, 'api_list_blog_posts');
+            ->createCollection($qb, $request, 'api_v1.0_list_blog_posts');
 
         $response = $this->createApiResponse($paginatedCollection, 200);
 

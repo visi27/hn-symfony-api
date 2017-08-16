@@ -60,7 +60,7 @@ class CategoryController extends BaseController
             ->findAllQueryBuilder($filter);
 
         $paginatedCollection = $this->get('pagination_factory')
-            ->createCollection($qb, $request, 'api_list_categories');
+            ->createCollection($qb, $request, 'api_v1.0_list_categories');
 
         $response = $this->createApiResponse($paginatedCollection, 200);
 
@@ -78,14 +78,14 @@ class CategoryController extends BaseController
      *
      * @internal param $id
      */
-    public function listGenusesAction(Category $category, Request $request)
+    public function listBlogPostsAction(Category $category, Request $request)
     {
         $qb = $this->getDoctrine()
             ->getRepository('AppBundle:BlogPost')
             ->findAllByCategoryQueryBuilder($category);
 
         $paginatedCollection = $this->get('pagination_factory')
-            ->createCollection($qb, $request, 'api_list_blog_posts_by_category', ['id' => $category]);
+            ->createCollection($qb, $request, 'api_v1.0_list_blog_posts_by_category', ['id' => $category]);
 
         $response = $this->createApiResponse($paginatedCollection, 200);
 
