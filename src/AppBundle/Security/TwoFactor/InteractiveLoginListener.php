@@ -40,7 +40,7 @@ class InteractiveLoginListener
     /**
      * Listen for successful login events.
      *
-     * @param \Symfony\Component\Security\Http\Event\InteractiveLoginEvent $event
+     * @param InteractiveLoginEvent $event
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {

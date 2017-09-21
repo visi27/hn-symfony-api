@@ -25,17 +25,17 @@ class RequestListener
     protected $helper;
 
     /**
-     * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface
+     * @var TokenStorageInterface
      */
     protected $securityContext;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
+     * @var EngineInterface
      */
     protected $templating;
 
     /**
-     * @var \Symfony\Bundle\FrameworkBundle\Routing\Router
+     * @var Router
      */
     protected $router;
     /**
@@ -47,10 +47,10 @@ class RequestListener
     /**
      * Construct the listener.
      *
-     * @param HelperFactory                                                                       $helperFactory
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $securityContext
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface                          $templating
-     * @param \Symfony\Bundle\FrameworkBundle\Routing\Router                                      $router
+     * @param HelperFactory $helperFactory
+     * @param TokenStorageInterface $securityContext
+     * @param EngineInterface $templating
+     * @param Router $router
      *
      * @internal param HelperInterface $helper
      */
@@ -69,7 +69,7 @@ class RequestListener
     /**
      * Listen for request events.
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param GetResponseEvent $event
      */
     public function onCoreRequest(GetResponseEvent $event)
     {
