@@ -9,7 +9,6 @@
 namespace AppBundle\Security;
 
 use AppBundle\Form\LoginForm;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -32,7 +31,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     private $formFactory;
     /**
-     * @var EntityManager
+     * @var EntityRepository
      */
     private $userRepository;
     /**
