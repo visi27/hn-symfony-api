@@ -5,11 +5,11 @@ services:
 
   app.security.login_form_authenticator:
     class: AppBundle\Security\LoginFormAuthenticator
-    arguments: ["@form.factory", "@doctrine.orm.entity_manager","@router", "@security.password_encoder"]
+    arguments: ["@form.factory", "@app.user_repository","@router", "@security.password_encoder"]
 
   app.security.jwt_token_authenticator:
     class: AppBundle\Security\JwtTokenAuthenticator
-    arguments: ["@lexik_jwt_authentication.encoder", "@doctrine.orm.entity_manager", "@api.response_factory"]
+    arguments: ["@lexik_jwt_authentication.encoder", "@app.user_repository", "@api.response_factory"]
 
   app.doctrine.hash_password_listener:
     class: AppBundle\Doctrine\HashPasswordListener

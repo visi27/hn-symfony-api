@@ -10,6 +10,7 @@ namespace AppBundle\Security;
 
 use AppBundle\Form\LoginForm;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     /**
      * @var EntityManager
      */
-    private $em;
+    private $userRepository;
     /**
      * @var RouterInterface
      */
@@ -47,18 +48,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      * LoginFormAuthenticator constructor.
      *
      * @param FormFactoryInterface $formFactory
-     * @param EntityManager        $em
+     * @param EntityRepository     $userRepository
      * @param RouterInterface      $router
      * @param UserPasswordEncoder  $passwordEncoder
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        EntityManager $em,
+        EntityRepository $userRepository,
         RouterInterface $router,
         UserPasswordEncoder $passwordEncoder
     ) {
         $this->formFactory = $formFactory;
-        $this->em = $em;
+        $this->userRepository = $userRepository;
         $this->router = $router;
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -88,8 +89,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         $username = $credentials['_username'];
 
-        return $this->em->getRepository('AppBundle:User')
-            ->findOneBy(['email' => $username]);
+        return $this->userRepository->findOneBy(['email' => $username]);
     }
 
     public function checkCredentials($credentials, UserInterface $user)
