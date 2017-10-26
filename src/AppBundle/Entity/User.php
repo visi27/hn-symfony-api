@@ -106,10 +106,14 @@ class User implements UserInterface
 
     /**
      * @param mixed $roles
+     *
+     * @return User
      */
     public function setRoles($roles)
     {
         $this->roles = $roles;
+
+        return $this;
     }
 
     public function getPassword()
@@ -119,10 +123,14 @@ class User implements UserInterface
 
     /**
      * @param mixed $password
+     *
+     * @return User
      */
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
     }
 
     public function getSalt()
@@ -145,10 +153,14 @@ class User implements UserInterface
 
     /**
      * @param string $email
+     *
+     * @return User
      */
     public function setEmail($email)
     {
         $this->email = $email;
+
+        return $this;
     }
 
     /**
@@ -161,6 +173,8 @@ class User implements UserInterface
 
     /**
      * @param string $plainPassword
+     *
+     * @return User
      */
     public function setPlainPassword($plainPassword)
     {
@@ -169,6 +183,8 @@ class User implements UserInterface
         // forces the object to look "dirty" to Doctrine. Avoids
         // Doctrine *not* saving this entity, if only plainPassword changes
         $this->password = null;
+
+        return $this;
     }
 
     /**
@@ -181,10 +197,14 @@ class User implements UserInterface
 
     /**
      * @param string $defaultTwoFactorMethod
+     *
+     * @return User
      */
     public function setDefaultTwoFactorMethod($defaultTwoFactorMethod)
     {
         $this->defaultTwoFactorMethod = $defaultTwoFactorMethod;
+
+        return $this;
     }
 
     /**
@@ -197,10 +217,14 @@ class User implements UserInterface
 
     /**
      * @param bool $twoFactorAuthentication
+     *
+     * @return User
      */
     public function setTwoFactorAuthentication($twoFactorAuthentication)
     {
         $this->twoFactorAuthentication = $twoFactorAuthentication;
+
+        return $this;
     }
 
     /**
@@ -213,10 +237,14 @@ class User implements UserInterface
 
     /**
      * @param int $twoFactorCode
+     *
+     * @return User
      */
     public function setTwoFactorCode($twoFactorCode)
     {
         $this->twoFactorCode = $twoFactorCode;
+
+        return $this;
     }
 
     /**
@@ -229,10 +257,14 @@ class User implements UserInterface
 
     /**
      * @param string $googleAuthenticatorCode
+     *
+     * @return User
      */
     public function setGoogleAuthenticatorCode($googleAuthenticatorCode)
     {
         $this->googleAuthenticatorCode = $googleAuthenticatorCode;
+
+        return $this;
     }
 
     /**
@@ -245,9 +277,13 @@ class User implements UserInterface
 
     /**
      * @param string $plainGoogleAuthenticatorCode
+     *
+     * @return User
      */
     public function setPlainGoogleAuthenticatorCode($plainGoogleAuthenticatorCode)
     {
         $this->plainGoogleAuthenticatorCode = $plainGoogleAuthenticatorCode;
+
+        return $this;
     }
 }
