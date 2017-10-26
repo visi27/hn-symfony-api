@@ -33,6 +33,6 @@ test:
     - sudo chown www-data.www-data var/jwt/*.*
     - mkdir -p $CIRCLE_TEST_REPORTS/phpunit
     - mv behat.circle.yml behat.yml
-    - mv phpunit.circle.yml phpunit.yml
+    - mv phpunit.circle.xml phpunit.xml
     - vendor/bin/phpunit --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
     - vendor/bin/behat
