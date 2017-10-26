@@ -47,7 +47,9 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
     {
         // only reply to /api URLs
         if (mb_strpos($event->getRequest()->getPathInfo(), '/api') !== 0) {
+            // @codeCoverageIgnoreStart
             return;
+            // @codeCoverageIgnoreEnd
         }
 
         $e = $event->getException();
@@ -60,7 +62,9 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
         }
 
         if ($e instanceof ApiProblemException) {
+            // @codeCoverageIgnoreStart
             $apiProblem = $e->getApiProblem();
+            // @codeCoverageIgnoreEnd
         } else {
             $apiProblem = new ApiProblem($statusCode);
         }
