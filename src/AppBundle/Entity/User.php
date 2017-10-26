@@ -245,10 +245,11 @@ class User implements UserInterface
         $this->twoFactorCode = $twoFactorCode;
 
         return $this;
-    }
+    }   
 
     /**
      * @return string
+     * @codeCoverageIgnore
      */
     public function getGoogleAuthenticatorCode()
     {
@@ -259,6 +260,7 @@ class User implements UserInterface
      * @param string $googleAuthenticatorCode
      *
      * @return User
+     * @codeCoverageIgnore
      */
     public function setGoogleAuthenticatorCode($googleAuthenticatorCode)
     {
@@ -269,6 +271,7 @@ class User implements UserInterface
 
     /**
      * @return string
+     * @codeCoverageIgnore
      */
     public function getPlainGoogleAuthenticatorCode()
     {
@@ -279,6 +282,7 @@ class User implements UserInterface
      * @param string $plainGoogleAuthenticatorCode
      *
      * @return User
+     * @codeCoverageIgnore
      */
     public function setPlainGoogleAuthenticatorCode($plainGoogleAuthenticatorCode)
     {
