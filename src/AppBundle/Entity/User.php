@@ -245,7 +245,7 @@ class User implements UserInterface
         $this->twoFactorCode = $twoFactorCode;
 
         return $this;
-    }   
+    }
 
     /**
      * @return string
