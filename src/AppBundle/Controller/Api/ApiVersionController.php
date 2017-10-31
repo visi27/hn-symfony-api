@@ -47,7 +47,7 @@ class ApiVersionController extends BaseController
             }else{
                 // If the above conditions fail retur a 404 Not Found Response
                 $apiProblem = new ApiProblem(404);
-                $response = $this->get('api.response_factory')->createResponse($apiProblem);
+                $response = $this->get('AppBundle\Api\ResponseFactory')->createResponse($apiProblem);
 
                 return $response;
             }
@@ -55,7 +55,7 @@ class ApiVersionController extends BaseController
 
         // If the above conditions fail retur a 404 Not Found Response
         $apiProblem = new ApiProblem(404);
-        $response = $this->get('api.response_factory')->createResponse($apiProblem);
+        $response = $this->get('AppBundle\Api\ResponseFactory')->createResponse($apiProblem);
 
         return $response;
 
