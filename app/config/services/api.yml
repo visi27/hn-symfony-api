@@ -1,22 +1,17 @@
 services:
-  api_exception_subscriber:
-    class: AppBundle\EventListener\ApiExceptionSubscriber
-    arguments: ['%kernel.debug%' , '@logger', '@api.response_factory']
+  AppBundle\EventListener\ApiExceptionSubscriber:
+    arguments: ['%kernel.debug%' , '@logger', '@AppBundle\Api\ResponseFactory']
     tags:
       - { name: kernel.event_subscriber }
 
-  api.response_factory:
-    class: AppBundle\Api\ResponseFactory
+  AppBundle\Api\ResponseFactory:
 
-  pagination_factory:
-    class: AppBundle\Pagination\PaginationFactory
+  AppBundle\Pagination\PaginationFactory:
     arguments: ["@router"]
 
-  link_serialization_subscriber:
-    class: AppBundle\Serializer\LinkSerializationSubscriber
+  AppBundle\Serializer\LinkSerializationSubscriber:
     arguments: ["@router", "@annotation_reader"]
     tags:
       - { name: jms_serializer.event_subscriber }
 
-  custom_hateoas_json_serializer:
-    class: AppBundle\Serializer\CustomHATEOASJsonSerializer
+  AppBundle\Serializer\CustomHATEOASJsonSerializer:

@@ -1,18 +1,38 @@
-services:
-  app.security.encryption_service:
-    class: AppBundle\Security\Encryption\EncryptionService
-    arguments: ["%defuse_key%","@logger"]
+parameters:
+  app.security.param.servername: "TestServer"
 
-  app.security.login_form_authenticator:
-    class: AppBundle\Security\LoginFormAuthenticator
+services:
+  Google\Authenticator\GoogleAuthenticator:
+
+  AppBundle\Security\TwoFactor\Google\Helper:
+    arguments: ["%app.security.param.servername%", '@Google\Authenticator\GoogleAuthenticator', '@AppBundle\Security\Encryption\EncryptionService']
+
+  AppBundle\Security\TwoFactor\Email\Helper:
+    arguments: ["@doctrine.orm.entity_manager", "@swiftmailer.mailer"]
+
+  AppBundle\Security\TwoFactor\HelperFactory:
+    arguments: ['@AppBundle\Security\TwoFactor\Email\Helper', '@AppBundle\Security\TwoFactor\Google\Helper']
+
+  AppBundle\Security\TwoFactor\InteractiveLoginListener:
+    arguments: ['@AppBundle\Security\TwoFactor\HelperFactory']
+    tags:
+      - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+
+  AppBundle\Security\TwoFactor\RequestListener:
+    arguments: ['@AppBundle\Security\TwoFactor\HelperFactory',"@security.token_storage", "@templating","@router"]
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onCoreRequest, priority: -1 }
+
+  AppBundle\Security\LoginFormAuthenticator:
     arguments: ["@form.factory", "@app.user_repository","@router", "@security.password_encoder"]
 
-  app.security.jwt_token_authenticator:
-    class: AppBundle\Security\JwtTokenAuthenticator
-    arguments: ["@lexik_jwt_authentication.encoder", "@app.user_repository", "@api.response_factory"]
+  AppBundle\Security\JwtTokenAuthenticator:
+    arguments: ["@lexik_jwt_authentication.encoder", "@app.user_repository", '@AppBundle\Api\ResponseFactory']
 
-  app.doctrine.hash_password_listener:
-    class: AppBundle\Doctrine\HashPasswordListener
+  AppBundle\Doctrine\HashPasswordListener:
     arguments: ["@security.password_encoder"]
     tags:
       - {name: doctrine.event_subscriber}
+
+  AppBundle\Security\Encryption\EncryptionService:
+      arguments: ["%defuse_key%","@logger"]

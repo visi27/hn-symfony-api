@@ -1,0 +1,19 @@
+services:
+  #SECURITY SECTION
+  app.security.twofactor.google: '@Google\Authenticator\GoogleAuthenticator'
+  app.security.twofactor.google.provider: '@AppBundle\Security\TwoFactor\Google\Helper'
+  app.security.twofactor.email.provider: '@AppBundle\Security\TwoFactor\Email\Helper'
+  app.security.twofactor.provide_factory: '@AppBundle\Security\TwoFactor\HelperFactory'
+  app.security.twofactor.interactive_login_listener: '@AppBundle\Security\TwoFactor\InteractiveLoginListener'
+  app.security.twofactor.request_listener: '@AppBundle\Security\TwoFactor\RequestListener'
+  app.security.login_form_authenticator: '@AppBundle\Security\LoginFormAuthenticator'
+  app.security.jwt_token_authenticator: '@AppBundle\Security\JwtTokenAuthenticator'
+  app.doctrine.hash_password_listener: '@AppBundle\Doctrine\HashPasswordListener'
+  app.security.encryption_service: '@AppBundle\Security\Encryption\EncryptionService'
+
+  #API SECTION
+  api_exception_subscriber: '@AppBundle\EventListener\ApiExceptionSubscriber'
+  api.response_factory: '@AppBundle\Api\ResponseFactory'
+  pagination_factory: '@AppBundle\Pagination\PaginationFactory'
+  link_serialization_subscriber: '@AppBundle\Serializer\LinkSerializationSubscriber'
+  custom_hateoas_json_serializer: '@AppBundle\Serializer\CustomHATEOASJsonSerializer'
