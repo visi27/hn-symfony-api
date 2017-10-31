@@ -3,7 +3,6 @@ imports:
     - { resource: security.yml }
     - { resource: services/ }
     - { resource: service_defaults.yml }
-    - { resource: legacy_aliases.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -86,7 +85,7 @@ lexik_jwt_authentication:
 
 bazinga_hateoas:
     serializer:
-        json: custom_hateoas_json_serializer
+        json: AppBundle\Serializer\CustomHATEOASJsonSerializer
 
 swiftmailer:
   default_mailer: local_mailer
