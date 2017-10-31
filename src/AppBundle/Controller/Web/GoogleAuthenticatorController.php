@@ -47,12 +47,12 @@ class GoogleAuthenticatorController extends Controller
             return $this->redirectToRoute('user_dashboard');
         }
 
-        $helper = $this->get('app.security.twofactor.google.provider');
+        $helper = $this->get('AppBundle\Security\TwoFactor\Google\Helper');
 
         if ($request->getMethod() === 'POST') {
             //check authentication key
             //Check the authentication code
-            $authKey = $this->get('app.security.encryption_service')->decrypt($user->getGoogleAuthenticatorCode());
+            $authKey = $this->get('AppBundle\Security\Encryption\EncryptionService')->decrypt($user->getGoogleAuthenticatorCode());
             if ($helper->checkCode($authKey, $request->get('_auth_code')) === true) {
                 //activate 2fa authenticator
                 $user->setTwoFactorAuthentication(true);

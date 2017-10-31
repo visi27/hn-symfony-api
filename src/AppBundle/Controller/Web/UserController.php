@@ -95,7 +95,7 @@ class UserController extends Controller
                 ->authenticateUserAndHandleSuccess(
                     $user,
                     $request,
-                    $this->get('app.security.login_form_authenticator'),
+                    $this->get('AppBundle\Security\LoginFormAuthenticator'),
                     'main'
                 );
         }

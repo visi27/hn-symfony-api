@@ -16,7 +16,7 @@ class PaginationFactoryTest extends ContainerDependableTestCase
 {
     public function testPaginationFactory()
     {
-        $paginationFactory = $this->_container->get('pagination_factory');
+        $paginationFactory = $this->_container->get('AppBundle\Pagination\PaginationFactory');
 
         $this->createDummyMenuEntries(25);
         $filter = 'Menu';

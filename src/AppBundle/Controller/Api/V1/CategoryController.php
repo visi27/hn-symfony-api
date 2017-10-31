@@ -59,7 +59,7 @@ class CategoryController extends BaseController
             ->getRepository('AppBundle:Category')
             ->findAllQueryBuilder($filter);
 
-        $paginatedCollection = $this->get('pagination_factory')
+        $paginatedCollection = $this->get('AppBundle\Pagination\PaginationFactory')
             ->createCollection($qb, $request, 'api_v1.0_list_categories');
 
         $response = $this->createApiResponse($paginatedCollection, 200);
@@ -84,7 +84,7 @@ class CategoryController extends BaseController
             ->getRepository('AppBundle:BlogPost')
             ->findAllByCategoryQueryBuilder($category);
 
-        $paginatedCollection = $this->get('pagination_factory')
+        $paginatedCollection = $this->get('AppBundle\Pagination\PaginationFactory')
             ->createCollection($qb, $request, 'api_v1.0_list_blog_posts_by_category', ['id' => $category]);
 
         $response = $this->createApiResponse($paginatedCollection, 200);

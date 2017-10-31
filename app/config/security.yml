@@ -17,12 +17,12 @@ security:
       anonymous: ~
       guard:
         authenticators:
-          - app.security.jwt_token_authenticator
+          - AppBundle\Security\JwtTokenAuthenticator
     main:
       anonymous: ~
       guard:
         authenticators:
-          - app.security.login_form_authenticator
+          - AppBundle\Security\LoginFormAuthenticator
       logout:
         path: /logout
   access_control:

@@ -21,7 +21,7 @@ class JwtTokenAuthenticatorTest extends ContainerDependableTestCase
         $jwtAuthenticator = new JwtTokenAuthenticator(
             $this->_container->get('lexik_jwt_authentication.encoder'),
             $this->_container->get('app.user_repository'),
-            $this->_container->get('api.response_factory')
+            $this->_container->get('AppBundle\Api\ResponseFactory')
         );
 
         $user = new User();

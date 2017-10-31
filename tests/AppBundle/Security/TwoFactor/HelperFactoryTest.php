@@ -14,7 +14,10 @@ class HelperFactoryTest extends ContainerDependableTestCase
 {
     public function testHelperFactory(){
         $emailHelper = new EmailHelper($this->get("doctrine")->getManager(), $this->get("swiftmailer.mailer"));
-        $googleHelper = new GoogleHelper($this->get("doctrine")->getManager(), $this->get("app.security.twofactor.google"), $this->get("app.security.encryption_service"));
+        $googleHelper = new GoogleHelper(
+            $this->get("doctrine")->getManager(),
+            $this->get("Google\Authenticator\GoogleAuthenticator"),
+            $this->get("AppBundle\Security\Encryption\EncryptionService"));
         $factory = new HelperFactory($emailHelper, $googleHelper);
 
         $user = new User();

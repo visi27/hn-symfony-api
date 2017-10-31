@@ -18,7 +18,7 @@ class EncryptionServiceTest extends ContainerDependableTestCase
         /**
          * @var EncryptionService
          */
-        $encryptionService = $this->get('app.security.encryption_service');
+        $encryptionService = $this->get('AppBundle\Security\Encryption\EncryptionService');
         $toEncrypt = 'TESTING ENCRYPTION';
         $encrypted = $encryptionService->encrypt($toEncrypt);
         $decrypted = $encryptionService->decrypt($encrypted);

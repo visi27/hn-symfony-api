@@ -135,7 +135,7 @@ class BlogPostController extends BaseController
             ->getRepository('AppBundle:BlogPost')
             ->findAllQueryBuilder($filter);
 
-        $paginatedCollection = $this->get('pagination_factory')
+        $paginatedCollection = $this->get('AppBundle\Pagination\PaginationFactory')
             ->createCollection($qb, $request, 'api_v1.0_list_blog_posts');
 
         $response = $this->createApiResponse($paginatedCollection, 200);
