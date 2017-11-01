@@ -20,3 +20,6 @@ coverage.clover
 .idea
 .test
 /report/
+/docker/data/*
+!/docker/data
+!/docker/data/.gitkeep
