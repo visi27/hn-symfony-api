@@ -35,8 +35,6 @@ class BlogPostController extends Controller
      * @param $postId
      *
      * @return Response
-     *
-     * @internal param string $genusName
      */
     public function showAction($postId)
     {
