@@ -1,5 +1,6 @@
 [![CircleCI](https://circleci.com/gh/visi27/symfony-skeleton/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/visi27/symfony-skeleton/tree/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/visi27/symfony-skeleton/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/visi27/symfony-skeleton/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/visi27/symfony-skeleton/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/visi27/symfony-skeleton/?branch=master)
 
 Symfony Skeleton
 ============
