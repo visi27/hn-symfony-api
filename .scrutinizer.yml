@@ -8,7 +8,7 @@ build:
       - bin/console doctrine:schema:update --force --env=test
       - sudo chmod 777 var -R
       - sudo chown www-data.www-data var/jwt/*.*
-      - mv behat.circle.yml behat.yml
+      - mv behat.scrutinizer.yml behat.yml
       - mv phpunit.scrutinizer.xml phpunit.xml
     override:
       -
