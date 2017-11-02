@@ -9,7 +9,7 @@ build:
       - sudo chmod 777 var -R
       - sudo chown www-data.www-data var/jwt/*.*
       - mv behat.circle.yml behat.yml
-      - mv phpunit.circle.xml phpunit.xml
+      - mv phpunit.scrutinizer.xml phpunit.xml
     override:
       -
         command: 'vendor/bin/phpunit'
