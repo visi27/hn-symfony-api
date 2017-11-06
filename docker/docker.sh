@@ -23,9 +23,9 @@ containerName="sf_web"
 
 ##Update Apache UID
 uid=1000
-if [ $uid -gt 100000 ]; then
-	uid=1000
-fi
+#if [ $uid -gt 100000 ]; then
+#	uid=1000
+#fi
 
 case "$(uname -s)" in
     Linux*) host_ip="172.17.0.1";;

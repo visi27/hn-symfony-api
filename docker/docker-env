@@ -3,7 +3,7 @@ XDEBUG_CONFIG=remote_enable=1 remote_host=172.17.0.1 remote_port=9000 remote_mod
 PHP_IDE_CONFIG=serverName=docker-sf3
 
 #blackfire
-BLACKFIRE_SERVER_ID=<your server id>
-BLACKFIRE_SERVER_TOKEN=<your server token>
-BLACKFIRE_CLIENT_ID=<your client id>
-BLACKFIRE_CLIENT_TOKEN=<your client token>
+#BLACKFIRE_SERVER_ID=<your server id>
+#BLACKFIRE_SERVER_TOKEN=<your server token>
+#BLACKFIRE_CLIENT_ID=<your client id>
+#BLACKFIRE_CLIENT_TOKEN=<your client token>

@@ -17,8 +17,8 @@ services:
             - ./sf_web/zshrc.dist:/var/www/.zshrc:ro
         links:
             - db
-            - mailcatcher
-            - blackfire
+#            - mailcatcher
+#            - blackfire
         env_file:
             - docker-env
 
@@ -55,18 +55,18 @@ services:
             - PMA_USER=root
             - PMA_PASSWORD=root
 
-    #mailcatcher
-    mailcatcher:
-        container_name: "sf_mailcatcher"
-        image: quay.io/datadarius/tiny-mailcatcher
-        ports:
-            - 1025:1025
-            - 1080:1080
+#    #mailcatcher
+#    mailcatcher:
+#        container_name: "sf_mailcatcher"
+#        image: quay.io/datadarius/tiny-mailcatcher
+#        ports:
+#            - 1025:1025
+#            - 1080:1080
 
-    #blackfire
-    blackfire:
-        restart: always
-        container_name: "sf_blackfire"
-        image: blackfire/blackfire
-        env_file:
-            - docker-env
+#    #blackfire
+#    blackfire:
+#        restart: always
+#        container_name: "sf_blackfire"
+#        image: blackfire/blackfire
+#        env_file:
+#            - docker-env
