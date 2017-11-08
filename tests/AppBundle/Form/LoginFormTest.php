@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace Tests\AppBundle\Form;

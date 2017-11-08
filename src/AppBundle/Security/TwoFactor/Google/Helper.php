@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Security\TwoFactor\Google;
@@ -35,9 +33,9 @@ class Helper implements HelperInterface
     /**
      * Construct the helper service for Google Authenticator.
      *
-     * @param string $server
+     * @param string                                    $server
      * @param \Google\Authenticator\GoogleAuthenticator $authenticator
-     * @param EncryptionService $encryptionService
+     * @param EncryptionService                         $encryptionService
      */
     public function __construct($server, BaseGoogleAuthenticator $authenticator, EncryptionService $encryptionService)
     {
@@ -106,7 +104,7 @@ class Helper implements HelperInterface
 
     public function getAuthKey(UserInterface $user)
     {
-        /**
+        /*
          * @var $user User
          */
         return $this->encryptionService->decrypt($user->getGoogleAuthenticatorCode());

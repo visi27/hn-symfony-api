@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Controller\Web;
@@ -28,7 +26,9 @@ class CategoryController extends Controller
 
     /**
      * @Route("/category/{id}", name="category_list")
+     *
      * @param Category $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listAction(Category $id)

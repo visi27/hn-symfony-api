@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Controller\Api\V1;
@@ -15,9 +13,9 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Swagger\Annotations as SWG;
 
 /**
  * Class BlogPostController.

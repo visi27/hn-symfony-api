@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 use AppBundle\Entity\BlogPost;
@@ -167,7 +165,7 @@ class FeatureContext extends RawMinkContext implements Context
         $em->persist($user);
         $em->flush();
 
-        $this->currentUser =  $user;
+        $this->currentUser = $user;
     }
 
     /**
@@ -202,12 +200,10 @@ class FeatureContext extends RawMinkContext implements Context
      */
     public function iFillInWithAuthValueFromDb($field)
     {
-
         $this->getEntityManager()->refresh($this->currentUser);
 
         $this->getPage()->fillField($field, $this->currentUser->getTwoFactorCode());
     }
-
 
     /**
      * @Given the following articles exist:
@@ -264,7 +260,7 @@ class FeatureContext extends RawMinkContext implements Context
     public function iClickOnInTheRow($selector, $rowText)
     {
         $row = $this->findRowByText($rowText);
-        $button = $row->find("css", $selector);
+        $button = $row->find('css', $selector);
         assertNotNull($button, 'Cannot find link in row with css selector '.$selector);
         $button->click();
     }

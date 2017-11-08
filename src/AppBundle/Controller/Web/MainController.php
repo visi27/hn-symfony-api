@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Controller\Web;
@@ -20,11 +18,11 @@ class MainController extends Controller
 
         $content = $this->stripFirstLine($this->stripFirstLine($highlighted->value));
 
-        return $this->render('main/homepage.html.twig', ['content' => $content, 'language'=>$highlighted->language]);
+        return $this->render('main/homepage.html.twig', ['content' => $content, 'language' => $highlighted->language]);
     }
 
     private function stripFirstLine($text)
     {
-        return substr( $text, strpos($text, "\n")+1 );
+        return mb_substr($text, mb_strpos($text, "\n") + 1);
     }
 }

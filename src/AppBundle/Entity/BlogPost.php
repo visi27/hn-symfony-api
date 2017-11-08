@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Entity;
@@ -12,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
-use Symfony\Component\Validator\Constraints as Assert;
 use Swagger\Annotations as SWG;
+use Symfony\Component\Validator\Constraints as Assert;
 
 // Instead of Hateoas we can still use our Links Annotation serializer subscriber to generate links
 // * @Link(
@@ -51,7 +49,6 @@ use Swagger\Annotations as SWG;
  *     properties={"id", "title", "category", "summary", "content", "publishedAt"},
  *     type="object",
  *     @SWG\Xml(name="BlogPost"))
- *
  */
 class BlogPost
 {

@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Security\TwoFactor;
@@ -43,14 +41,13 @@ class RequestListener
      */
     private $helperFactory;
 
-
     /**
      * Construct the listener.
      *
-     * @param HelperFactory $helperFactory
+     * @param HelperFactory         $helperFactory
      * @param TokenStorageInterface $securityContext
-     * @param EngineInterface $templating
-     * @param Router $router
+     * @param EngineInterface       $templating
+     * @param Router                $router
      *
      * @internal param HelperInterface $helper
      */
@@ -94,7 +91,7 @@ class RequestListener
         $key = $this->helper->getSessionKey($this->securityContext->getToken());
         $request = $event->getRequest();
         /**
-         * @var Session $session
+         * @var Session
          */
         $session = $event->getRequest()->getSession();
 

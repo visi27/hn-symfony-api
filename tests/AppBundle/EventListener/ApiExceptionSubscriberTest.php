@@ -1,8 +1,7 @@
 <?php
+
 /**
- * Created by Evis Bregu <evis.bregu@gmail.com>.
- * Date: 10/25/17
- * Time: 10:18 AM
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace Tests\AppBundle\EventListener;
@@ -33,7 +32,7 @@ class ApiExceptionSubscriberTest extends TestCase
         $apiExceptionSubscriber->onKernelException($event);
 
         $response = $event->getResponse();
-        $this->assertEquals(500, $response->getStatusCode());
+        $this->assertSame(500, $response->getStatusCode());
 
         $responseData = $response->getContent();
         $this->assertNotEmpty($responseData);
@@ -41,9 +40,9 @@ class ApiExceptionSubscriberTest extends TestCase
 
         $subscribedEvents = ApiExceptionSubscriber::getSubscribedEvents();
         $this->assertInternalType('array', $subscribedEvents);
-        $this->assertEquals(array(KernelEvents::EXCEPTION => 'onKernelException'), $subscribedEvents);
+        $this->assertSame([KernelEvents::EXCEPTION => 'onKernelException'], $subscribedEvents);
 
-        $exception = new HttpException("404", "FOO Not Found");
+        $exception = new HttpException('404', 'FOO Not Found');
         $event = new GetResponseForExceptionEvent(new TestKernel(), $request, 'foo', $exception);
         $apiExceptionSubscriber->onKernelException($event);
         $response = $event->getResponse();

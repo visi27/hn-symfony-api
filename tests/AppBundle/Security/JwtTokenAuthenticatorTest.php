@@ -1,8 +1,7 @@
 <?php
+
 /**
- * Created by Evis Bregu <evis.bregu@gmail.com>.
- * Date: 10/26/17
- * Time: 1:09 PM
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace Tests\AppBundle\Security;
@@ -25,15 +24,15 @@ class JwtTokenAuthenticatorTest extends ContainerDependableTestCase
         );
 
         $user = new User();
-        $user->setEmail("bar@foo.com")
+        $user->setEmail('bar@foo.com')
             ->setPlainPassword('barfoo')
             ->setDefaultTwoFactorMethod('email')
             ->setTwoFactorCode('1234')
             ->setTwoFactorAuthentication(false)
             ->setRoles(['ROLE_USER']);
 
-        $this->_container->get("doctrine")->getManager()->persist($user);
-        $this->_container->get("doctrine")->getManager()->flush();
+        $this->_container->get('doctrine')->getManager()->persist($user);
+        $this->_container->get('doctrine')->getManager()->flush();
 
         $request = new Request();
 
@@ -47,7 +46,7 @@ class JwtTokenAuthenticatorTest extends ContainerDependableTestCase
             ->encode(
                 [
                     'username' => $user->getUsername(),
-                    'exp' => time() + 3600 // 1 hour expiration
+                    'exp' => time() + 3600, // 1 hour expiration
                 ]
             );
 
@@ -56,7 +55,7 @@ class JwtTokenAuthenticatorTest extends ContainerDependableTestCase
         // Get credentials (authorization token) from request headers
         $credentials = $jwtAuthenticator->getCredentials($request);
         // Assert that credentials are the same as the token that we sent in the request headers
-        $this->assertEquals($token, $credentials);
+        $this->assertSame($token, $credentials);
 
         //Real user with good credentials
         $authUser = $jwtAuthenticator->getUser(
@@ -70,15 +69,15 @@ class JwtTokenAuthenticatorTest extends ContainerDependableTestCase
 
         $authFailedResponse = $jwtAuthenticator->onAuthenticationFailure(
             new Request(),
-            new AuthenticationException("Invalid Token")
+            new AuthenticationException('Invalid Token')
         );
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\JsonResponse', $authFailedResponse);
-        $this->assertEquals(401, $authFailedResponse->getStatusCode());
+        $this->assertSame(401, $authFailedResponse->getStatusCode());
 
         $this->assertFalse($jwtAuthenticator->supportsRememberMe());
 
         //Emulate bad credentials. Keep at the end of test to allow other assertions to execute
-        $badCredentials = "DummyText";
+        $badCredentials = 'DummyText';
         $this->expectException(CustomUserMessageAuthenticationException::class);
         $jwtAuthenticator->getUser($badCredentials, $this->_container->get('security.user.provider.concrete.our_users'));
     }

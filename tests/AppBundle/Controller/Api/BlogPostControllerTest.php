@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace Tests\AppBundle\Controller\Api;
@@ -56,11 +54,12 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyContains($response, 'user', 'filanfisteku');
     }
 
-    public function testReadEmptyResponse(){
+    public function testReadEmptyResponse()
+    {
         $response = new Response();
 
         $this->expectException("\Exception");
-        $this->asserter()->readResponseProperty($response, "inexisten_property");
+        $this->asserter()->readResponseProperty($response, 'inexisten_property');
     }
 
     public function testGETBlogPost()

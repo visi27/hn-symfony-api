@@ -9,6 +9,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('var')
     ->exclude('app')
     ->exclude('web')
+    ->exclude('docker')
 ;
 
 return PhpCsFixer\Config::create()
@@ -17,7 +18,7 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         '@Symfony:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'header_comment' => ['header' => $fileHeaderComment, 'separate' => 'both'],
+        'header_comment' => ['commentType' => 'PHPDoc','header' => $fileHeaderComment, 'separate' => 'both'],
         'linebreak_after_opening_tag' => true,
         'mb_str_functions' => true,
         'no_php4_constructor' => true,

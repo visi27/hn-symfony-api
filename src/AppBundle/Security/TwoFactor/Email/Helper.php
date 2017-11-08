@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Security\TwoFactor\Email;
@@ -108,7 +106,7 @@ class Helper implements HelperInterface
 
     public function getAuthKey(UserInterface $user)
     {
-        /**
+        /*
          * @var $user User
          */
         return $user->getTwoFactorCode();

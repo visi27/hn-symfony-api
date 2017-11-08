@@ -1,8 +1,7 @@
 <?php
+
 /**
- * Created by Evis Bregu <evis.bregu@gmail.com>.
- * Date: 10/25/17
- * Time: 12:13 PM
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace Tests\AppBundle\Entity;
@@ -15,7 +14,7 @@ class UserTest extends ContainerDependableTestCase
     public function testUser()
     {
         $user = new User();
-        $user->setEmail("bar@foo.com")
+        $user->setEmail('bar@foo.com')
             ->setPlainPassword('barfoo')
             ->setDefaultTwoFactorMethod('email')
             ->setTwoFactorCode('1234')
@@ -33,16 +32,16 @@ class UserTest extends ContainerDependableTestCase
         $this->assertNull($user->getPlainPassword());
 
         $this->assertInternalType('int', $user->getId());
-        $this->assertEquals('bar@foo.com', $user->getEmail());
-        $this->assertEquals('bar@foo.com', $user->getUsername());
-        $this->assertEquals('email', $user->getDefaultTwoFactorMethod());
-        $this->assertEquals('1234', $user->getTwoFactorCode());
+        $this->assertSame('bar@foo.com', $user->getEmail());
+        $this->assertSame('bar@foo.com', $user->getUsername());
+        $this->assertSame('email', $user->getDefaultTwoFactorMethod());
+        $this->assertSame('1234', $user->getTwoFactorCode());
         $this->assertFalse($user->getTwoFactorAuthentication());
-        $this->assertEquals(['ROLE_USER'], $user->getRoles());
+        $this->assertSame(['ROLE_USER'], $user->getRoles());
 
         //Even we dont set ROLE_USER for the given user we will add it to the roles array
         $user->setRoles(['ROLE_ADMIN']);
-        $this->assertTrue(in_array('ROLE_USER', $user->getRoles()));
-        $this->assertTrue(in_array('ROLE_ADMIN', $user->getRoles()));
+        $this->assertTrue(in_array('ROLE_USER', $user->getRoles(), true));
+        $this->assertTrue(in_array('ROLE_ADMIN', $user->getRoles(), true));
     }
 }

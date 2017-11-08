@@ -1,8 +1,7 @@
 <?php
+
 /**
- * Created by Evis Bregu <evis.bregu@gmail.com>.
- * Date: 10/25/17
- * Time: 12:50 PM
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace Tests\AppBundle\Security;
@@ -24,15 +23,15 @@ class LoginFormAuthenticatorTest extends ContainerDependableTestCase
         );
 
         $user = new User();
-        $user->setEmail("bar@foo.com")
+        $user->setEmail('bar@foo.com')
             ->setPlainPassword('barfoo')
             ->setDefaultTwoFactorMethod('email')
             ->setTwoFactorCode('1234')
             ->setTwoFactorAuthentication(false)
             ->setRoles(['ROLE_USER']);
 
-        $this->_container->get("doctrine")->getManager()->persist($user);
-        $this->_container->get("doctrine")->getManager()->flush();
+        $this->_container->get('doctrine')->getManager()->persist($user);
+        $this->_container->get('doctrine')->getManager()->flush();
 
         $post = ['login_form' => ['_username' => 'bar@foo.com', '_password' => 'barfoo']];
         $request = new Request([], $post);
@@ -56,7 +55,7 @@ class LoginFormAuthenticatorTest extends ContainerDependableTestCase
         $this->assertTrue($loginAuthenticator->checkCredentials($credentials, $authUser));
 
         $anotherUser = new User();
-        $anotherUser->setEmail("admin@foo.com")
+        $anotherUser->setEmail('admin@foo.com')
             ->setPlainPassword('adminfoo')
             ->setDefaultTwoFactorMethod('email')
             ->setTwoFactorCode('1234')

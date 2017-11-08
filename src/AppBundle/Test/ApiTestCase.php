@@ -1,9 +1,7 @@
 <?php
 
-/*
- *
- * (c) Evis Bregu <evis.bregu@gmail.com>
- *
+/**
+ * (c) Evis Bregu <evis.bregu@gmail.com>.
  */
 
 namespace AppBundle\Test;
@@ -382,9 +380,10 @@ class ApiTestCase extends KernelTestCase
     protected function getEntityManager()
     {
         /**
-         * @var EntityManager $em
+         * @var EntityManager
          */
         $em = $this->getService('doctrine.orm.entity_manager');
+
         return $em;
     }
 
