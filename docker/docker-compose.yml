@@ -47,7 +47,7 @@ services:
             - "db"
         ports:
             - 8081:80
-        restart: always
+#        restart: always
         environment:
             - PMA_ARBITRARY=1
             - PMA_PORT=3306
