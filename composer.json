@@ -40,7 +40,8 @@
         "sonata-project/google-authenticator": "1.x-dev",
         "defuse/php-encryption": "^2.1",
         "scrivo/highlight.php": "9.*",
-        "nelmio/api-doc-bundle": "dev-master"
+        "nelmio/api-doc-bundle": "dev-master",
+        "psy/psysh": "^0.8.15"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",
