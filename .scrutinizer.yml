@@ -17,7 +17,7 @@ build:
           file: 'coverage.clover'
           format: 'clover'
       - command: 'vendor/bin/behat'
-      - command: [php-scrutinizer-run]
+      - command: 'php-scrutinizer-run'
   environment:
     php:
       version: 7.1
