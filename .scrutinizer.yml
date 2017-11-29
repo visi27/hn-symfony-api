@@ -1,10 +1,4 @@
 build:
-  nodes:
-    analysis:
-      project_setup:
-        override: true
-      tests:
-        override: [php-scrutinizer-run]
   tests:
     before:
       - mkdir var/jwt
@@ -23,6 +17,7 @@ build:
           file: 'coverage.clover'
           format: 'clover'
       - command: 'vendor/bin/behat'
+      - command: [php-scrutinizer-run]
   environment:
     php:
       version: 7.1
