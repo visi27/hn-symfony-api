@@ -17,6 +17,7 @@ services:
             - ./sf_web/zshrc.dist:/var/www/.zshrc:ro
         links:
             - db
+            - redis
 #            - mailcatcher
 #            - blackfire
         env_file:
@@ -54,6 +55,14 @@ services:
             - PMA_HOST=db
             - PMA_USER=root
             - PMA_PASSWORD=root
+
+    #redis-server
+#    redis:
+#        container_name: "sf_redis"
+#        image: redis
+#        ports:
+#        - 6379:6379
+
 
 #    #mailcatcher
 #    mailcatcher:
