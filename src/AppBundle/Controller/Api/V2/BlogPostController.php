@@ -24,11 +24,9 @@ class BlogPostController extends BaseController
      * @Route("/api/v2.0/blog", name="api_v2.0_list_blog_posts")
      * @Method("GET")
      *
-     * @param Request $request
-     *
      * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $response = $this->createApiResponse(['data' => 'Showcasing api versioning. V2.0 HERE! YAY!'], 200);
 

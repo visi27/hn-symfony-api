@@ -50,7 +50,6 @@ class InteractiveLoginListener
         }
 
         //Check if user can do two-factor authentication
-        //$ip = $event->getRequest()->getClientIp();
         $token = $event->getAuthenticationToken();
         $user = $token->getUser();
         $this->helper = $this->helperFactory->getHelper($user);

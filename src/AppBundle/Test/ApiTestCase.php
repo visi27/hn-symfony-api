@@ -251,7 +251,7 @@ class ApiTestCase extends KernelTestCase
      */
     private function getLastRequest()
     {
-        if (!self::$history || empty(self::$history)) {
+        if (empty(self::$history)) {
             return null;
         }
 
@@ -267,7 +267,7 @@ class ApiTestCase extends KernelTestCase
      */
     private function getLastResponse()
     {
-        if (!self::$history || empty(self::$history)) {
+        if (empty(self::$history)) {
             return null;
         }
 
@@ -291,7 +291,8 @@ class ApiTestCase extends KernelTestCase
     protected function createUser($username, $plainPassword = 'foo')
     {
         $user = new User();
-        //$user->setUsername($username);
+        // Use setUsername instead of setEmail if user entity has usernames.
+        // We use only email right now
         $user->setEmail($username.'@foo.com');
         $password = $this->getService('security.password_encoder')
             ->encodePassword($user, $plainPassword);

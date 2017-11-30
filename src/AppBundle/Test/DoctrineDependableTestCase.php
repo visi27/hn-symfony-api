@@ -64,7 +64,8 @@ class DoctrineDependableTestCase extends KernelTestCase
     protected function createUser($username, $plainPassword = 'foo')
     {
         $user = new User();
-        //$user->setUsername($username);
+        // Use setUsername instead of setEmail if user entity has usernames.
+        // We use only email right now
         $user->setEmail($username.'@foo.com');
 
         $user->setPassword($plainPassword);

@@ -58,7 +58,7 @@ class BlogPostController extends BaseController
         $em = $this->getDoctrine()->getManager();
 
         $blogPost = new BlogPost();
-        $form = $this->createForm("AppBundle\Form\BlogPostFormType", $blogPost);
+        $form = $this->createForm('AppBundle\Form\BlogPostFormType', $blogPost);
         $this->processForm($request, $form);
         if (!$form->isValid()) {
             return $this->throwApiProblemValidationException($form);
@@ -164,7 +164,7 @@ class BlogPostController extends BaseController
             );
         }
 
-        $form = $this->createForm("AppBundle\Form\UpdateBlogPostFormType", $blogPost);
+        $form = $this->createForm('AppBundle\Form\UpdateBlogPostFormType', $blogPost);
         $this->processForm($request, $form);
 
         if (!$form->isValid()) {

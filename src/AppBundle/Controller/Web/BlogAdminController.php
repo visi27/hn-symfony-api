@@ -34,13 +34,9 @@ class BlogAdminController extends Controller
      */
     public function listAction()
     {
-        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
-
         $em = $this->getDoctrine()->getManager();
-
         $blogPosts = $em->getRepository('AppBundle:BlogPost')->findAll();
 
-        //dump($_SESSION);
         return $this->render('admin/blog_post/list.html.twig', ['blogPosts' => $blogPosts]);
     }
 

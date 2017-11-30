@@ -30,10 +30,8 @@ class HelperFactory
         switch ($user->getDefaultTwoFactorMethod()) {
             case 'email':
                 return $this->emailHelper;
-                break;
             case 'google':
                 return $this->googleHelper;
-                break;
             default:
                 return $this->emailHelper;
         }
