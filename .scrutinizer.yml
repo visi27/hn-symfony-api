@@ -21,3 +21,8 @@ build:
   environment:
     php:
       version: 7.1
+filter:
+    paths:
+        - src/
+    dependency_paths:
+        - var/cache
