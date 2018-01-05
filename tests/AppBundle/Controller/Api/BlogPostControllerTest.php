@@ -12,12 +12,21 @@ use JMS\Serializer\SerializationContext;
 
 class BlogPostControllerTest extends ApiTestCase
 {
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     protected function setUp()
     {
         parent::setUp();
         $this->createUser('filanfisteku', 'I<3Pizza');
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     */
     public function testPostBlogPost()
     {
         $title = 'Super Awsome Blog Post';
@@ -54,6 +63,9 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyContains($response, 'user', 'filanfisteku');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testReadEmptyResponse()
     {
         $response = new Response();
@@ -62,6 +74,12 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->readResponseProperty($response, 'inexisten_property');
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     * @throws \TypeError
+     */
     public function testGETBlogPost()
     {
         $category = 'Category '.rand(1, 100);
@@ -105,6 +123,12 @@ class BlogPostControllerTest extends ApiTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     * @throws \TypeError
+     */
     public function testGETBlogPostDeep()
     {
         $createdGenus = $this->createBlogPost(
@@ -132,6 +156,12 @@ class BlogPostControllerTest extends ApiTestCase
         );
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     * @throws \TypeError
+     */
     public function testGETBlogPostCollection()
     {
         $this->createBlogPost(
@@ -169,6 +199,12 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyEquals($response, 'items[1].title', 'Ultra Awsome Blog Post');
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     * @throws \TypeError
+     */
     public function testGETBlogPostaCollectionPaginated()
     {
         $this->createBlogPost(
@@ -241,6 +277,12 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyEquals($response, 'count', 5);
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     * @throws \TypeError
+     */
     public function testPUTBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
@@ -276,6 +318,12 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Exception
+     * @throws \TypeError
+     */
     public function testPATCHBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
@@ -306,6 +354,11 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyEquals($response, 'summary', 'Lorem Ipsum Sit Amet');
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \TypeError
+     */
     public function testDELETEBlogPost()
     {
         $createdBlogPost = $this->createBlogPost(
@@ -325,6 +378,9 @@ class BlogPostControllerTest extends ApiTestCase
         $this->assertSame(204, $response->getStatusCode());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testValidations()
     {
         $category = 'Awsome Category '.rand(1, 100);
@@ -366,6 +422,9 @@ class BlogPostControllerTest extends ApiTestCase
         $this->asserter()->assertResponsePropertyDoesNotExist($response, 'errors.isPublished');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testInvalidJson()
     {
         //Invalid JSON is missing comma after "category" => "test"
@@ -391,6 +450,9 @@ EOF;
         $this->asserter()->assertResponsePropertyContains($response, 'type', 'invalid_body_format');
     }
 
+    /**
+     * @throws \Exception
+     */
     public function test404Exception()
     {
         $response = $this->client->get('/api/v1.0/blog/97108', [
@@ -403,6 +465,10 @@ EOF;
         $this->asserter()->assertResponsePropertyEquals($response, 'detail', 'No blog post found with id "97108"!!');
     }
 
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function testRequiresAuthentication()
     {
         $subFamily = $this->createCategory('Awsome Category');

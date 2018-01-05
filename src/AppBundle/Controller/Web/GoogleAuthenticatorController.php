@@ -7,6 +7,8 @@
 namespace AppBundle\Controller\Web;
 
 use AppBundle\Entity\User;
+use AppBundle\Security\Encryption\EncryptionService;
+use AppBundle\Security\TwoFactor\Google\Helper as GoogleHelper;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,10 +28,16 @@ class GoogleAuthenticatorController extends Controller
      *
      * @param Request $request
      *
+     * @param GoogleHelper $googleHelper
+     * @param EncryptionService $encryptionService
+     *
      * @return RedirectResponse|Response
      */
-    public function activateGoogleAuthenticatorAction(Request $request)
-    {
+    public function activateGoogleAuthenticatorAction(
+        Request $request,
+        GoogleHelper $googleHelper,
+        EncryptionService $encryptionService
+    ) {
         /**
          * @var User
          */
@@ -45,13 +53,11 @@ class GoogleAuthenticatorController extends Controller
             return $this->redirectToRoute('user_dashboard');
         }
 
-        $helper = $this->get('AppBundle\Security\TwoFactor\Google\Helper');
-
         if ($request->getMethod() === 'POST') {
             //check authentication key
             //Check the authentication code
-            $authKey = $this->get('AppBundle\Security\Encryption\EncryptionService')->decrypt($user->getGoogleAuthenticatorCode());
-            if ($helper->checkCode($authKey, $request->get('_auth_code')) === true) {
+            $authKey = $encryptionService->decrypt($user->getGoogleAuthenticatorCode());
+            if ($googleHelper->checkCode($authKey, $request->get('_auth_code')) === true) {
                 //activate 2fa authenticator
                 $user->setTwoFactorAuthentication(true);
                 $user->setDefaultTwoFactorMethod('google');
@@ -63,19 +69,19 @@ class GoogleAuthenticatorController extends Controller
                 return $this->redirectToRoute('user_dashboard');
             }
             $this->addFlash('error', 'Invalid Code');
-            $qrCodeUrl = $helper->getUrl($user, $authKey);
+            $qrCodeUrl = $googleHelper->getUrl($user, $authKey);
 
             return $this->render('twofactor/activate.html.twig', ['qrCodeURL' => $qrCodeUrl]);
         }
-            //generate new key
-            $code = $helper->generateSecret();
+        //generate new key
+        $code = $googleHelper->generateSecret();
 
         $user->setGoogleAuthenticatorCode('');
         $user->setPlainGoogleAuthenticatorCode($code);
         $this->getDoctrine()->getManager()->persist($user);
         $this->getDoctrine()->getManager()->flush();
 
-        $qrCodeUrl = $helper->getUrl($user, $code);
+        $qrCodeUrl = $googleHelper->getUrl($user, $code);
 
         return $this->render('twofactor/activate.html.twig', ['qrCodeURL' => $qrCodeUrl]);
     }

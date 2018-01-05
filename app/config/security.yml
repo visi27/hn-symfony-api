@@ -18,6 +18,7 @@ security:
       guard:
         authenticators:
           - AppBundle\Security\JwtTokenAuthenticator
+      logout_on_user_change: true
     main:
       anonymous: ~
       guard:
@@ -25,6 +26,7 @@ security:
           - AppBundle\Security\LoginFormAuthenticator
       logout:
         path: /logout
+      logout_on_user_change: true
   access_control:
   role_hierarchy:
     ROLE_ADMIN: [ROLE_MANAGER, ROLE_TEST]

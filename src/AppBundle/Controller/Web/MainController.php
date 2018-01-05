@@ -7,12 +7,15 @@
 namespace AppBundle\Controller\Web;
 
 use Highlight\Highlighter;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class MainController extends Controller
 {
-    public function homepageAction()
+    public function homepageAction(LoggerInterface $logger)
     {
+        $logger->info("TEST DEPRECATIONS");
+
         $hl = new Highlighter();
         $highlighted = $hl->highlight('markdown', file_get_contents('../README.md'));
 

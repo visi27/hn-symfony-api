@@ -6,10 +6,12 @@
 
 namespace AppBundle\Controller\Api;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
 class TokenController extends BaseController
@@ -20,10 +22,17 @@ class TokenController extends BaseController
      *
      * @param Request $request
      *
+     * @param UserPasswordEncoderInterface $encoder
+     * @param JWTEncoderInterface $JWTEncoder
+     *
      * @return JsonResponse
+     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException
      */
-    public function newTokenAction(Request $request)
-    {
+    public function newTokenAction(
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+        JWTEncoderInterface $JWTEncoder
+    ) {
         $user = $this->getDoctrine()
             ->getRepository('AppBundle:User')
             ->findOneBy(['email' => $request->getUser()]);
@@ -32,19 +41,16 @@ class TokenController extends BaseController
             throw $this->createNotFoundException();
         }
 
-        $isValid = $this->get('security.password_encoder')
-            ->isPasswordValid($user, $request->getPassword());
-        if (!$isValid) {
+        if (!$encoder->isPasswordValid($user, $request->getPassword())) {
             throw new BadCredentialsException();
         }
 
-        $token = $this->get('lexik_jwt_authentication.encoder')
-            ->encode(
-                [
-                    'username' => $user->getUsername(),
-                    'exp' => time() + 3600, // 1 hour expiration
-                ]
-            );
+        $token = $JWTEncoder->encode(
+            [
+                'username' => $user->getUsername(),
+                'exp' => time() + 3600, // 1 hour expiration
+            ]
+        );
 
         return new JsonResponse(['token' => $token]);
     }

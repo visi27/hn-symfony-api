@@ -63,13 +63,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
-        $isLoginSubmit = $request->getPathInfo() === '/login' && $request->isMethod('POST');
-
-        if (!$isLoginSubmit) {
-            // skip authentication
-            return null;
-        }
-
         $form = $this->formFactory->create(LoginForm::class);
         $form->handleRequest($request);
 
@@ -115,5 +108,9 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         return new RedirectResponse($targetPath);
+    }
+
+    public function supports(Request $request){
+        return ($request->getPathInfo() === '/login' && $request->isMethod('POST'));
     }
 }

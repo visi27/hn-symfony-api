@@ -8,11 +8,14 @@ namespace AppBundle\Controller\Web;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserRegistrationForm;
+use AppBundle\Security\LoginFormAuthenticator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class UserController extends Controller
 {
@@ -21,11 +24,13 @@ class UserController extends Controller
      *
      * @param Request $request
      *
-     * @Security("is_granted('ROLE_USER')")
+     * @param UserPasswordEncoderInterface $userPasswordEncoder
      *
      * @return Response
+     * @Security("is_granted('ROLE_USER')")
+     *
      */
-    public function changePasswordAction(Request $request)
+    public function changePasswordAction(Request $request, UserPasswordEncoderInterface $userPasswordEncoder)
     {
         /**
          * @var User
@@ -33,7 +38,7 @@ class UserController extends Controller
         $user = $this->getUser();
         if ($request->getMethod() === 'POST') {
             $currentPassword = $request->get('piCurrPass');
-            if ($this->get('security.password_encoder')->isPasswordValid($user, $currentPassword)) {
+            if ($userPasswordEncoder->isPasswordValid($user, $currentPassword)) {
                 if ($request->get('piNewPass') === $request->get('piNewPassRepeat')) {
                     $user->setPlainPassword($request->get('piNewPass'));
 
@@ -71,10 +76,16 @@ class UserController extends Controller
      *
      * @param Request $request
      *
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $authenticator
+     *
      * @return Response
      */
-    public function registerAction(Request $request)
-    {
+    public function registerAction(
+        Request $request,
+        GuardAuthenticatorHandler $guardHandler,
+        LoginFormAuthenticator $authenticator
+    ) {
         $form = $this->createForm(UserRegistrationForm::class);
 
         $form->handleRequest($request);
@@ -89,13 +100,12 @@ class UserController extends Controller
 
             $this->addFlash('success', 'Welcome '.$user->getEmail());
 
-            return $this->get('security.authentication.guard_handler')
-                ->authenticateUserAndHandleSuccess(
-                    $user,
-                    $request,
-                    $this->get('AppBundle\Security\LoginFormAuthenticator'),
-                    'main'
-                );
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $authenticator,
+                'main'
+            );
         }
 
         return $this->render(

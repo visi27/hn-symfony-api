@@ -288,6 +288,14 @@ class ApiTestCase extends KernelTestCase
         return $headers;
     }
 
+    /**
+     * @param $username
+     * @param string $plainPassword
+     *
+     * @return User
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     protected function createUser($username, $plainPassword = 'foo')
     {
         $user = new User();
@@ -307,6 +315,14 @@ class ApiTestCase extends KernelTestCase
         return $user;
     }
 
+    /**
+     * @param array $data
+     *
+     * @return BlogPost
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \TypeError
+     */
     protected function createBlogPost(array $data)
     {
         $accessor = PropertyAccess::createPropertyAccessor();
@@ -332,8 +348,11 @@ class ApiTestCase extends KernelTestCase
     /**
      * Used to create multiple blog posts in a single category.
      *
-     * @param array    $data
+     * @param array $data
      * @param Category $category
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \TypeError
      */
     protected function createBlogPostSingleCategory(array $data, Category $category)
     {
@@ -352,6 +371,13 @@ class ApiTestCase extends KernelTestCase
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @param $name
+     *
+     * @return Category
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     protected function createCategory($name)
     {
         $category = new Category();

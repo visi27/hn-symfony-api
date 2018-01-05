@@ -8,6 +8,7 @@ namespace AppBundle\Controller\Api\V1;
 
 use AppBundle\Controller\Api\BaseController;
 use AppBundle\Entity\Category;
+use AppBundle\Pagination\PaginationFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,9 +48,11 @@ class CategoryController extends BaseController
      *
      * @param Request $request
      *
+     * @param PaginationFactory $paginationFactory
+     *
      * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, PaginationFactory $paginationFactory)
     {
         $filter = $request->query->get('filter');
 
@@ -57,8 +60,7 @@ class CategoryController extends BaseController
             ->getRepository('AppBundle:Category')
             ->findAllQueryBuilder($filter);
 
-        $paginatedCollection = $this->get('AppBundle\Pagination\PaginationFactory')
-            ->createCollection($qb, $request, 'api_v1.0_list_categories');
+        $paginatedCollection = $paginationFactory->createCollection($qb, $request, 'api_v1.0_list_categories');
 
         $response = $this->createApiResponse($paginatedCollection, 200);
 
@@ -70,19 +72,19 @@ class CategoryController extends BaseController
      * @Method("GET")
      *
      * @param Category $category
-     * @param Request  $request
+     * @param Request $request
      *
      * @return Response
      *
      * @internal param $id
      */
-    public function listBlogPostsAction(Category $category, Request $request)
+    public function listBlogPostsAction(Category $category, Request $request, PaginationFactory $paginationFactory)
     {
         $qb = $this->getDoctrine()
             ->getRepository('AppBundle:BlogPost')
             ->findAllByCategoryQueryBuilder($category);
 
-        $paginatedCollection = $this->get('AppBundle\Pagination\PaginationFactory')
+        $paginatedCollection = $paginationFactory
             ->createCollection($qb, $request, 'api_v1.0_list_blog_posts_by_category', ['id' => $category]);
 
         $response = $this->createApiResponse($paginatedCollection, 200);

@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LoginFormAuthenticatorTest extends ContainerDependableTestCase
 {
+    /**
+     * @throws \Exception
+     */
     public function testLoginAuthenticator()
     {
         $loginAuthenticator = new LoginFormAuthenticator(

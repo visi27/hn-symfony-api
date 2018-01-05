@@ -9,7 +9,9 @@ namespace AppBundle\Controller\Api\V1;
 use AppBundle\Controller\Api\BaseController;
 use AppBundle\Entity\BlogPost;
 use AppBundle\Entity\Category;
+use AppBundle\Pagination\PaginationFactory;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -123,9 +125,11 @@ class BlogPostController extends BaseController
      *
      * @param Request $request
      *
+     * @param PaginationFactory $paginationFactory
+     *
      * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, PaginationFactory $paginationFactory)
     {
         $filter = $request->query->get('filter');
 
@@ -133,8 +137,7 @@ class BlogPostController extends BaseController
             ->getRepository('AppBundle:BlogPost')
             ->findAllQueryBuilder($filter);
 
-        $paginatedCollection = $this->get('AppBundle\Pagination\PaginationFactory')
-            ->createCollection($qb, $request, 'api_v1.0_list_blog_posts');
+        $paginatedCollection = $paginationFactory->createCollection($qb, $request, 'api_v1.0_list_blog_posts');
 
         $response = $this->createApiResponse($paginatedCollection, 200);
 
@@ -150,7 +153,7 @@ class BlogPostController extends BaseController
      *
      * @return Response
      */
-    public function updateAction($id, Request $request)
+    public function updateAction($id, Request $request, LoggerInterface $logger)
     {
         $em = $this->getDoctrine()->getManager();
         $blogPost = $em->getRepository('AppBundle:BlogPost')->findOneBy(['id' => $id]);
@@ -168,7 +171,7 @@ class BlogPostController extends BaseController
         $this->processForm($request, $form);
 
         if (!$form->isValid()) {
-            $this->get('logger')->error($form->getErrors());
+            $logger->error($form->getErrors());
 
             return $this->throwApiProblemValidationException($form);
         }

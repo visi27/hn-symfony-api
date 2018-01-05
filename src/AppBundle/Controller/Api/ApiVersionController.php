@@ -7,6 +7,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Api\ApiProblem;
+use AppBundle\Api\ResponseFactory;
 use Symfony\Component\HttpFoundation\Request;
 
 class ApiVersionController extends BaseController
@@ -14,9 +15,11 @@ class ApiVersionController extends BaseController
     /**
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @param ResponseFactory $responseFactory
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function handleVersionAction(Request $request)
+    public function handleVersionAction(Request $request, ResponseFactory $responseFactory)
     {
         // Get the requested path. The api/ portion is removed from the cath all route configuration
         $request_path = $request->get('path');
@@ -51,7 +54,7 @@ class ApiVersionController extends BaseController
             } else {
                 // If the above conditions fail retur a 404 Not Found Response
                 $apiProblem = new ApiProblem(404);
-                $response = $this->get('AppBundle\Api\ResponseFactory')->createResponse($apiProblem);
+                $response = $responseFactory->createResponse($apiProblem);
 
                 return $response;
             }
@@ -59,7 +62,7 @@ class ApiVersionController extends BaseController
 
         // If the above conditions fail retur a 404 Not Found Response
         $apiProblem = new ApiProblem(404);
-        $response = $this->get('AppBundle\Api\ResponseFactory')->createResponse($apiProblem);
+        $response = $responseFactory->createResponse($apiProblem);
 
         return $response;
     }
