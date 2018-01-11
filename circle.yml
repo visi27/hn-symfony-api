@@ -1,6 +1,6 @@
 machine:
   php:
-    version: 7.2.1
+    version: 7.2.0
 
   hosts:
     local.dev: 127.0.0.1
