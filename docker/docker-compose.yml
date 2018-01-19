@@ -14,6 +14,7 @@ services:
       - "../:/var/www/html"
       - "~/.composer:/var/www/.composer"
       - ./sf_web/zshrc.dist:/var/www/.zshrc:ro
+      - ./data/apache/logs:/var/log/apache2
     links:
       - db
 #          - redis
@@ -54,6 +55,17 @@ services:
       - PMA_HOST=db
       - PMA_USER=root
       - PMA_PASSWORD=root
+
+  elk:
+      image: willdurand/elk
+      container_name: "sf_elk"
+      ports:
+          - 81:80
+      volumes:
+          - ./elk/logstash:/etc/logstash
+          - ./elk/logstash/patterns:/opt/logstash/patterns
+      volumes_from:
+          - sf_web
 
     #redis-server
 #    redis:
