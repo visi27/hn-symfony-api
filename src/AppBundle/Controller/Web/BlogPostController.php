@@ -30,7 +30,7 @@ class BlogPostController extends Controller
     /**
      * @Route("/blog/{postId}", name="blog_post_show")
      *
-     * @param $postId
+     * @param int $postId
      *
      * @return Response
      */

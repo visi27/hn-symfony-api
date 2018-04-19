@@ -22,10 +22,10 @@ class BaseController extends Controller
     }
 
     /**
-     * Use JMS Serialiser to serialize objects in our controllers.
+     * Use JMS Serializer to serialize objects in our controllers.
      *
      * @param object|array $data
-     * @param string       $format
+     * @param string $format
      *
      * @return mixed|string
      */
@@ -47,9 +47,9 @@ class BaseController extends Controller
     }
 
     /**
-     * Centralise Response creation for our controllers.
+     * Centralize Response creation for our controllers.
      *
-     * @param $data
+     * @param array $data
      * @param int $statusCode
      *
      * @return Response

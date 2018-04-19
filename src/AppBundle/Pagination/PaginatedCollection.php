@@ -31,8 +31,8 @@ class PaginatedCollection
     /**
      * PaginatedCollection constructor.
      *
-     * @param $items
-     * @param $total
+     * @param array $items
+     * @param int $total
      */
     public function __construct($items, $total)
     {

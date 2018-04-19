@@ -79,7 +79,7 @@ class UserController extends Controller
      * @param GuardAuthenticatorHandler $guardHandler
      * @param LoginFormAuthenticator $authenticator
      *
-     * @return Response
+     * @return Response|null
      */
     public function registerAction(
         Request $request,

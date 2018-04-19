@@ -9,12 +9,12 @@ namespace AppBundle\Test;
 use AppBundle\Entity\Menu;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContainerDependableTestCase extends KernelTestCase
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $_container;
 
