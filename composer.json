@@ -41,7 +41,8 @@
         "defuse/php-encryption": "^2.1",
         "scrivo/highlight.php": "9.*",
         "nelmio/api-doc-bundle": "dev-master",
-        "psy/psysh": "^0.8.15"
+        "psy/psysh": "^0.8.15",
+        "phpstan/phpstan": "^0.9.2"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0",
