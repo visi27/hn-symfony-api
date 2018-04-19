@@ -8,5 +8,9 @@
     ".idea/": true,
     "var/": true,
     ".rules": true
-  }
+  },
+  "php.executablePath": "/usr/bin/php",
+  "php.validate.enable": true,
+  "php.validate.executablePath": "/usr/bin/php",
+  "php.validate.run": "onType"
 }
