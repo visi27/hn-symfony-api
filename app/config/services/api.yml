@@ -15,3 +15,7 @@ services:
       - { name: jms_serializer.event_subscriber }
 
   AppBundle\Serializer\CustomHATEOASJsonSerializer:
+
+  AppBundle\EventListener\CorsListener:
+    tags:
+      - { name: kernel.event_subscriber }
