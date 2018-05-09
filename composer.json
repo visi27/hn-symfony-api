@@ -31,6 +31,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "twig/twig": "^1.0||^2.0",
         "doctrine/doctrine-migrations-bundle": "^1.2",
+        "ocramius/proxy-manager": "2.1.1",
         "jms/serializer-bundle": "^1.4",
         "white-october/pagerfanta-bundle": "^1.0",
         "lexik/jwt-authentication-bundle": "^2.3",

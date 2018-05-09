@@ -1,4 +1,4 @@
-FROM php:7-apache
+FROM php:7.1.17-apache-jessie
 
 #Enable necessary Apache modules
 RUN a2enmod rewrite
