@@ -7,18 +7,19 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class FavoritesRepository extends EntityRepository
 {
 
-    public function findAllByUserQueryBuilder($userId=0)
+    public function findAllByUserQueryBuilder(User $user)
     {
         $qb = $this->createQueryBuilder('favorites');
 
-        if ($userId > 0) {
-            $qb->andWhere('favorites.user_id = :user_id')
-                ->setParameter('user_id', $userId);
+        if ($user) {
+            $qb->andWhere('favorites.user = :user')
+                ->setParameter('user', $user);
         }
 
         return $qb;

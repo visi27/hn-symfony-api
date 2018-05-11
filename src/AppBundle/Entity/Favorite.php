@@ -10,7 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Repository\FavoritesRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FavoriteRepository")
  * @ORM\Table(name="user_favorites")
  */
 class Favorites
