@@ -8,12 +8,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FavoriteRepository")
  * @ORM\Table(name="user_favorites")
  */
-class Favorites
+class Favorite
 {
     /**
      * @ORM\Id
@@ -25,6 +26,8 @@ class Favorites
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Serializer\Exclude()
      */
     private $user;
 
@@ -91,9 +94,20 @@ class Favorites
     }
 
     /**
+     * Used only in serialisaztion.
+     *
+     * @Serializer\VirtualProperty()
+     * @Serializer\SerializedName("user")
+     */
+    public function getUserName()
+    {
+        return $this->getUser()->getUsername();
+    }
+
+    /**
      * @param User $user
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setUser($user)
     {
@@ -113,7 +127,7 @@ class Favorites
     /**
      * @param mixed $author
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setAuthor($author)
     {
@@ -133,7 +147,7 @@ class Favorites
     /**
      * @param mixed $createdAt
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setCreatedAt($createdAt)
     {
@@ -153,7 +167,7 @@ class Favorites
     /**
      * @param mixed $createdAtI
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setCreatedAtI($createdAtI)
     {
@@ -173,7 +187,7 @@ class Favorites
     /**
      * @param mixed $numComments
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setNumComments($numComments)
     {
@@ -193,7 +207,7 @@ class Favorites
     /**
      * @param mixed $objectID
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setObjectID($objectID)
     {
@@ -213,7 +227,7 @@ class Favorites
     /**
      * @param mixed $points
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setPoints($points)
     {
@@ -233,7 +247,7 @@ class Favorites
     /**
      * @param mixed $storyText
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setStoryText($storyText)
     {
@@ -253,7 +267,7 @@ class Favorites
     /**
      * @param mixed $title
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setTitle($title)
     {
@@ -273,7 +287,7 @@ class Favorites
     /**
      * @param mixed $url
      *
-     * @return Favorites
+     * @return Favorite
      */
     public function setUrl($url)
     {

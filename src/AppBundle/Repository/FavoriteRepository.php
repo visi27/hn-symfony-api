@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
-class FavoritesRepository extends EntityRepository
+class FavoriteRepository extends EntityRepository
 {
 
     public function findAllByUserQueryBuilder(User $user)
