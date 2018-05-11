@@ -49,7 +49,7 @@ class BaseController extends Controller
     /**
      * Centralize Response creation for our controllers.
      *
-     * @param array $data
+     * @param object|array|string $data
      * @param int $statusCode
      *
      * @return Response
