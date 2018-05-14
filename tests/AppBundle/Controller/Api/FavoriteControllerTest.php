@@ -28,12 +28,12 @@ class FavoriteControllerTest extends ApiTestCase
     {
         $data = [
             'author' => 'maluba',
-            'createdAt' => '2018-05-11T08:39:23.000Z',
-            'createdAtI' => 1526027963,
-            'numComments' => 20,
+            'created_at' => '2018-05-11T08:39:23.000Z',
+            'created_at_i' => 1526027963,
+            'num_comments' => 20,
             'objectID' => '123456789',
             'points' => 35,
-            'storyText' => null,
+            'story_text' => null,
             'title' => 'Super Awsome Favorite Article',
             'url' => 'http://www.dummy.com'
         ];
