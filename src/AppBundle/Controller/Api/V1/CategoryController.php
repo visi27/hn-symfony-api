@@ -74,6 +74,8 @@ class CategoryController extends BaseController
      * @param Category $category
      * @param Request $request
      *
+     * @param PaginationFactory $paginationFactory
+     *
      * @return Response
      *
      * @internal param $id
