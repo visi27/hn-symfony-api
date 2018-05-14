@@ -1,9 +1,3 @@
 XDEBUG_CONFIG=remote_enable=1 remote_host=$HOST_IP remote_port=9000 remote_mode=req remote_handler=dbgp
 
-PHP_IDE_CONFIG=serverName=docker-sf3
-
-#blackfire
-#BLACKFIRE_SERVER_ID=<your server id>
-#BLACKFIRE_SERVER_TOKEN=<your server token>
-#BLACKFIRE_CLIENT_ID=<your client id>
-#BLACKFIRE_CLIENT_TOKEN=<your client token>
+PHP_IDE_CONFIG=serverName=docker-hn

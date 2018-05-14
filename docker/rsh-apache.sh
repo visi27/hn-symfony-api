@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker exec -it -u www-data sf_web zsh
+docker exec -it -u www-data hn_api zsh

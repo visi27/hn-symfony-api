@@ -19,7 +19,7 @@ while getopts "$optspec" optchar; do
     esac
 done
 
-containerName="sf_web"
+containerName="hn_api"
 
 ##Update Apache UID
 uid=1000
@@ -34,26 +34,25 @@ esac
 
 cd docker
 
-sed "s/\$USER_ID/$uid/g" ./sf_web/Dockerfile.dist > ./sf_web/Dockerfile
+sed "s/\$USER_ID/$uid/g" ./hn_api/Dockerfile.dist > ./hn_api/Dockerfile
 sed "s/\$HOST_IP/$host_ip/g" ./docker-env.dist > ./docker-env
 
 
 ##build and launch containers
 docker-compose build
-docker-compose up $upOption
+docker-compose up ${upOption}
 
 ##add ssh folder to enable access to private repos
-docker cp --follow-link ~/.ssh $containerName:/var/www/
-docker exec $containerName chown -R www-data /var/www/.ssh
+docker cp --follow-link ~/.ssh ${containerName}:/var/www/
+docker exec ${containerName} chown -R www-data /var/www/.ssh
 
 ##make ssh files accessable for www-data
-docker exec -it $containerName chown -R www-data:www-data /var/www/.ssh
+docker exec -it ${containerName} chown -R www-data:www-data /var/www/.ssh
 
 ##composer selfupdate
-docker exec -it $containerName composer selfupdate
+docker exec -it ${containerName} composer selfupdate
 
-if [ $login = true ]; then
-	docker exec -it -u www-data $containerName zsh
+if [ ${login} = true ]; then
+	docker exec -it -u www-data ${containerName} zsh
 	docker-compose stop
 fi
-

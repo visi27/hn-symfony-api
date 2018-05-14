@@ -1,51 +1,48 @@
 version: '2'
 services:
   #apache/php
-  sf_web:
-    build: ./sf_web
-    image: sf_web
+  hn_api:
+    build: ./hn_api
+    image: hn_api
     depends_on:
-      - "db"
+      - "hn_db"
     hostname: "sf3"
-    container_name: "sf_web"
+    container_name: "hn_api"
     ports:
       - 8080:80   #apache
     volumes:
       - "../:/var/www/html"
       - "~/.composer:/var/www/.composer"
-      - ./sf_web/zshrc.dist:/var/www/.zshrc:ro
+      - ./hn_api/zshrc.dist:/var/www/.zshrc:ro
       - ./data/apache/logs:/var/log/apache2
     links:
-      - db
-#          - redis
-#          - mailcatcher
-#          - blackfire
+      - hn_db
     env_file:
       - docker-env
 
   #mysql
-  db:
+  hn_db:
     image: mysql:latest
-    container_name: "sf_db"
+    container_name: "hn_db"
     ports:
-      - 3306
+      - 3306:3306
     environment:
-      MYSQL_DATABASE: sf3
-      MYSQL_USER: sf3
-      MYSQL_PASSWORD: sf3
+      MYSQL_DATABASE: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./data/sql:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/conf.d/z_my.cnf
 
   #phpmyadmin
-  pma:
+  hn_pma:
     image: phpmyadmin/phpmyadmin
-    container_name: "sf_pma"
+    container_name: "hn_pma"
     links:
-      - db
+      - hn_db
     depends_on:
-      - "db"
+      - "hn_db"
     ports:
       - 8081:80
 #        restart: always
@@ -55,38 +52,3 @@ services:
       - PMA_HOST=db
       - PMA_USER=root
       - PMA_PASSWORD=root
-
-  elk:
-      image: willdurand/elk
-      container_name: "sf_elk"
-      ports:
-          - 81:80
-      volumes:
-          - ./elk/logstash:/etc/logstash
-          - ./elk/logstash/patterns:/opt/logstash/patterns
-      volumes_from:
-          - sf_web
-
-    #redis-server
-#    redis:
-#        container_name: "sf_redis"
-#        image: redis
-#        ports:
-#        - 6379:6379
-
-
-#    #mailcatcher
-#    mailcatcher:
-#        container_name: "sf_mailcatcher"
-#        image: quay.io/datadarius/tiny-mailcatcher
-#        ports:
-#            - 1025:1025
-#            - 1080:1080
-
-#    #blackfire
-#    blackfire:
-#        restart: always
-#        container_name: "sf_blackfire"
-#        image: blackfire/blackfire
-#        env_file:
-#            - docker-env
