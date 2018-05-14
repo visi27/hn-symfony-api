@@ -17,12 +17,12 @@ class FavoriteFormType extends AbstractType
     {
         $builder
             ->add('author')
-            ->add('createdAt')
-            ->add('createdAtI')
-            ->add('numComments')
+            ->add('created_at')
+            ->add('created_at_i')
+            ->add('num_comments')
             ->add('objectID')
             ->add('points')
-            ->add('storyText')
+            ->add('story_text')
             ->add('title')
             ->add('url');
     }
