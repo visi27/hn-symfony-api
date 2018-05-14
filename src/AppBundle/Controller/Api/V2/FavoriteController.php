@@ -81,19 +81,18 @@ class FavoriteController extends BaseController
     }
 
     /**
-     * @Route("/api/v2.0/favorites/{favorite}", name="api_v2.0_delete_favorite")
+     * @Route("/api/v2.0/favorites/{objectID}", name="api_v2.0_delete_favorite")
      * @Method("DELETE")
      *
-     * @param User $user
-     * @param Favorite $favorite
+     * @param $objectID
      *
      * @return Response
      */
-    public function deleteAction( Favorite $favorite)
+    public function deleteAction($objectID)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $favorite = $em->getRepository('AppBundle:Favorite')->findOneBy(['user' => $this->getUser(), 'id' => $favorite]);
+        $favorite = $em->getRepository('AppBundle:Favorite')->findOneBy(['user' => $this->getUser(), 'objectID' => $objectID]);
         if ($favorite) {
             $em->remove($favorite);
             $em->flush();
