@@ -68,7 +68,7 @@ class Favorite
     private $storyText;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=1000)
      */
     private $title;
 
