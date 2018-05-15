@@ -16,7 +16,7 @@ class FavoriteRepository extends EntityRepository
     public function findAllByUserQueryBuilder(User $user)
     {
         $qb = $this->createQueryBuilder('favorites');
-
+        $qb->select('favorites.objectID');
         if ($user) {
             $qb->andWhere('favorites.user = :user')
                 ->setParameter('user', $user);
