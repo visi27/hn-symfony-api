@@ -9,7 +9,6 @@ namespace AppBundle\Controller\Api\V2;
 
 use AppBundle\Controller\Api\BaseController;
 use AppBundle\Entity\Favorite;
-use AppBundle\Entity\User;
 use AppBundle\Pagination\PaginationFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
