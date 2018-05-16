@@ -34,9 +34,15 @@ class ApiVersionController extends BaseController
         $exploded_path = explode('/', $request_path);
         $url_api_version = $exploded_path[0];
 
-        if (!in_array($url_api_version, $api_versions, true)) {
+        // If an api version is not present in the url check for api call starting from the configured default api version
+        if (
+            !in_array($url_api_version, $api_versions, true)
+            && $request_path !== '/tokens'
+            && $request_path !== '/user'
+        ) {
             $defaultApiVersion = $this->getParameter('api_default_version');
             $redirect_path = '/'.$defaultApiVersion.'/'.implode('/', array_slice($exploded_path, 0));
+
             return $this->redirect($redirect_path);
         }
 
