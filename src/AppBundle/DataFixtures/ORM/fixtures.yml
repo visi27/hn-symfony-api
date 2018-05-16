@@ -1,45 +1,5 @@
-AppBundle\Entity\Category:
-  category_{1..5}:
-    name: <category()>
-
 AppBundle\Entity\User:
   user_{1..10}:
     email: filanfisteku+<current()>@gmail.com
     plainPassword: filanfisteku
     roles: ['ROLE_ADMIN']
-
-AppBundle\Entity\BlogPost:
-  blog_{1..10}:
-    title: <text(30)>
-    category: '@category_*'
-    summary: <sentence()>
-    content: <text(500)>
-    isPublished: <boolean(75)>
-    publishedAt: <dateTimeBetween('-100 days', 'now')>
-    user: '@user_1'
-
-AppBundle\Entity\Menu:
-  menu_1:
-    navHeader: ""
-    icon: "glyphicon glyphicon-th-list"
-    name: "Blog List"
-    link: "blog_list"
-    parentId: 0
-    sort: 1
-    status: 1
-  menu_2:
-    navHeader: ""
-    icon: "glyphicon glyphicon-lock"
-    name: "Admin Area"
-    link: "admin_blog_list"
-    parentId: 0
-    sort: 2
-    status: 1
-  menu_3:
-    navHeader: ""
-    icon: "glyphicon glyphicon-user"
-    name: "Dashboard"
-    link: "user_dashboard"
-    parentId: 0
-    sort: 3
-    status: 1
