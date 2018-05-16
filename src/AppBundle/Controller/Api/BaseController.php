@@ -11,16 +11,12 @@ use AppBundle\Api\ApiProblemException;
 use JMS\Serializer\SerializationContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BaseController extends Controller
 {
-    public function indexAction($name)
-    {
-        return $this->render('', ['name' => $name]);
-    }
-
     /**
      * Use JMS Serializer to serialize objects in our controllers.
      *
