@@ -34,6 +34,12 @@ class ApiVersionController extends BaseController
         $exploded_path = explode('/', $request_path);
         $url_api_version = $exploded_path[0];
 
+        if (!in_array($url_api_version, $api_versions, true)) {
+            $defaultApiVersion = $this->getParameter('api_default_version');
+            $redirect_path = '/'.$defaultApiVersion.'/'.implode('/', array_slice($exploded_path, 0));
+            return $this->redirect($redirect_path);
+        }
+
         $router = $this->container->get('router');
 
         // Route matcher
@@ -46,7 +52,7 @@ class ApiVersionController extends BaseController
         // a symfony route. If we have a match redirect to that route.
         while ($check_api_version = $this->getPreviousVersion($check_api_version, $api_versions)) {
             if ($check_api_version) {
-                $redirect_path = '/api/'.$check_api_version.'/'.implode('/', array_slice($exploded_path, 1));
+                $redirect_path = '/'.$check_api_version.'/'.implode('/', array_slice($exploded_path, 1));
                 $matched = $matcher->match($redirect_path);
                 if ($matched['_route'] !== 'defaultCatchAll') {
                     return $this->redirect($redirect_path);
