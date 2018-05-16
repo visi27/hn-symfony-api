@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 class FavoriteController extends BaseController
 {
     /**
-     * @Route("/api/v2.0/favorites/", name="api_v2.0_get_favorites")
+     * @Route("/v2.0/favorites", name="api_v2.0_get_favorites")
      * @Method("GET")
      *
      * @param Request $request
@@ -50,7 +50,7 @@ class FavoriteController extends BaseController
     }
 
     /**
-     * @Route("/api/v2.0/favorites/", name="api_v2.0_add_favorite")
+     * @Route("/v2.0/favorites", name="api_v2.0_add_favorite")
      * @Method("POST")
      *
      * @param Request $request
@@ -80,7 +80,7 @@ class FavoriteController extends BaseController
     }
 
     /**
-     * @Route("/api/v2.0/favorites/{objectID}", name="api_v2.0_delete_favorite")
+     * @Route("/v2.0/favorites/{objectID}", name="api_v2.0_delete_favorite")
      * @Method("DELETE")
      *
      * @param $objectID

@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationExc
 class TokenController extends BaseController
 {
     /**
-     * @Route("/api/tokens", name="api_token_new")
+     * @Route("/tokens", name="api_token_new")
      * @Method("POST")
      *
      * @param Request $request
@@ -60,7 +60,7 @@ class TokenController extends BaseController
     }
 
     /**
-     * @Route("/api/user", name="api_user_details")
+     * @Route("/user", name="api_user_details")
      * @Method("GET")
      *
      * @param Request $request
@@ -68,7 +68,6 @@ class TokenController extends BaseController
      * @param JWTEncoderInterface $JWTEncoder
      *
      * @return JsonResponse
-     * @throws \Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException
      */
     public function getUserFromToken(Request $request, JWTEncoderInterface $JWTEncoder) {
         $extractor = new AuthorizationHeaderTokenExtractor(
