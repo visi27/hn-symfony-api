@@ -24,7 +24,6 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
-            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new \JMS\SerializerBundle\JMSSerializerBundle(),
             new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
