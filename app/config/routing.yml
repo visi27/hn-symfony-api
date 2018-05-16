@@ -1,10 +1,6 @@
-app:
-    resource: "@AppBundle/Controller/Web"
-    type:     annotation
-
 app.swagger_ui:
     resource: "@NelmioApiDocBundle/Resources/config/routing/swaggerui.xml"
-    prefix:   /api/doc
+    prefix:   /doc
 
 api:
     resource: "@AppBundle/Controller/Api"
@@ -13,16 +9,10 @@ api:
       _format: json
 
 defaultCatchAll:
-    path:     /api/{path}
+    path:     /{path}
     defaults:
         _controller: AppBundle:Api\ApiVersion:handleVersion
         path: /
         permanent: true
     requirements:
         path: ".+"
-
-homepage:
-  schemes: "http"
-  path: /
-  defaults:
-    _controller: AppBundle:Web/Main:homepage

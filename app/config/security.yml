@@ -13,20 +13,12 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     api:
-      pattern: ^/api/
       anonymous: ~
       guard:
         authenticators:
           - AppBundle\Security\JwtTokenAuthenticator
       logout_on_user_change: true
-    main:
-      anonymous: ~
-      guard:
-        authenticators:
-          - AppBundle\Security\LoginFormAuthenticator
-      logout:
-        path: /logout
-      logout_on_user_change: true
+
   access_control:
   role_hierarchy:
     ROLE_ADMIN: [ROLE_MANAGER, ROLE_TEST]
