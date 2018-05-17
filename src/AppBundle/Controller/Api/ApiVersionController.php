@@ -34,7 +34,10 @@ class ApiVersionController extends BaseController
         $exploded_path = explode('/', $request_path);
         $url_api_version = $exploded_path[0];
 
-        // If an api version is not present in the url check for api call starting from the configured default api version
+        // If an api version is not present in the url try to inject the configured default api version and find a route
+        // Exclude /tokens and /user from this rules. /tokens uses a POST request and Symfony 3 does not support
+        // 307 redirects so the redirect would be converted in a GET request. For this reason /tokens is
+        // excluded from API version check.
         if (
             !in_array($url_api_version, $api_versions, true)
             && $request_path !== '/tokens'
